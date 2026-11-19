@@ -1,0 +1,256 @@
+<p class="lede">A working gallery of the eight lab engines in this kit. Use it to test the build, then copy one or two labs into a real note. The prose is deliberately short: a real note needs a derivation, a worked example, and common mistakes.</p>
+
+<div class="keypoints">
+  <p class="keypoints__title">What this page tests</p>
+  <ul>
+    <li>Eight canvases: plot, Riemann sum, slope field, phase portrait, 3D surface, root finding, interpolation, linear map.</li>
+    <li>Step-through, parameter sweeps, drag, orbit, and a data-driven retrieval quiz.</li>
+    <li>Print fallback and local persistence.</li>
+  </ul>
+</div>
+
+<h2 id="plot">Secant to tangent</h2>
+<p>The derivative is the limit of a secant slope. Move <span class="math">x₀</span> and shrink <span class="math">h</span>; the readout shows the gap between the secant and the tangent. The point is not the formula <span class="math">(f(x+h)-f(x))/h</span> alone, but the passage to the limit.</p>
+
+<div class="mathlab" data-math-lab="plot">
+  <div class="mathlab__head">
+    <p class="mathlab__eyebrow">Lab 01 · derivative</p>
+    <h3>Watch the secant become the tangent</h3>
+    <p>Predict the sign of the error <span class="math">f'(x₀) − (f(x₀+h)-f(x₀))/h</span> before you move the slider.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>At <span class="math">x₀ = 1</span>, the tangent slope is zero. For small positive <span class="math">h</span>, is the secant slope positive, negative, or zero? Move <span class="math">h</span> toward zero and check the sign.</p></details>
+  <div class="mathlab__controls" data-controls></div>
+  <div class="mathlab__grid">
+    <div class="mathlab__viz">
+      <div class="mathlab__canvas-wrap"><canvas class="mathlab__canvas" data-canvas data-height="360" role="img" aria-label="Graph of a cubic with a secant line and tangent line"></canvas></div>
+      <p class="mathlab__caption">The dashed blue line is the secant; the solid accent line is the tangent. Drag horizontally to move x₀.</p>
+    </div>
+    <div class="mathlab__panel">
+      <div class="mathlab__readout" data-readout></div>
+      <p class="mathlab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mathlab__hint" data-hint></p>
+    </div>
+  </div>
+  <script type="application/json" class="mathlab-config">{"f":"x^3 - 3*x","df":"3*x^2 - 3","xmin":-3,"xmax":3,"ymin":-8,"ymax":8,"x0":1,"h":1,"label":"f(x) = x³ − 3x"}</script>
+</div>
+
+<h2 id="riemann">Riemann sums and order</h2>
+<p>Left and right sums are first order; midpoint and trapezoid are second order; Simpson is fourth order for smooth functions. The table is more instructive than a single estimate: double <span class="math">n</span> and read the error ratio.</p>
+
+<div class="mathlab" data-math-lab="riemann">
+  <div class="mathlab__head">
+    <p class="mathlab__eyebrow">Lab 02 · numerical integration</p>
+    <h3>Estimate, exact value, error ratio</h3>
+    <p>Integrate <span class="math">sin(x) + 1.2</span> on <span class="math">[0, π]</span>. The exact value is <span class="math">2 + 1.2π ≈ 5.7699</span>.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>Which rule should have the smallest error at <span class="math">n = 8</span>: midpoint, trapezoid, or Simpson? Commit before switching the menu.</p></details>
+  <div class="mathlab__controls" data-controls></div>
+  <div class="mathlab__grid">
+    <div class="mathlab__viz">
+      <div class="mathlab__canvas-wrap"><canvas class="mathlab__canvas" data-canvas data-height="360" role="img" aria-label="Riemann sum rectangles under a curve"></canvas></div>
+      <p class="mathlab__caption">The shaded region is the rule's approximation. Simpson draws the quadratic through each pair of subintervals.</p>
+    </div>
+    <div class="mathlab__panel">
+      <div class="mathlab__readout" data-readout></div>
+      <p class="mathlab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mathlab__hint" data-hint></p>
+    </div>
+  </div>
+  <div class="mathlab__table" data-table></div>
+  <script type="application/json" class="mathlab-config">{"f":"sin(x) + 1.2","a":0,"b":3.141592653589793,"n":4,"method":"midpoint"}</script>
+</div>
+
+<h2 id="slope">Slope fields and one-step methods</h2>
+<p>A first-order equation <span class="math">y' = f(x,y)</span> gives a direction at every point. Euler follows the direction for a whole step; Heun samples a second slope; RK4 combines four. The same step size makes the comparison fair.</p>
+
+<div class="mathlab" data-math-lab="slope">
+  <div class="mathlab__head">
+    <p class="mathlab__eyebrow">Lab 03 · differential equations</p>
+    <h3>Euler, Heun, and RK4 on one field</h3>
+    <p>Step through <span class="math">y' = y − x</span>, <span class="math">y(0) = 0.5</span>, whose exact solution is <span class="math">y = x + 1 − 0.5e^x</span>.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>At <span class="math">x = 2</span>, the exact value is about <span class="math">−0.6945</span>. Which method will be closest: Euler, Heun, or RK4? Which will overshoot the most?</p></details>
+  <div class="mathlab__controls" data-controls></div>
+  <div class="mathlab__grid">
+    <div class="mathlab__viz">
+      <div class="mathlab__canvas-wrap"><canvas class="mathlab__canvas" data-canvas data-height="390" role="img" aria-label="Slope field with Euler, Heun and RK4 solution curves"></canvas></div>
+      <p class="mathlab__caption">Drag vertically to change the initial height. The dashed dark curve is the exact solution.</p>
+    </div>
+    <div class="mathlab__panel">
+      <div class="mathlab__readout" data-readout></div>
+      <p class="mathlab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mathlab__hint" data-hint></p>
+    </div>
+  </div>
+  <div class="mathlab__table" data-table></div>
+  <script type="application/json" class="mathlab-config">{"f":"y - x","xmin":-0.2,"xmax":2.2,"ymin":-3,"ymax":3,"x0":0,"y0":0.5,"h":0.25,"xend":2,"exact":"x + 1 - 0.5*exp(x)"}</script>
+</div>
+
+<h2 id="phase">Phase portraits</h2>
+<p>For a linear system <span class="math">x' = Ax</span>, the trace and determinant classify the origin. Click the plane to start a trajectory. The dashed lines are nullclines; the faint lines through the origin are real eigen-directions.</p>
+
+<div class="mathlab" data-math-lab="phase">
+  <div class="mathlab__head">
+    <p class="mathlab__eyebrow">Lab 04 · dynamical systems</p>
+    <h3>Trace, determinant, eigenvalues</h3>
+    <p>Start with a stable spiral, then change the matrix toward a saddle or a center. Watch what happens to the trajectories, not only to the label.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>If <span class="math">tr(A) &lt; 0</span> and <span class="math">det(A) &gt; 0</span>, can the origin be a saddle? What if <span class="math">det(A) &lt; 0</span>?</p></details>
+  <div class="mathlab__controls" data-controls></div>
+  <div class="mathlab__grid">
+    <div class="mathlab__viz">
+      <div class="mathlab__canvas-wrap"><canvas class="mathlab__canvas" data-canvas data-height="390" role="img" aria-label="Phase portrait with vector field, nullclines and trajectories"></canvas></div>
+      <p class="mathlab__caption">Click to add a trajectory. Vectors show the direction field, not the speed.</p>
+    </div>
+    <div class="mathlab__panel">
+      <div class="mathlab__readout" data-readout></div>
+      <p class="mathlab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mathlab__hint" data-hint></p>
+    </div>
+  </div>
+  <script type="application/json" class="mathlab-config">{"a":-0.4,"b":1,"c":-1,"d":-0.4,"range":3,"preset":"stable spiral"}</script>
+</div>
+
+<h2 id="surface">Surfaces, contours, tangent planes</h2>
+<p>A function of two variables has three representations on one page: the formula, the surface, and the contour map. The gradient lives in the <span class="math">xy</span>-plane and is perpendicular to the level curve. The tangent plane is the linearisation.</p>
+
+<div class="mathlab" data-math-lab="surface">
+  <div class="mathlab__head">
+    <p class="mathlab__eyebrow">Lab 05 · multivariable calculus</p>
+    <h3>Orbit the surface, read the gradient</h3>
+    <p>Start with <span class="math">f(x,y) = x² + y²</span> at <span class="math">(0.8, 0.6)</span>. Orbit the surface, then click the contour map to move the point.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>At <span class="math">(0.8, 0.6)</span>, which direction is uphill: <span class="math">+x</span>, <span class="math">+y</span>, or a mixture? What is <span class="math">|∇f|</span>? Check the readout after you commit.</p></details>
+  <div class="mathlab__controls" data-controls></div>
+  <div class="mathlab__grid">
+    <div class="mathlab__viz">
+      <div class="mathlab__canvas-wrap"><canvas class="mathlab__canvas" data-canvas data-height="420" role="img" aria-label="3D surface with tangent plane and normal vector"></canvas></div>
+      <p class="mathlab__caption">Drag to orbit. The translucent plane is the tangent plane; the arrow is the normal vector.</p>
+    </div>
+    <div class="mathlab__panel">
+      <div class="mathlab__readout" data-readout></div>
+      <p class="mathlab__status" data-status role="status" aria-live="polite"></p>
+      <div class="mathlab__canvas-wrap" style="margin-top:0.8rem">
+        <canvas class="mathlab__canvas mathlab__canvas--small" data-canvas2 data-height="230" role="img" aria-label="Contour map with level curves and gradient arrow"></canvas>
+      </div>
+      <p class="mathlab__hint" data-hint></p>
+    </div>
+  </div>
+  <script type="application/json" class="mathlab-config">{"f":"x^2 + y^2","xmin":-2,"xmax":2,"ymin":-2,"ymax":2,"x0":0.8,"y0":0.6,"preset":"paraboloid"}</script>
+</div>
+
+<h2 id="root">Root finding and convergence</h2>
+<p>Bisection is guaranteed but linear. Newton is quadratic near a simple root but can fail. Secant is superlinear and derivative-free. The table exposes the difference between a small step and a small residual.</p>
+
+<div class="mathlab" data-math-lab="root">
+  <div class="mathlab__head">
+    <p class="mathlab__eyebrow">Lab 06 · numerical analysis</p>
+    <h3>Bisection, Newton, secant</h3>
+    <p>Find the root of <span class="math">x³ − x − 2</span> on <span class="math">[1, 2]</span>. The root is about <span class="math">1.5213797068</span>.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>How many bisection steps should it take to reach <span class="math">10⁻⁶</span> from an interval of length 1? How many Newton steps from <span class="math">x₀ = 1.5</span>? Commit before pressing Step.</p></details>
+  <div class="mathlab__controls" data-controls></div>
+  <div class="mathlab__grid">
+    <div class="mathlab__viz">
+      <div class="mathlab__canvas-wrap"><canvas class="mathlab__canvas" data-canvas data-height="380" role="img" aria-label="Graph of a cubic with the current root-finding iterate"></canvas></div>
+      <p class="mathlab__caption">Bisection shades the bracket; Newton draws a tangent; secant draws the line through the last two iterates.</p>
+    </div>
+    <div class="mathlab__panel">
+      <div class="mathlab__readout" data-readout></div>
+      <p class="mathlab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mathlab__hint" data-hint></p>
+    </div>
+  </div>
+  <div class="mathlab__table" data-table></div>
+  <script type="application/json" class="mathlab-config">{"f":"x^3 - x - 2","df":"3*x^2 - 1","a":1,"b":2,"x0":1.5,"x1":1.6,"tol":0.000001,"root":1.5213797068045676}</script>
+</div>
+
+<h2 id="interp">Interpolation and the Runge phenomenon</h2>
+<p>A polynomial of degree <span class="math">n − 1</span> fits <span class="math">n</span> points exactly, but exact interpolation is not the same as a good approximation. Equidistant nodes can oscillate; Chebyshev nodes cluster at the ends and control the maximum error.</p>
+
+<div class="mathlab" data-math-lab="interp">
+  <div class="mathlab__head">
+    <p class="mathlab__eyebrow">Lab 07 · interpolation</p>
+    <h3>Same degree, different nodes</h3>
+    <p>Runge's function <span class="math">1/(1+25x²)</span> on <span class="math">[−1, 1]</span>. Increase <span class="math">n</span>, then switch from equidistant to Chebyshev nodes.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>As <span class="math">n</span> grows, does the maximum error on the whole interval go to zero for equidistant nodes? What changes with Chebyshev nodes?</p></details>
+  <div class="mathlab__controls" data-controls></div>
+  <div class="mathlab__grid">
+    <div class="mathlab__viz">
+      <div class="mathlab__canvas-wrap"><canvas class="mathlab__canvas" data-canvas data-height="380" role="img" aria-label="Runge function and polynomial interpolants with node markers"></canvas></div>
+      <p class="mathlab__caption">Dashed: the true function. Solid: the interpolant. Dots: the interpolation nodes. The lower band is the scaled error curve.</p>
+    </div>
+    <div class="mathlab__panel">
+      <div class="mathlab__readout" data-readout></div>
+      <p class="mathlab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mathlab__hint" data-hint></p>
+    </div>
+  </div>
+  <script type="application/json" class="mathlab-config">{"f":"1/(1+25*x^2)","xmin":-1,"xmax":1,"n":11,"dist":"equidistant","preset":"Runge 1/(1+25x²)"}</script>
+</div>
+
+<h2 id="matrix">Linear maps and eigenvectors</h2>
+<p>A matrix is a map, not just a table of numbers. The unit square becomes a parallelogram with area <span class="math">|det A|</span>; the eigen-directions are the lines that do not rotate.</p>
+
+<div class="mathlab" data-math-lab="matrix">
+  <div class="mathlab__head">
+    <p class="mathlab__eyebrow">Lab 08 · linear algebra</p>
+    <h3>Drag a vector through a linear map</h3>
+    <p>Start with a shear-like matrix. Drag the grey vector and compare <span class="math">v</span> with <span class="math">Av</span>; then try reflection and projection.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>Which of these can change the orientation of the plane: rotation, shear, reflection, projection? Which can collapse area to zero?</p></details>
+  <div class="mathlab__controls" data-controls></div>
+  <div class="mathlab__grid">
+    <div class="mathlab__viz">
+      <div class="mathlab__canvas-wrap"><canvas class="mathlab__canvas" data-canvas data-height="390" role="img" aria-label="Transformed grid, unit square, vector and its image under a matrix"></canvas></div>
+      <p class="mathlab__caption">Faint: the original grid. Blue: the transformed grid. The shaded parallelogram is the image of the unit square.</p>
+    </div>
+    <div class="mathlab__panel">
+      <div class="mathlab__readout" data-readout></div>
+      <p class="mathlab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mathlab__hint" data-hint></p>
+    </div>
+  </div>
+  <script type="application/json" class="mathlab-config">{"a":1,"b":0.5,"c":0.2,"d":1,"vx":1.2,"vy":0.7,"preset":"identity"}</script>
+</div>
+
+<h2 id="retrieval">Retrieval practice</h2>
+<div class="quiz" data-math-quiz data-quiz-id="gallery">
+  <div class="quiz__bar"><span data-quiz-progress>0 / 5 answered</span><span data-quiz-score>0 correct</span></div>
+  <div data-quiz-questions></div>
+  <div class="quiz__footer">
+    <button type="button" class="btn" data-quiz-retry hidden>Retry missed</button>
+    <button type="button" class="btn btn--ghost" data-quiz-reset>Reset</button>
+  </div>
+  <script type="application/json" class="quiz-data">[
+    {"prompt":"For a smooth f, which integration rule is fourth order?","options":["Left endpoint","Midpoint","Trapezoid","Simpson"],"answer":3,"explain":"Simpson uses quadratic interpolation on pairs of subintervals; its error is O(h⁴) for smooth f."},
+    {"prompt":"For y′ = f(x,y), Euler's method is built from which local approximation?","options":["A tangent line over the whole step","A quadratic through three points","A secant through the last two iterates","An eigenvector decomposition"],"answer":0,"explain":"Euler takes the tangent direction at the left endpoint and follows it for the full step. Heun and RK4 sample additional slopes inside the step."},
+    {"prompt":"If det(A) < 0 for a 2×2 linear system, the origin is a:","options":["Stable node","Center","Saddle","Stable spiral"],"answer":2,"explain":"A negative determinant means the eigenvalues have opposite signs, so one direction grows and one decays: a saddle."},
+    {"prompt":"The gradient ∇f(a,b) is:","options":["A vector in the tangent plane","A vector in the xy-plane, perpendicular to the level curve","The normal vector to the surface","The value f(a,b)"],"answer":1,"explain":"∇f = (f_x, f_y) is a two-dimensional vector. It points in the direction of steepest increase in the xy-plane and is perpendicular to the level curve through (a,b)."},
+    {"prompt":"Why can high-degree equidistant interpolation of Runge's function fail?","options":["The polynomial does not exist","The nodes introduce large oscillations near the endpoints","The function is not continuous","Newton's method diverges"],"answer":1,"explain":"The Lebesgue constant grows rapidly for equidistant nodes. Chebyshev nodes reduce it by clustering near the endpoints."}
+  ]</script>
+</div>
+
+<h2 id="summary">What to copy into a real note</h2>
+<div class="keypoints">
+  <p class="keypoints__title">Take-away</p>
+  <ul>
+    <li>One lab should answer one question; two or three labs are usually enough for a full note.</li>
+    <li>Put the prediction before the controls and the explanation in the status line.</li>
+    <li>Keep the prose self-sufficient: a printed copy must still teach the definition, the example, and the mistake.</li>
+    <li>Use MatLivre or SymPy to check every number that appears in the readout or the prose.</li>
+  </ul>
+</div>
+
+<div class="exercise">
+  <p class="exercise__label">Exercise 1</p>
+  <p>Use the slope lab with <span class="math">h = 0.5</span> and then <span class="math">h = 0.25</span>. Compute the ratio of the Euler errors at <span class="math">x = 2</span>. Does it look first order?</p>
+  <details class="solution"><summary>Solution</summary><p>Halving <span class="math">h</span> should roughly halve the Euler error if the method is first order. If the ratio is near 2, the experiment is consistent with O(h); if not, check the number of steps and the exact value.</p></details>
+</div>
+
+<div class="exercise">
+  <p class="exercise__label">Exercise 2</p>
+  <p>In the surface lab, move the point to <span class="math">(1, 0)</span> and then to <span class="math">(0, 1)</span>. Explain why the gradient is parallel to the <span class="math">x</span>-axis in the first case and to the <span class="math">y</span>-axis in the second.</p>
+  <details class="solution"><summary>Solution</summary><p>For <span class="math">f = x² + y²</span>, <span class="math">∇f = (2x, 2y)</span>. At <span class="math">(1,0)</span> it is <span class="math">(2,0)</span>; at <span class="math">(0,1)</span> it is <span class="math">(0,2)</span>. The level curves are circles, so the radial gradient is perpendicular to the tangent circle at each point.</p></details>
+</div>

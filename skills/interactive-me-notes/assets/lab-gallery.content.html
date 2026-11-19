@@ -1,0 +1,135 @@
+<h2 id="beam">Kiriş: kesme, moment, çökme</h2>
+<p>Basit mesnetli veya konsol kirişte tekil yük ve yayılı yük. İmleci kaydırın; V, M, δ ve en dış lif gerilmesi aynı anda değişir.</p>
+<details class="predict"><summary>Tahmin et</summary><p>4 m açıklıkta ortada 2 kN yük varken çökme yaklaşık kaç mm? (E=200 GPa, 60×100 mm)</p></details>
+<div class="melab" data-me-lab="beam">
+  <div class="melab__head"><p class="melab__eyebrow">Lab · kiriş</p><h3>Yükü ve kesiti değiştir</h3><p>Kırmızı kesikli çizgi okuma imlecidir; dört panel aynı x eksenini paylaşır.</p></div>
+  <div class="melab__controls" data-controls>
+    <label class="mefield">Mesnet<select data-param="support" data-default="ss"><option value="ss">Basit mesnet</option><option value="cant">Konsol</option></select></label>
+    <label class="mefield">Açıklık L (m)<input type="range" data-param="L" min="1" max="8" step="0.1" value="4" data-default="4"><output data-out="L">4</output></label>
+    <label class="mefield">Tekil yük P (kN)<input type="range" data-param="P" min="0" max="20" step="0.1" value="2" data-default="2"><output data-out="P">2</output></label>
+    <label class="mefield">Yük konumu a (m)<input type="range" data-param="a" min="0" max="8" step="0.1" value="2" data-default="2"><output data-out="a">2</output></label>
+    <label class="mefield">Yayılı yük w (N/mm)<input type="range" data-param="w" min="0" max="30" step="0.5" value="0" data-default="0"><output data-out="w">0</output></label>
+    <label class="mefield">E (GPa)<input type="range" data-param="E" min="70" max="210" step="1" value="200" data-default="200"><output data-out="E">200</output></label>
+    <label class="mefield">Kesit<select data-param="sec" data-default="rect"><option value="rect">Dikdörtgen</option><option value="ibeam">I kesit</option></select></label>
+    <label class="mefield">b (mm)<input type="range" data-param="b" min="20" max="120" step="1" value="60" data-default="60"><output data-out="b">60</output></label>
+    <label class="mefield">h (mm)<input type="range" data-param="h" min="30" max="200" step="1" value="100" data-default="100"><output data-out="h">100</output></label>
+    <label class="mefield">Okuma x (m)<input type="range" data-param="x" min="0" max="8" step="0.05" value="2" data-default="2"><output data-out="x">2</output></label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="melab__canvaswrap"><canvas data-canvas data-height="380"></canvas></div>
+  <p class="melab__caption">Üstten: kiriş ve yük; altında V, M, δ. İşaret: çökme aşağı pozitif.</p>
+  <div class="melab__readout" data-readout></div>
+  <p class="melab__status" data-status role="status"></p>
+</div>
+
+<h2 id="mohr">Mohr: gerilme dönüşümü</h2>
+<p>Aynı gerilme durumunu iki temsille okuyun: eleman ve Mohr çemberi. Asal gerilmeler, maksimum kayma ve von Mises aynı anda değişir.</p>
+<details class="predict"><summary>Tahmin et</summary><p>σx=80, σy=−20, τxy=40 MPa iken σ₁ kaç MPa olur? Çemberin yarıçapı mı, merkez mi belirler?</p></details>
+<div class="melab" data-me-lab="mohr">
+  <div class="melab__head"><p class="melab__eyebrow">Lab · gerilme</p><h3>Çemberi kaydır</h3><p>X ve Y noktaları elemanın yüzleridir; çap asal eksenleri verir.</p></div>
+  <div class="melab__controls" data-controls>
+    <label class="mefield">σx (MPa)<input type="range" data-param="sx" min="-120" max="160" step="1" value="80" data-default="80"><output data-out="sx">80</output></label>
+    <label class="mefield">σy (MPa)<input type="range" data-param="sy" min="-120" max="160" step="1" value="-20" data-default="-20"><output data-out="sy">-20</output></label>
+    <label class="mefield">τxy (MPa)<input type="range" data-param="txy" min="-100" max="100" step="1" value="40" data-default="40"><output data-out="txy">40</output></label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="melab__canvaswrap"><canvas data-canvas data-height="360"></canvas></div>
+  <p class="melab__caption">Sol: gerilme elemanı; sağ: Mohr çemberi. Çekme pozitif, saat yönü pozitif kayma.</p>
+  <div class="melab__readout" data-readout></div>
+  <p class="melab__status" data-status role="status"></p>
+</div>
+
+<h2 id="pipe">Boru: Moody ve yük kaybı</h2>
+<p>Çap, debi ve pürüzlülük değişince Reynolds, sürtünme faktörü ve yük kaybı birlikte değişir. Moody eğrileri Colebrook'tan hesaplanır.</p>
+<details class="predict"><summary>Tahmin et</summary><p>Debi iki katına çıkarsa türbülanslı sürtünme kaybı kaç katına çıkar? (İpucu: hf ∝ V², ama f de değişir.)</p></details>
+<div class="melab" data-me-lab="pipe">
+  <div class="melab__head"><p class="melab__eyebrow">Lab · akış</p><h3>Çalışma noktasını oynat</h3><p>Moody üzerindeki nokta canlıdır; alt bar sürtünme ve yerel kaybı ayırır.</p></div>
+  <div class="melab__controls" data-controls>
+    <label class="mefield">İç çap D (mm)<input type="range" data-param="D" min="10" max="200" step="0.5" value="52.5" data-default="52.5"><output data-out="D">52.5</output></label>
+    <label class="mefield">Uzunluk L (m)<input type="range" data-param="L" min="1" max="200" step="1" value="10" data-default="10"><output data-out="L">10</output></label>
+    <label class="mefield">Debi Q (L/s)<input type="range" data-param="Q" min="0.1" max="30" step="0.1" value="3" data-default="3"><output data-out="Q">3</output></label>
+    <label class="mefield">Pürüzlülük ε (mm)<input type="range" data-param="eps" min="0.001" max="1" step="0.001" value="0.045" data-default="0.045" data-digits="3"><output data-out="eps" data-digits="3">0.045</output></label>
+    <label class="mefield">Yerel K toplamı<input type="range" data-param="K" min="0" max="30" step="0.5" value="4" data-default="4"><output data-out="K">4</output></label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="melab__canvaswrap"><canvas data-canvas data-height="420"></canvas></div>
+  <p class="melab__caption">Su 20 °C: ρ=998 kg/m³, μ=1.002×10⁻³ Pa·s. Alt bar: mavi sürtünme, kırmızı yerel.</p>
+  <div class="melab__readout" data-readout></div>
+  <p class="melab__status" data-status role="status"></p>
+</div>
+
+<h2 id="fourbar">Dört çubuk: Grashof ve iletim açısı</h2>
+<p>Krankı döndürün; kuplör izi, iletim açısı ve hız oranı aynı anda okunur. Grashof koşulu uzuv boylarından gelir.</p>
+<details class="predict"><summary>Tahmin et</summary><p>r1=100, r2=25, r3=70, r4=85 mm. Bu bir krank-rocker mı? İletim açısı hangi aralıkta kalır?</p></details>
+<div class="melab" data-me-lab="fourbar">
+  <div class="melab__head"><p class="melab__eyebrow">Lab · mekanizma</p><h3>Krankı çevir</h3><p>Kesikli eğri kuplör noktasının izidir; yeşil yay iletim açısıdır.</p></div>
+  <div class="melab__controls" data-controls>
+    <label class="mefield">r1 (mm)<input type="range" data-param="r1" min="40" max="160" step="1" value="100" data-default="100"><output data-out="r1">100</output></label>
+    <label class="mefield">r2 krank (mm)<input type="range" data-param="r2" min="10" max="80" step="1" value="25" data-default="25"><output data-out="r2">25</output></label>
+    <label class="mefield">r3 kuplör (mm)<input type="range" data-param="r3" min="20" max="140" step="1" value="70" data-default="70"><output data-out="r3">70</output></label>
+    <label class="mefield">r4 sarkaç (mm)<input type="range" data-param="r4" min="20" max="140" step="1" value="85" data-default="85"><output data-out="r4">85</output></label>
+    <label class="mefield">Krank açısı θ₂ (°)<input type="range" data-param="th" min="0" max="360" step="1" value="60" data-default="60"><output data-out="th">60</output></label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="melab__canvaswrap"><canvas data-canvas data-height="380"></canvas></div>
+  <p class="melab__caption">O₂–O₄ zemin; A krank ucu, B sarkaç ucu. μ 40°–140° aralığında iyidir.</p>
+  <div class="melab__readout" data-readout></div>
+  <p class="melab__status" data-status role="status"></p>
+</div>
+
+<h2 id="vibration">Titreşim: rezonans ve yalıtım</h2>
+<p>Sönüm ve frekans oranı değişince büyütme, faz ve taban geçirgenliği değişir. Tepe r=1'de değildir.</p>
+<details class="predict"><summary>Tahmin et</summary><p>ζ=0.05 iken r=1'de büyütme kaçtır? r=√2'de taban geçirgenliği neden 1 olur?</p></details>
+<div class="melab" data-me-lab="vibration">
+  <div class="melab__head"><p class="melab__eyebrow">Lab · titreşim</p><h3>Frekansı süpür</h3><p>Eğri X/Xst; nokta çalışma frekansıdır. r>√2 yalıtım bölgesidir.</p></div>
+  <div class="melab__controls" data-controls>
+    <label class="mefield">Kütle m (kg)<input type="range" data-param="m" min="0.5" max="20" step="0.1" value="2" data-default="2"><output data-out="m">2</output></label>
+    <label class="mefield">Yay k (kN/m)<input type="range" data-param="k" min="1" max="100" step="0.5" value="20" data-default="20"><output data-out="k">20</output></label>
+    <label class="mefield">Sönüm ζ<input type="range" data-param="z" min="0.01" max="0.5" step="0.01" value="0.05" data-default="0.05"><output data-out="z">0.05</output></label>
+    <label class="mefield">Kuvvet F₀ (N)<input type="range" data-param="F0" min="1" max="500" step="1" value="50" data-default="50"><output data-out="F0">50</output></label>
+    <label class="mefield">Frekans oranı r<input type="range" data-param="r" min="0" max="3" step="0.01" value="1" data-default="1"><output data-out="r">1</output></label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="melab__canvaswrap"><canvas data-canvas data-height="340"></canvas></div>
+  <p class="melab__caption">Xst=F₀/k; tepe r=√(1−2ζ²). r=1 çizgisi rezonans, r=√2 yalıtım sınırıdır.</p>
+  <div class="melab__readout" data-readout></div>
+  <p class="melab__status" data-status role="status"></p>
+</div>
+
+<h2 id="fit">ISO 286: tolerans bandı</h2>
+<p>Aynı nominal boyutta delik ve mil bantlarını üst üste koyun. Geçme, iki bandın konumundan doğar; harfleri çıkarmakla değil.</p>
+<details class="predict"><summary>Tahmin et</summary><p>Ø30 H7/p6 için en az sıkılık kaç µm? En büyük sıkılık kaç µm?</p></details>
+<div class="melab" data-me-lab="fit">
+  <div class="melab__head"><p class="melab__eyebrow">Lab · tolerans</p><h3>Bantları üst üste koy</h3><p>Üst bant delik, alt bant mildir. Ok, en küçük/en büyük boşluğu gösterir.</p></div>
+  <div class="melab__controls" data-controls>
+    <label class="mefield">Nominal çap (mm)<input type="range" data-param="d" min="14.5" max="50" step="0.5" value="30" data-default="30"><output data-out="d">30</output></label>
+    <label class="mefield">Delik<select data-param="hole" data-default="H7"><option value="H7">H7</option><option value="H8">H8</option></select></label>
+    <label class="mefield">Mil<select data-param="shaft" data-default="p6"><option value="f7">f7</option><option value="g6">g6</option><option value="h6">h6</option><option value="k6">k6</option><option value="p6">p6</option></select></label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="melab__canvaswrap"><canvas data-canvas data-height="300"></canvas></div>
+  <p class="melab__caption">ISO 286-2 alt kümesi: 14–50 mm, H7/H8, f7/g6/h6/k6/p6. 18/30/50 mm sınırlarında tablo sıçrar.</p>
+  <div class="melab__readout" data-readout></div>
+  <p class="melab__status" data-status role="status"></p>
+</div>
+
+<h2 id="fem">FEM: 1B çubuk ve yakınsama</h2>
+<p>Rijitlik matrisini kurun, sınır koşulunu uygulayın, çözün. Düzgün çubuk her ağda tamdır; konik çubukta h-yakınsaması görünür.</p>
+<details class="predict"><summary>Tahmin et</summary><p>1 m, 100 mm², E=200 GPa, P=10 kN. Uç yer değiştirmesi kaç mm? Ağı 2'den 10 elemana çıkarınca ne değişir?</p></details>
+<div class="melab" data-me-lab="fem">
+  <div class="melab__head"><p class="melab__eyebrow">Lab · FEM</p><h3>Eleman sayısını değiştir</h3><p>Üst: düğümler ve deformasyon; orta: eleman gerilmesi; alt: h-yakınsaması.</p></div>
+  <div class="melab__controls" data-controls>
+    <label class="mefield">Eleman sayısı n<input type="range" data-param="n" min="2" max="10" step="1" value="4" data-default="4"><output data-out="n">4</output></label>
+    <label class="mefield">Uzunluk L (m)<input type="range" data-param="L" min="0.2" max="3" step="0.1" value="1" data-default="1"><output data-out="L">1</output></label>
+    <label class="mefield">Alan A (mm²)<input type="range" data-param="A" min="20" max="500" step="10" value="100" data-default="100"><output data-out="A">100</output></label>
+    <label class="mefield">E (GPa)<input type="range" data-param="E" min="70" max="210" step="1" value="200" data-default="200"><output data-out="E">200</output></label>
+    <label class="mefield">Uç yükü P (kN)<input type="range" data-param="P" min="0" max="50" step="1" value="10" data-default="10"><output data-out="P">10</output></label>
+    <label class="mefield">Yayılı yük q (N/mm)<input type="range" data-param="q" min="0" max="20" step="0.5" value="0" data-default="0"><output data-out="q">0</output></label>
+    <label class="mefield">Kesit<select data-param="profile" data-default="uniform"><option value="uniform">Düzgün</option><option value="taper">Konik (%25 uç)</option></select></label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="melab__canvaswrap"><canvas data-canvas data-height="440"></canvas></div>
+  <p class="melab__caption">N–mm–MPa birim sistemi. R₀ negatifse çubuk çekiyordur.</p>
+  <div class="melab__readout" data-readout></div>
+  <p class="melab__status" data-status role="status"></p>
+</div>

@@ -1,0 +1,624 @@
+<p class="lede">
+  This note is a small interactive textbook for <strong>sorting, searching, traversal, and binary search trees</strong>.
+  It is written for a CS2 reader who knows arrays and loops but wants the invariants to become obvious.
+  The labs are not animations to watch; they are places to commit to a prediction, step the machine, and check the model.
+</p>
+
+<noscript>
+  <aside class="callout callout--warning">
+    <p class="callout__label">JavaScript is off</p>
+    <div class="callout__body">
+      <p>
+        The prose, tables, and exercises still work. The labs and the retrieval quiz need JavaScript;
+        enable it, or print the page and use the static figures and questions as a workbook.
+      </p>
+    </div>
+  </aside>
+</noscript>
+
+<div class="keypoints">
+  <p class="keypoints__title">By the end, you should be able to</p>
+  <ul>
+    <li>State the invariant that makes each algorithm correct, not just its pseudocode.</li>
+    <li>Predict the next comparison, swap, dequeue, or tree edge before the lab shows it.</li>
+    <li>Explain why binary search is $O(\log n)$ and why an unbalanced BST is not.</li>
+    <li>Choose BFS or DFS from the shape of the problem, not from habit.</li>
+    <li>Recognise the input that turns a good average case into a bad worst case.</li>
+  </ul>
+</div>
+
+<h2 id="how-to-use">How to use this note</h2>
+
+<p>
+  Each lab follows the same loop: <strong>predict → step → explain → transfer</strong>.
+  The prediction prompt is deliberately before the controls. If you skip it, the lab becomes a video,
+  and the evidence on algorithm visualisation is clear that passive viewing is the weak version.
+</p>
+
+<aside class="callout callout--tip">
+  <p class="callout__label">Study protocol</p>
+  <div class="callout__body">
+    <p>
+      Read the definition and the invariant first. Then close the explanation, answer the prediction,
+      and step through the lab until you can narrate each transition without looking at the status line.
+      Finish with the retrieval quiz and come back in one day, one week, and three weeks.
+    </p>
+  </div>
+</aside>
+
+<h2 id="invariants">The one idea: invariants</h2>
+
+<p>
+  An algorithm is not a list of lines; it is a <em>maintained claim</em>. A <strong>loop invariant</strong>
+  is a statement that is true before the loop starts, stays true after every iteration, and — together with
+  the exit condition — implies the result.
+</p>
+
+<aside class="callout callout--definition">
+  <p class="callout__label">Definition · loop invariant</p>
+  <div class="callout__body">
+    <p>
+      A property $P$ is a loop invariant for a loop if (1) $P$ holds before the first iteration,
+      (2) if $P$ holds at the start of an iteration and the iteration terminates, then $P$ holds at the start
+      of the next iteration, and (3) when the loop exits, $P$ plus the exit condition gives the postcondition.
+    </p>
+  </div>
+</aside>
+
+<p>
+  For insertion sort, the invariant is: <em>before iteration $i$, the prefix $A[0..i-1]$ is sorted and contains
+  exactly the original first $i$ elements</em>. The inner loop shifts larger elements right until the key can be
+  inserted. The invariant explains both the correctness and the best case: if the array is already sorted, the
+  inner loop stops immediately, so the total work is linear.
+</p>
+
+<div class="equation">
+  <div class="equation__body">
+    $$
+    T_{\text{insertion}}(n) =
+    \sum_{i=1}^{n-1} \bigl(1 + \text{number of shifts at } i\bigr)
+    \quad\Longrightarrow\quad
+    T_{\text{best}} = \Theta(n),\qquad T_{\text{worst}} = \Theta(n^2).
+    $$
+  </div>
+  <span class="equation__tag" aria-hidden="true"></span>
+</div>
+
+<h2 id="sorting-lab">Lab 01 · Sorting: watch the invariant</h2>
+
+<p>
+  Bubble sort grows a sorted suffix; selection sort grows a sorted prefix by repeatedly taking the minimum;
+  insertion sort grows a sorted prefix by inserting one key at a time. The bars are the same; the invariant is not.
+</p>
+
+<details class="predict">
+  <summary>Predict first: after one full bubble pass, which position is guaranteed?</summary>
+  <p>
+    The last position holds the largest element. Bubble sort compares adjacent pairs left to right, so the
+    maximum “bubbles” all the way to the end in one pass. Nothing else is guaranteed yet.
+  </p>
+</details>
+
+<section class="lab" data-lab="sorting" aria-labelledby="lab-sorting-title">
+  <header class="lab__head">
+    <p class="lab__eyebrow">Lab 01 · Sorting</p>
+    <h3 id="lab-sorting-title">Watch the invariant, not the bars</h3>
+    <p>Choose an algorithm, predict the next swap, then step through. The highlighted pseudocode line is the operation that produced the current state.</p>
+  </header>
+
+  <div class="lab__controls">
+    <label class="lab__field">Algorithm
+      <select data-sort-algo>
+        <option value="bubble">Bubble sort</option>
+        <option value="selection">Selection sort</option>
+        <option value="insertion">Insertion sort</option>
+      </select>
+    </label>
+    <label class="lab__field">Size
+      <input type="range" data-sort-size min="8" max="24" step="1" value="12">
+      <output data-sort-size-out>12</output>
+    </label>
+    <label class="lab__field lab__field--speed">Speed
+      <input type="range" data-sort-speed min="1" max="5" step="1" value="3">
+    </label>
+    <button class="btn btn--primary" type="button" data-sort-play>Play</button>
+    <button class="btn" type="button" data-sort-step>Step</button>
+    <button class="btn" type="button" data-sort-shuffle>Shuffle</button>
+    <button class="btn btn--ghost" type="button" data-sort-reset>Reset</button>
+  </div>
+
+  <div class="lab__grid">
+    <div class="lab__viz">
+      <div class="lab__bars" data-sort-bars role="img" aria-label="Array bars"></div>
+      <p class="lab__legend">
+        <span class="key key--compare">comparing</span>
+        <span class="key key--swap">swap / shift</span>
+        <span class="key key--sorted">sorted</span>
+      </p>
+    </div>
+    <div class="lab__panel">
+      <div class="lab__metrics" data-sort-metrics></div>
+      <ol class="lab__code" data-sort-code></ol>
+    </div>
+  </div>
+
+  <p class="lab__status" data-sort-status role="status" aria-live="polite"></p>
+  <p class="lab__print">Printed snapshot: the lab starts with a shuffled 12-element array and an empty sorted suffix. Open the HTML file to step through the comparisons.</p>
+</section>
+
+<h3>What to notice</h3>
+
+<ul>
+  <li><strong>Bubble sort</strong> does the same adjacent comparison everywhere; its sorted region grows from the right.</li>
+  <li><strong>Selection sort</strong> scans the whole unsorted suffix before every swap; its sorted region grows from the left.</li>
+  <li><strong>Insertion sort</strong> stops shifting as soon as the key is in place; that early stop is why it is adaptive.</li>
+</ul>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Stable?</th><th>Adaptive?</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Bubble</td><td>$\Theta(n)$</td><td>$\Theta(n^2)$</td><td>$\Theta(n^2)$</td><td>Yes</td><td>Yes, with the no-swap exit</td></tr>
+      <tr><td>Selection</td><td>$\Theta(n^2)$</td><td>$\Theta(n^2)$</td><td>$\Theta(n^2)$</td><td>No</td><td>No</td></tr>
+      <tr><td>Insertion</td><td>$\Theta(n)$</td><td>$\Theta(n^2)$</td><td>$\Theta(n^2)$</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Merge</td><td>$\Theta(n\log n)$</td><td>$\Theta(n\log n)$</td><td>$\Theta(n\log n)$</td><td>Yes</td><td>No</td></tr>
+      <tr><td>Quicksort</td><td>$\Theta(n\log n)$</td><td>$\Theta(n\log n)$</td><td>$\Theta(n^2)$</td><td>No</td><td>No</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<aside class="callout callout--warning">
+  <p class="callout__label">Common mistake</p>
+  <div class="callout__body">
+    <p>
+      “Selection sort is $O(n\log n)$ because it uses a minimum.” No: finding the minimum of an unsorted suffix
+      is a linear scan, and it is repeated $n$ times. The absence of nested loops in the code is not the point;
+      the total number of comparisons is.
+    </p>
+  </div>
+</aside>
+
+<h2 id="binary-lab">Lab 02 · Binary search: halve the uncertainty</h2>
+
+<p>
+  Binary search maintains one invariant: <em>if the target is in the array, it is inside the current range
+  $[low, high]$</em>. Every comparison must discard a non-empty half. The moment the range is empty, the target
+  is absent.
+</p>
+
+<details class="predict">
+  <summary>Predict first: if <code>A[mid] &lt; target</code>, which half can you discard?</summary>
+  <p>
+    The left half, including <code>mid</code>. Because the array is sorted, every index at or below
+    <code>mid</code> holds a value no larger than <code>A[mid]</code>, so none of them can equal the target.
+    The new range is <code>[mid + 1, high]</code>.
+  </p>
+</details>
+
+<section class="lab" data-lab="binary" aria-labelledby="lab-binary-title">
+  <header class="lab__head">
+    <p class="lab__eyebrow">Lab 02 · Binary search</p>
+    <h3 id="lab-binary-title">Halve the uncertainty</h3>
+    <p>Each step must discard a whole half. Watch the range shrink; the target is highlighted with an underline.</p>
+  </header>
+
+  <div class="lab__controls">
+    <label class="lab__field">Target
+      <input type="number" data-bin-target value="38" min="0" max="100">
+    </label>
+    <button class="btn btn--primary" type="button" data-bin-search>Search</button>
+    <button class="btn" type="button" data-bin-step>Step</button>
+    <button class="btn" type="button" data-bin-play>Play</button>
+    <button class="btn" type="button" data-bin-random>Random target</button>
+    <button class="btn btn--ghost" type="button" data-bin-reset>Reset</button>
+  </div>
+
+  <div class="lab__viz">
+    <div class="lab__cells" data-bin-cells role="img" aria-label="Sorted array"></div>
+  </div>
+
+  <div class="lab__panel">
+    <div class="lab__metrics" data-bin-metrics></div>
+    <ol class="lab__code" data-bin-code></ol>
+  </div>
+
+  <p class="lab__status" data-bin-status role="status" aria-live="polite"></p>
+  <p class="lab__print">Printed snapshot: search for 38 in the sorted array; the first probe is index 7. Open the HTML file to see the range shrink.</p>
+</section>
+
+<h3>Why the bound is logarithmic</h3>
+
+<p>
+  After $k$ comparisons the range has size at most $\lceil n/2^k \rceil$. The search stops when the range is
+  empty, which happens once $2^k > n$. Therefore $k = \Theta(\log n)$. The exact worst-case number of
+  comparisons is $\lceil \log_2(n+1) \rceil$, not “exactly $\log_2 n$”.
+</p>
+
+<div class="equation">
+  <div class="equation__body">
+    $$
+    n \to \frac{n}{2} \to \frac{n}{4} \to \cdots \to 1
+    \quad\Longrightarrow\quad
+    k \le \lceil \log_2(n+1) \rceil.
+    $$
+  </div>
+  <span class="equation__tag" aria-hidden="true"></span>
+</div>
+
+<aside class="callout callout--warning">
+  <p class="callout__label">Two classic bugs</p>
+  <div class="callout__body">
+    <p>
+      <strong>Overflow:</strong> in a fixed-width language, <code>(low + high) / 2</code> can overflow even when
+      both indices fit. Use <code>low + (high - low) / 2</code>. <strong>Wrong update:</strong> setting
+      <code>low = mid</code> instead of <code>mid + 1</code> can loop forever when the range has two elements.
+    </p>
+  </div>
+</aside>
+
+<h2 id="graph-lab">Lab 03 · Graph traversal: the frontier is the algorithm</h2>
+
+<p>
+  BFS and DFS visit the same graph and can produce very different orders. The difference is not the graph; it is
+  the <strong>frontier discipline</strong>. BFS takes the oldest discovered node (queue). DFS takes the newest
+  (stack).
+</p>
+
+<details class="predict">
+  <summary>Predict first: from A, which traversal reaches H first?</summary>
+  <p>
+    BFS reaches H at depth 3 (A → B → D → H, or A → B → E → H). DFS can dive through B, D, H immediately,
+    so it may reach H earlier in steps but along a deeper path. The right question is not “which is faster?”
+    but “which order do I need?”.
+  </p>
+</details>
+
+<section class="lab" data-lab="graph" aria-labelledby="lab-graph-title">
+  <header class="lab__head">
+    <p class="lab__eyebrow">Lab 03 · Traversal</p>
+    <h3 id="lab-graph-title">The frontier is the algorithm</h3>
+    <p>BFS keeps a queue; DFS keeps a stack. The only difference is which end you take from.</p>
+  </header>
+
+  <div class="lab__controls">
+    <label class="lab__field">Mode
+      <select data-graph-mode>
+        <option value="bfs">BFS · queue</option>
+        <option value="dfs">DFS · stack</option>
+      </select>
+    </label>
+    <label class="lab__field">Start
+      <select data-graph-start>
+        <option>A</option><option>B</option><option>C</option><option>D</option>
+        <option>E</option><option>F</option><option>G</option><option>H</option><option>I</option>
+      </select>
+    </label>
+    <button class="btn btn--primary" type="button" data-graph-play>Play</button>
+    <button class="btn" type="button" data-graph-step>Step</button>
+    <button class="btn btn--ghost" type="button" data-graph-reset>Reset</button>
+  </div>
+
+  <div class="lab__graph">
+    <svg data-graph-svg viewBox="0 0 620 340" role="img" aria-label="Graph with nine nodes"></svg>
+    <div class="lab__panel">
+      <div class="lab__chips" data-graph-frontier></div>
+      <div class="lab__metrics" data-graph-metrics></div>
+      <ol class="lab__code" data-graph-code></ol>
+    </div>
+  </div>
+
+  <p class="lab__legend">
+    <span class="key key--frontier">frontier</span>
+    <span class="key key--current">current</span>
+    <span class="key key--visited">visited</span>
+  </p>
+
+  <p class="lab__status" data-graph-status role="status" aria-live="polite"></p>
+  <p class="lab__print">Printed snapshot: BFS from A visits A → B → C → D → E → F → G → H → I. Open the HTML file to compare it with DFS.</p>
+</section>
+
+<h3>What each traversal is for</h3>
+
+<div class="columns">
+  <div>
+    <p><strong>BFS</strong></p>
+    <ul>
+      <li>Shortest path in an unweighted graph.</li>
+      <li>Level-order exploration.</li>
+      <li>Connected components with a queue.</li>
+      <li>“Nearest” anything: servers, moves, social distance.</li>
+    </ul>
+  </div>
+  <div>
+    <p><strong>DFS</strong></p>
+    <ul>
+      <li>Cycle detection.</li>
+      <li>Topological sorting.</li>
+      <li>Backtracking and maze solving.</li>
+      <li>Exploring one branch deeply before siblings.</li>
+    </ul>
+  </div>
+</div>
+
+<p>
+  Both are $O(V+E)$ with an adjacency list. The complexity is the same; the <em>order</em> and the memory profile
+  are not. BFS’s frontier can be wide (up to $O(V)$); DFS’s stack can be deep (up to $O(V)$).
+  A DFS order is also not unique: it depends on the adjacency order and on whether a node is marked when it is
+  pushed or when it is popped. The lab uses mark-on-pop with an explicit stack, which is one valid DFS.
+</p>
+
+<h2 id="bst-lab">Lab 04 · Binary search trees: order is the structure</h2>
+
+<p>
+  A binary search tree maintains the ordering invariant: for every node, all keys in its left subtree are smaller
+  and all keys in its right subtree are larger. That invariant gives a sorted inorder traversal and a search that
+  follows one root-to-leaf path.
+</p>
+
+<details class="predict">
+  <summary>Predict first: where does 65 go in the default tree?</summary>
+  <p>
+    Start at 50: 65 &gt; 50, go right to 70. 65 &lt; 70, go left to 60. 65 &gt; 60, so it becomes the right
+    child of 60. The comparison path is 50 → 70 → 60 → 65.
+  </p>
+</details>
+
+<section class="lab" data-lab="bst" aria-labelledby="lab-bst-title">
+  <header class="lab__head">
+    <p class="lab__eyebrow">Lab 04 · Binary search tree</p>
+    <h3 id="lab-bst-title">Order is the structure</h3>
+    <p>Insert values and search for them. The highlighted path is the comparison history.</p>
+  </header>
+
+  <div class="lab__controls">
+    <label class="lab__field">Value
+      <input type="number" data-bst-value value="65" min="1" max="99">
+    </label>
+    <button class="btn btn--primary" type="button" data-bst-insert>Insert</button>
+    <button class="btn" type="button" data-bst-search>Search</button>
+    <button class="btn" type="button" data-bst-random>Random insert</button>
+    <button class="btn" type="button" data-bst-sorted>Sorted run</button>
+    <button class="btn btn--ghost" type="button" data-bst-reset>Reset</button>
+  </div>
+
+  <div class="lab__viz">
+    <svg data-bst-svg viewBox="0 0 800 360" role="img" aria-label="Binary search tree"></svg>
+  </div>
+
+  <div class="lab__panel">
+    <div class="lab__metrics" data-bst-traversals></div>
+  </div>
+
+  <p class="lab__status" data-bst-status role="status" aria-live="polite"></p>
+  <p class="lab__print">Printed snapshot: default tree 50 (30 (20, 40), 70 (60, 80)). Open the HTML file to insert 65 and see the path.</p>
+</section>
+
+<h3>The shape is the complexity</h3>
+
+<p>
+  A BST search does one comparison per level. If the tree is balanced, its height is $\Theta(\log n)$, so search
+  is $O(\log n)$. If the tree degenerates into a chain — for example, inserting sorted keys — its height is
+  $n-1$, so search is $O(n)$. The algorithm did not change; the <em>input order</em> did.
+</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Operation</th><th>Balanced BST</th><th>Degenerate BST</th><th>Hash table (average)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Search</td><td>$O(\log n)$</td><td>$O(n)$</td><td>$O(1)$</td></tr>
+      <tr><td>Insert</td><td>$O(\log n)$</td><td>$O(n)$</td><td>$O(1)$</td></tr>
+      <tr><td>Delete</td><td>$O(\log n)$</td><td>$O(n)$</td><td>$O(1)$</td></tr>
+      <tr><td>Sorted traversal</td><td>$O(n)$</td><td>$O(n)$</td><td>not directly</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<aside class="callout callout--tip">
+  <p class="callout__label">Try it</p>
+  <div class="callout__body">
+    <p>
+      Press <strong>Sorted run</strong>. The tree becomes a chain. Then search for 70: the comparison count is
+      the depth, not $\log_2 7$. This is the concrete counterexample behind “balanced” in the complexity table.
+    </p>
+  </div>
+</aside>
+
+<h2 id="growth-lab">Lab 05 · Growth rates: a shape, not a number</h2>
+
+<p>
+  Big-O is about the growth of work as $n$ grows, not about a stopwatch. The chart shows five functions on the
+  same axes. Switch the y-axis between linear and logarithmic: the linear view shows why quadratic algorithms
+  collapse; the log view keeps the small functions visible.
+</p>
+
+<details class="predict">
+  <summary>Predict first: when $n$ doubles from 32 to 64, what happens to $n^2$?</summary>
+  <p>
+    It quadruples: $32^2 = 1{,}024$ and $64^2 = 4{,}096$. Linear work doubles, $n\log n$ slightly more than
+    doubles, and quadratic work quadruples. That difference in <em>scaling</em> is what Big-O names.
+  </p>
+</details>
+
+<section class="lab" data-lab="growth" aria-labelledby="lab-growth-title">
+  <header class="lab__head">
+    <p class="lab__eyebrow">Lab 05 · Complexity</p>
+    <h3 id="lab-growth-title">Growth is a shape, not a number</h3>
+    <p>Change n and switch scales. Read the exact counts below the chart; “looks steep” is not an analysis.</p>
+  </header>
+
+  <div class="lab__controls">
+    <label class="lab__field">n
+      <input type="range" data-growth-n min="1" max="64" step="1" value="32">
+      <output data-growth-n-out>32</output>
+    </label>
+    <label class="lab__check">
+      <input type="checkbox" data-growth-log checked> Log scale
+    </label>
+  </div>
+
+  <div class="lab__viz lab__viz--chart">
+    <canvas data-growth-canvas height="320" aria-label="Growth-rate chart"></canvas>
+  </div>
+
+  <div class="table-wrap">
+    <table data-growth-table>
+      <thead><tr><th>Function</th><th>Operations at n</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <p class="lab__status" data-growth-status role="status" aria-live="polite"></p>
+  <p class="lab__print">Printed snapshot: at n = 32, n² = 1,024 operations and log₂ 32 = 5. Open the HTML file to change n and switch scales.</p>
+</section>
+
+<aside class="callout callout--warning">
+  <p class="callout__label">Common mistake</p>
+  <div class="callout__body">
+    <p>
+      “$O(2n)$ is slower than $O(n)$.” Constants matter in practice, but Big-O deliberately hides them.
+      $O(2n)$ and $O(n)$ are the same growth class. What matters is how the work scales when $n$ doubles:
+      linear doubles, $n\log n$ slightly more than doubles, quadratic quadruples.
+    </p>
+  </div>
+</aside>
+
+<h2 id="quiz">Retrieval practice</h2>
+
+<p>
+  Answer before you read the explanation. A wrong answer is more useful than a lucky one; the explanation is
+  written to repair the specific misconception, not to congratulate you.
+</p>
+
+<section class="quiz" data-quiz data-quiz-id="sorting-searching-core" aria-labelledby="quiz-title">
+  <header class="lab__head">
+    <p class="lab__eyebrow">Retrieval practice</p>
+    <h3 id="quiz-title">Check the model, not the wording</h3>
+    <p>Nine questions across sorting, search, traversal, and trees. Progress is stored locally in this browser.</p>
+  </header>
+  <div class="quiz__bar">
+    <span data-quiz-progress aria-live="polite">0 / 0 answered</span>
+    <span data-quiz-score aria-live="polite">0 correct</span>
+  </div>
+  <div data-quiz-questions></div>
+  <div class="quiz__footer">
+    <button class="btn btn--ghost" type="button" data-quiz-reset>Reset quiz</button>
+    <button class="btn" type="button" data-quiz-retry hidden>Retry missed</button>
+  </div>
+  <p class="lab__print">The interactive quiz is available in the HTML file.</p>
+</section>
+
+<aside class="callout callout--tip">
+  <p class="callout__label">Review schedule</p>
+  <div class="callout__body">
+    <p>
+      Come back to the quiz after <strong>1 day</strong>, <strong>7 days</strong>, and <strong>21–30 days</strong>.
+      On each return, answer before reading the explanation, then use <em>Retry missed</em>.
+      The goal is recall under a little difficulty, not a high score on the first try.
+    </p>
+  </div>
+</aside>
+
+<h2 id="summary">Summary · one screen</h2>
+
+<div class="keypoints">
+  <p class="keypoints__title">The five sentences to keep</p>
+  <ul>
+    <li><strong>Sorting:</strong> name the invariant (sorted prefix, sorted suffix, or “prefix is sorted and contains the first i keys”) before the code.</li>
+    <li><strong>Binary search:</strong> sorted input + a range that always contains the answer + discard half. The bound is $\lceil \log_2(n+1) \rceil$.</li>
+    <li><strong>BFS:</strong> queue, level order, shortest path in unweighted graphs, $O(V+E)$.</li>
+    <li><strong>DFS:</strong> stack/recursion, depth first, cycles and topological order, $O(V+E)$.</li>
+    <li><strong>BST:</strong> inorder is sorted; height is the complexity; sorted insertion degenerates to a chain.</li>
+  </ul>
+</div>
+
+<h2 id="exercises">Exercises</h2>
+
+<div class="exercise">
+  <p class="exercise__label">Exercise 1 · Trace</p>
+  <p>
+    Run insertion sort on <code>[5, 2, 4, 6, 1, 3]</code>. Write the array after each insertion of the key,
+    and count comparisons and shifts. Then check your trace against the lab.
+  </p>
+  <details class="solution">
+    <summary>Solution</summary>
+    <div class="solution__body">
+      <p>
+        Start <code>[5 | 2, 4, 6, 1, 3]</code>. Insert 2: <code>[2, 5 | 4, 6, 1, 3]</code>.
+        Insert 4: <code>[2, 4, 5 | 6, 1, 3]</code>. Insert 6: <code>[2, 4, 5, 6 | 1, 3]</code>.
+        Insert 1: <code>[1, 2, 4, 5, 6 | 3]</code>. Insert 3: <code>[1, 2, 3, 4, 5, 6]</code>.
+        Comparisons: 1 + 2 + 1 + 4 + 3 = 11; shifts: 1 + 2 + 0 + 4 + 3 = 10.
+      </p>
+    </div>
+  </details>
+</div>
+
+<div class="exercise">
+  <p class="exercise__label">Exercise 2 · Binary search bound</p>
+  <p>
+    Show that the worst-case number of comparisons for binary search on $n$ sorted elements is
+    $\lceil \log_2(n+1) \rceil$. Start from the range size after $k$ comparisons.
+  </p>
+  <details class="solution">
+    <summary>Solution</summary>
+    <div class="solution__body">
+      <p>
+        After $k$ comparisons the range has size at most $\lceil n/2^k \rceil$. The search continues while the
+        range is non-empty, so it stops when $2^k > n$. The smallest such $k$ is
+        $\lfloor \log_2 n \rfloor + 1 = \lceil \log_2(n+1) \rceil$. For $n=1{,}024$, this is 11.
+      </p>
+    </div>
+  </details>
+</div>
+
+<div class="exercise">
+  <p class="exercise__label">Exercise 3 · BFS or DFS?</p>
+  <p>
+    For each task, choose BFS or DFS and justify it in one sentence:
+    (a) shortest number of moves in a maze, (b) detect a cycle in a directed graph,
+    (c) find the nearest server in an unweighted network, (d) enumerate all paths in a small graph.
+  </p>
+  <details class="solution">
+    <summary>Solution</summary>
+    <div class="solution__body">
+      <p>
+        (a) BFS: the first time you reach the exit, the path has the fewest edges. (b) DFS: a back edge to a
+        node on the current recursion stack detects a cycle. (c) BFS: “nearest” is fewest edges. (d) DFS:
+        backtracking naturally enumerates paths; BFS also works but stores many partial paths.
+      </p>
+    </div>
+  </details>
+</div>
+
+<div class="exercise">
+  <p class="exercise__label">Exercise 4 · Degenerate tree</p>
+  <p>
+    Insert $1,2,3,4,5,6,7$ into an empty BST. Draw the tree, give its height, and explain why the search for 7
+    is $O(n)$ even though the tree has only 7 nodes. What insertion order would give a balanced tree?
+  </p>
+  <details class="solution">
+    <summary>Solution</summary>
+    <div class="solution__body">
+      <p>
+        The tree is a right chain $1 \to 2 \to 3 \to 4 \to 5 \to 6 \to 7$; height is 7 (or 6 edges).
+        Searching for 7 visits every node, so the cost is linear in $n$. A balanced order is
+        $4,2,1,3,6,5,7$ (or any order that keeps the median at the root recursively).
+      </p>
+    </div>
+  </details>
+</div>
+
+<h2 id="sources">Sources and further reading</h2>
+
+<ul>
+  <li>VisuAlgo — <a href="https://visualgo.net">visualgo.net</a>; a reference visualizer for many data structures and algorithms.</li>
+  <li>OpenDSA / JSAV — <a href="https://opendsa-server.cs.vt.edu/">opendsa-server.cs.vt.edu</a> and <a href="https://jsav.io/">jsav.io</a>; an open-source eTextbook with algorithm visualizations and proficiency exercises.</li>
+  <li>Python Tutor — <a href="https://pythontutor.com/">pythontutor.com</a>; step-by-step execution and memory frames for Python, Java, C, C++, and JavaScript.</li>
+  <li>Naps et al. (2002), <em>Exploring the role of visualization and engagement in computer science education</em>.</li>
+  <li>Dunlosky et al. (2013), <em>Improving students’ learning with effective learning techniques</em>.</li>
+  <li>Mayer (2017), <em>Using multimedia for e-learning</em>.</li>
+  <li>Cormen, Leiserson, Rivest, Stein, <em>Introduction to Algorithms</em> — the reference for invariants and complexity.</li>
+</ul>

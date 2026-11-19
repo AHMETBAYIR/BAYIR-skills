@@ -1,0 +1,203 @@
+
+
+<aside class="keypoints">
+  <h2>Bu nottan sonra</h2>
+  <ul>
+    <li>Dikdörtgen ve dairesel kesit için <strong>I</strong> ve <strong>W</strong> hesaplayabilirsiniz.</li>
+    <li><strong>I</strong> ile <strong>W</strong> arasındaki farkı ve neden ikisinin de gerektiğini açıklayabilirsiniz.</li>
+    <li>Bir kesiti, aynı alanı koruyarak daha büyük <strong>I</strong> verecek şekilde yerleştirebilirsiniz.</li>
+    <li>Eğilme gerilmesini <em>σ = M/W</em> ile hesaplayıp birimini kontrol edebilirsiniz.</li>
+    <li>Tarafsız eksen, en dış lif ve eğilme ekseni kavramlarını karıştırmadan kullanabilirsiniz.</li>
+  </ul>
+</aside>
+
+<h2 id="neden">Neden kesit özellikleri?</h2>
+
+<p>Bir kirişin taşıma kapasitesi yalnızca malzemesine değil, malzemenin <strong>nasıl dağıtıldığına</strong> bağlıdır. Aynı çelik alanını ince ve yüksek bir I kesite koyduğunuzda, tarafsız eksenden uzak lifler daha çok gerilme alır; kesit aynı momenti daha küçük bir en dış gerilmeyle taşır. Bu notun tek fikri şudur:</p>
+
+<div class="equation">
+  <div class="equation__body">$$\sigma = \frac{M\,c}{I} = \frac{M}{W}, \qquad W = \frac{I}{c}$$</div>
+  <div class="equation__tag">Eğilme gerilmesi, elastik bölge</div>
+</div>
+
+<p>Burada \(M\) eğilme momenti, \(c\) tarafsız eksenden en dış life uzaklık, \(I\) tarafsız eksene göre ikinci moment (atalet momenti), \(W\) ise kesit modülüdür. \(W\) bir <em>geometri</em> büyüklüğüdür; malzeme dayanımı değildir.</p>
+
+<aside class="callout callout--definition">
+  <p><strong>Tanım — ikinci moment.</strong> Bir düzlem alanın \(x\) ekseni etrafındaki ikinci momenti</p>
+  <p>$$I_x = \int_A y^2\,dA$$</p>
+  <p>olarak tanımlanır. Birimi \(\mathrm{mm^4}\)'tür. \(I\), alanın eksenden <em>uzaklığının karesiyle</em> ağırlıklandırıldığı için, malzemeyi eksenden uzağa taşımak \(I\)'yı hızla büyütür.</p>
+</aside>
+
+<h2 id="turetim">Dikdörtgen için türetim</h2>
+
+<p>Genişliği \(b\), yüksekliği \(h\) olan bir dikdörtgenin tarafsız ekseni, simetriden dolayı \(h/2\) yüksekliktedir. Şerit alanı \(dA = b\,dy\) alıp \(y=-h/2\) ile \(y=+h/2\) arasında integral alalım:</p>
+
+<div class="equation">
+  <div class="equation__body">$$I = \int_{-h/2}^{h/2} y^2\,b\,dy = b\left[\frac{y^3}{3}\right]_{-h/2}^{h/2} = \frac{bh^3}{12}$$</div>
+  <div class="equation__tag"></div>
+</div>
+
+<p>En dış lif \(c=h/2\) olduğundan</p>
+
+<div class="equation">
+  <div class="equation__body">$$W = \frac{I}{c} = \frac{bh^3/12}{h/2} = \frac{bh^2}{6}$$</div>
+  <div class="equation__tag"></div>
+</div>
+
+<p>Dairesel kesitte \(I=\pi d^4/64\), \(c=d/2\), dolayısıyla \(W=\pi d^3/32\). Dikkat: çapın <strong>dördüncü</strong> kuvveti \(I\)'da, <strong>üçüncü</strong> kuvveti \(W\)'da görünür.</p>
+
+<h2 id="lab">Laboratuvar: kesiti değiştir, gerilmeyi gör</h2>
+
+<p>Aşağıdaki kesit 2 kN·m eğilme momenti taşıyor. Önce tahmin edin: aynı alanı koruyarak yüksekliği iki katına çıkarırsanız en dış gerilme kaç kat azalır?</p>
+
+<details class="predict">
+  <summary>Tahmin et (cevabı açmadan önce yaz)</summary>
+  <p>Genişlik yarıya inerse alan sabit kalır. \(W=bh^2/6\) olduğundan \(h\) iki katına çıkınca \(W\) dört katına çıkar; gerilme dörtte bire iner. Bunu laboratuvarda <em>b</em> ve <em>h</em> ile deneyin.</p>
+</details>
+
+<div class="melab" data-me-lab="section">
+  <div class="melab__head">
+    <p class="melab__eyebrow">Lab 01 · kesit özellikleri</p>
+    <h3>Aynı alan, farklı kesit</h3>
+    <p>Şekli ve boyutları değiştirin. Kırmızı kesikli çizgi tarafsız eksendir; okunan \(I\) ve \(W\) değerleri eğilme gerilmesini belirler.</p>
+  </div>
+  <div class="melab__controls" data-controls>
+    <label class="mefield">Şekil
+      <select data-param="shape" data-default="rect">
+        <option value="rect">Dikdörtgen</option>
+        <option value="circle">Daire</option>
+        <option value="ibeam">I kesit</option>
+      </select>
+    </label>
+    <label class="mefield">Genişlik b (mm)
+      <input type="range" data-param="b" min="10" max="120" step="1" value="40" data-default="40">
+      <output data-out="b">40</output>
+    </label>
+    <label class="mefield">Yükseklik h (mm)
+      <input type="range" data-param="h" min="20" max="200" step="1" value="60" data-default="60">
+      <output data-out="h">60</output>
+    </label>
+    <label class="mefield">Çap d (mm)
+      <input type="range" data-param="d" min="10" max="150" step="1" value="60" data-default="60">
+      <output data-out="d">60</output>
+    </label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="melab__canvaswrap">
+    <canvas data-canvas data-height="330"></canvas>
+  </div>
+  <p class="melab__caption">Kesit, ölçekli çizilir; tarafsız eksen ve en dış lif işaretlidir.</p>
+  <div class="melab__readout" data-readout></div>
+  <p class="melab__status" data-status role="status"></p>
+</div>
+
+<p><strong>Ne fark ettiniz?</strong> \(I\) kesitte gövde incelirken bile yükseklik arttığı için \(I\) büyür; aynı alanlı dolu dikdörtgene göre en dış lif daha uzakta olsa da \(W\) genellikle artar. Bu, “malzemeyi eksenden uzağa koy” kuralının sayısal karşılığıdır.</p>
+
+<h2 id="ornek">Çözümlü örnek</h2>
+
+<aside class="callout callout--example">
+  <p><strong>Örnek.</strong> \(b=40\ \mathrm{mm}\), \(h=60\ \mathrm{mm}\) dikdörtgen kesit, \(M=2\ \mathrm{kN\cdot m}\). En dış eğilme gerilmesini bulun.</p>
+  <p><strong>1 — Kesit modülü.</strong></p>
+  <p>$$W=\frac{bh^2}{6}=\frac{40\cdot 60^2}{6}=24\,000\ \mathrm{mm^3}$$</p>
+  <p><strong>2 — Moment.</strong> \(M=2\ \mathrm{kN\cdot m}=2\times10^6\ \mathrm{N\cdot mm}\).</p>
+  <p><strong>3 — Gerilme.</strong></p>
+  <p>$$\sigma=\frac{M}{W}=\frac{2\times10^6}{24\,000}=83.3\ \mathrm{N/mm^2}=83.3\ \mathrm{MPa}$$</p>
+  <p><strong>4 — Birim kontrolü.</strong> \(\mathrm{N\cdot mm}/\mathrm{mm^3}=\mathrm{N/mm^2}=\mathrm{MPa}\). Sonuç, S235 çeliğinin akma dayanımının (\(235\ \mathrm{MPa}\)) altında; ancak bu bir <em>emniyet</em> hesabı değildir: yük katsayısı ve gerilme yığılması yoktur.</p>
+</aside>
+
+<h2 id="hatalar">Sık yapılan hatalar</h2>
+
+<table class="metable">
+  <caption>Kesit hesabında dört tuzak</caption>
+  <thead><tr><th>Hata</th><th>Neden yanlış</th><th>Doğrusu</th></tr></thead>
+  <tbody>
+    <tr><td>\(I\) ile \(W\)'yı karıştırmak</td><td>\(I\) \(\mathrm{mm^4}\), \(W\) \(\mathrm{mm^3}\); gerilme \(M/W\) ister</td><td>Önce \(I\), sonra \(c\), sonra \(W=I/c\)</td></tr>
+    <tr><td>\(c=h\) almak</td><td>Tarafsız eksen ortadadır; en dış lif \(h/2\) uzaklıktadır</td><td>Simetrik kesitte \(c=h/2\)</td></tr>
+    <tr><td>Daire için \(I=bh^3/12\) kullanmak</td><td>Dikdörtgen formülü daireye uymaz</td><td>\(I=\pi d^4/64\)</td></tr>
+    <tr><td>Gerilmeyi dayanımla karşılaştırıp “güvenli” demek</td><td>Emniyet faktörü, yük türü ve yorulma yok</td><td>\(\sigma \le \sigma_{\mathrm{em}}\); \(\sigma_{\mathrm{em}}=\sigma_Y/n\)</td></tr>
+  </tbody>
+</table>
+
+<h2 id="quiz">Hatırlama testi</h2>
+
+<div class="mequiz" data-quiz>
+  <div class="mequiz__q" data-answer="c" data-explain="W = I/c ve c = h/2 olduğu için W = bh²/6 olur; bh³/12 yalnızca I'dır.">
+    <p>1. Dikdörtgen kesitte kesit modülü \(W\) hangisidir?</p>
+    <div class="mequiz__opts">
+      <button class="mequiz__opt" data-option="a">\(bh^3/12\)</button>
+      <button class="mequiz__opt" data-option="b">\(bh^3/6\)</button>
+      <button class="mequiz__opt" data-option="c">\(bh^2/6\)</button>
+      <button class="mequiz__opt" data-option="d">\(bh^2/12\)</button>
+    </div>
+    <p class="mequiz__why" hidden></p>
+  </div>
+  <div class="mequiz__q" data-answer="b" data-explain="I alanın eksenden uzaklığının karesiyle ağırlıklandırılır; malzeme eksenden uzağa taşınınca I hızla artar.">
+    <p>2. Aynı alanlı iki kesitten hangisi daha büyük \(I\) verir?</p>
+    <div class="mequiz__opts">
+      <button class="mequiz__opt" data-option="a">Kare kesit</button>
+      <button class="mequiz__opt" data-option="b">İnce ve yüksek dikdörtgen</button>
+      <button class="mequiz__opt" data-option="c">Daire</button>
+      <button class="mequiz__opt" data-option="d">Hepsi aynı</button>
+    </div>
+    <p class="mequiz__why" hidden></p>
+  </div>
+  <div class="mequiz__q" data-answer="a" data-explain="2 kN·m = 2×10⁶ N·mm; 2×10⁶ / 24 000 = 83.3 N/mm² = 83.3 MPa.">
+    <p>3. \(W=24\,000\ \mathrm{mm^3}\) ve \(M=2\ \mathrm{kN\cdot m}\) için en dış gerilme?</p>
+    <div class="mequiz__opts">
+      <button class="mequiz__opt" data-option="a">83.3 MPa</button>
+      <button class="mequiz__opt" data-option="b">8.33 MPa</button>
+      <button class="mequiz__opt" data-option="c">833 MPa</button>
+      <button class="mequiz__opt" data-option="d">0.083 MPa</button>
+    </div>
+    <p class="mequiz__why" hidden></p>
+  </div>
+  <div class="mequiz__q" data-answer="d" data-explain="Emniyetli demek için akma dayanımını bir emniyet faktörüne bölmek ve yük katsayılarını hesaba katmak gerekir.">
+    <p>4. \(\sigma=83.3\ \mathrm{MPa}\) ve \(S_Y=235\ \mathrm{MPa}\) ise tasarım için ne söylenebilir?</p>
+    <div class="mequiz__opts">
+      <button class="mequiz__opt" data-option="a">Kesinlikle güvenli</button>
+      <button class="mequiz__opt" data-option="b">Kesinlikle güvensiz</button>
+      <button class="mequiz__opt" data-option="c">Yorulma sınırı aşıldı</button>
+      <button class="mequiz__opt" data-option="d">Emniyet faktörü ve yük katsayısı olmadan karar verilemez</button>
+    </div>
+    <p class="mequiz__why" hidden></p>
+  </div>
+</div>
+
+<h2 id="ozet">Özet</h2>
+
+<ul class="keypoints">
+  <li>\(I=\int y^2 dA\) geometrinin eğilmeye direncidir; birimi \(\mathrm{mm^4}\).</li>
+  <li>\(W=I/c\) gerilmeye çevirir; birimi \(\mathrm{mm^3}\).</li>
+  <li>Dikdörtgen: \(I=bh^3/12\), \(W=bh^2/6\). Daire: \(I=\pi d^4/64\), \(W=\pi d^3/32\).</li>
+  <li>Malzemeyi tarafsız eksenden uzağa koymak \(I\)'yı ve genellikle \(W\)'yı büyütür.</li>
+  <li>Gerilme hesabı tasarım değildir: emniyet faktörü, yük katsayısı ve yorulma ayrıca değerlendirilir.</li>
+</ul>
+
+<h2 id="alisirmalar">Alıştırmalar</h2>
+
+<div class="exercise">
+  <p><strong>1.</strong> \(b=30\ \mathrm{mm}\), \(h=90\ \mathrm{mm}\) dikdörtgen kesitte \(M=4\ \mathrm{kN\cdot m}\) ise en dış gerilmeyi bulun.</p>
+  <details class="solution">
+    <p>\(W=30\cdot90^2/6=40\,500\ \mathrm{mm^3}\). \(M=4\times10^6\ \mathrm{N\cdot mm}\). \(\sigma=4\times10^6/40\,500=98.8\ \mathrm{MPa}\).</p>
+  </details>
+</div>
+
+<div class="exercise">
+  <p><strong>2.</strong> Aynı alanı (\(2400\ \mathrm{mm^2}\)) koruyarak \(40\times60\) kesiti \(20\times120\) yaparsanız \(W\) kaç kat değişir?</p>
+  <details class="solution">
+    <p>\(W_1=40\cdot60^2/6=24\,000\ \mathrm{mm^3}\). \(W_2=20\cdot120^2/6=48\,000\ \mathrm{mm^3}\). Oran \(2\). Gerilme yarıya iner; \(I\) ise \(720\,000\)'den \(2\,880\,000\ \mathrm{mm^4}\)'e, yani 4 katına çıkar.</p>
+  </details>
+</div>
+
+<div class="exercise">
+  <p><strong>3.</strong> \(d=50\ \mathrm{mm}\) dairesel kesitte \(M=1.5\ \mathrm{kN\cdot m}\) için \(\sigma\) nedir? Sonucu bir \(40\times60\) dikdörtgenle karşılaştırın.</p>
+  <details class="solution">
+    <p>\(W=\pi\cdot50^3/32=12\,272\ \mathrm{mm^3}\). \(\sigma=1.5\times10^6/12\,272=122.2\ \mathrm{MPa}\). Dikdörtgenin \(W=24\,000\ \mathrm{mm^3}\) olduğundan aynı momentte dikdörtgen daha düşük gerilme verir; ancak alanları farklıdır (\(1963\) vs \(2400\ \mathrm{mm^2}\)), bu yüzden karşılaştırmayı birim alan başına yapmak gerekir.</p>
+  </details>
+</div>
+
+<aside class="callout callout--warning">
+  <p><strong>Model sınırı.</strong> Bu not Euler–Bernoulli eğilmesi, doğrusal elastik malzeme ve simetrik kesit varsayar. Kayma deformasyonu, plastikleşme, burulma ve yorulma kapsam dışıdır. I kesitte gövde burkulması ayrıca kontrol edilmelidir.</p>
+</aside>
+
+<p class="source-note">Doğrulama: <code>python3 ~/.agents/skills/interactive-me-notes/scripts/check_me.py beam 4 2 200 5e6 2</code> ve <code>check_me.py section 40 60</code>. Kaynak: Hibbeler, <em>Mechanics of Materials</em>, böl. 6; ISO 10303 değil, ders notu düzeyi.</p>

@@ -1,0 +1,315 @@
+/* ============================================================
+   Interactive mechanical engineering notes — lab layer
+   Sits on top of html-study-notes. Vanilla CSS, no framework.
+   ============================================================ */
+
+:root {
+  --lab-tension: #2f5d8a;
+  --lab-compression: #9a3b32;
+  --lab-hot: #b0502a;
+  --lab-cold: #2f6b7a;
+  --lab-grid: rgba(30, 27, 23, 0.10);
+  --lab-grid-strong: rgba(30, 27, 23, 0.22);
+  --lab-band: rgba(47, 93, 138, 0.10);
+  --lab-ok: #2f6b4f;
+  --lab-bad: #9a3b32;
+}
+
+html[data-theme="dark"] {
+  --lab-tension: #8db8df;
+  --lab-compression: #e39a7d;
+  --lab-hot: #e08a5a;
+  --lab-cold: #8fc9c9;
+  --lab-grid: rgba(242, 236, 223, 0.10);
+  --lab-grid-strong: rgba(242, 236, 223, 0.24);
+  --lab-band: rgba(141, 184, 223, 0.10);
+  --lab-ok: #8fc9a9;
+  --lab-bad: #e39a7d;
+}
+
+/* ---------- shell ---------- */
+
+.lab {
+  margin: var(--space-xl) 0;
+  padding: var(--space-m) 0 var(--space-s);
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  break-inside: avoid-page;
+}
+
+.lab__head { margin-bottom: var(--space-s); }
+.lab__eyebrow {
+  margin: 0 0 0.2rem;
+  font: 600 0.66rem/1.4 var(--font-ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.lab__head h3 {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.lab__head p {
+  margin: 0;
+  max-width: 64ch;
+  color: var(--ink-2);
+  font-size: 0.96rem;
+}
+
+/* ---------- controls ---------- */
+
+.lab__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.55rem 0.8rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--space-s);
+}
+
+.labfield {
+  display: grid;
+  gap: 0.18rem;
+  font: 600 0.62rem/1.2 var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 8.5rem;
+}
+
+.labfield select,
+.labfield input[type="range"],
+.labfield input[type="number"] {
+  font: 500 0.82rem/1.2 var(--font-ui);
+  color: var(--ink);
+  background: var(--sheet);
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  padding: 0.28rem 0.35rem;
+  accent-color: var(--accent);
+  min-height: 2rem;
+}
+.labfield input[type="range"] { padding: 0; }
+.labfield output {
+  font: 500 0.78rem/1.2 var(--font-mono);
+  color: var(--ink);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.lab button {
+  font: 600 0.68rem/1.2 var(--font-ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  padding: 0.42rem 0.7rem;
+  cursor: pointer;
+  min-height: 2rem;
+}
+.lab button:hover { border-color: var(--accent); }
+.lab button:focus-visible,
+.labfield input:focus-visible,
+.labfield select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- canvas ---------- */
+
+.lab__canvaswrap {
+  position: relative;
+  margin: 0 0 var(--space-2xs);
+  background: color-mix(in srgb, var(--sheet) 92%, var(--paper));
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.lab canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+}
+.lab__canvaswrap:focus-within { border-color: var(--accent); }
+.lab__caption {
+  margin: 0.25rem 0 var(--space-s);
+  font: 400 0.74rem/1.45 var(--font-ui);
+  color: var(--muted);
+}
+
+/* ---------- readout ---------- */
+
+.lab__readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.4rem 0.9rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.lab__readout dl { margin: 0; display: grid; gap: 0.1rem; }
+.lab__readout dt {
+  font: 600 0.6rem/1.2 var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.lab__readout dd {
+  margin: 0;
+  font: 500 0.9rem/1.3 var(--font-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.lab__status {
+  margin: 0.55rem 0 var(--space-s);
+  min-height: 2.6em;
+  font: 400 0.82rem/1.55 var(--font-ui);
+  color: var(--ink-2);
+}
+.lab__status[data-tone="ok"] { color: var(--lab-ok); }
+.lab__status[data-tone="bad"] { color: var(--lab-bad); }
+
+.lab__hint {
+  margin: 0 0 var(--space-2xs);
+  font: 400 0.78rem/1.5 var(--font-ui);
+  color: var(--muted);
+}
+
+/* ---------- predict ---------- */
+
+.predict {
+  margin: 0 0 var(--space-s);
+  padding: 0.55rem 0.75rem;
+  border-left: 2px solid var(--accent);
+  background: var(--lab-band);
+  font-size: 0.92rem;
+}
+.predict summary {
+  cursor: pointer;
+  font: 600 0.68rem/1.4 var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.predict p { margin: 0.4rem 0 0; color: var(--ink-2); }
+
+/* ---------- quiz ---------- */
+
+.labquiz { margin: var(--space-m) 0; }
+.labquiz__q {
+  padding: 0.8rem 0;
+  border-top: 1px solid var(--rule);
+}
+.labquiz__q p { margin: 0 0 0.55rem; max-width: 70ch; }
+.labquiz__opts { display: grid; gap: 0.35rem; }
+.labquiz__opt {
+  text-align: left;
+  font: 400 0.86rem/1.45 var(--font-ui) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  padding: 0.45rem 0.6rem !important;
+  border: 1px solid var(--rule) !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+}
+.labquiz__opt:hover { border-color: var(--accent) !important; }
+.labquiz__opt[data-state="right"] {
+  border-color: var(--lab-ok) !important;
+  background: color-mix(in srgb, var(--lab-ok) 10%, transparent) !important;
+}
+.labquiz__opt[data-state="wrong"] {
+  border-color: var(--lab-bad) !important;
+  background: color-mix(in srgb, var(--lab-bad) 9%, transparent) !important;
+}
+.labquiz__why {
+  margin: 0.5rem 0 0;
+  font: 400 0.82rem/1.55 var(--font-ui);
+  color: var(--ink-2);
+}
+.labquiz__why[hidden] { display: none; }
+
+/* ---------- tables ---------- */
+
+.metable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-s) 0;
+  font: 400 0.84rem/1.4 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+.metable caption {
+  caption-side: top;
+  text-align: left;
+  font: 600 0.66rem/1.4 var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 0.3rem;
+}
+.metable th, .metable td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: right;
+}
+.metable th:first-child, .metable td:first-child { text-align: left; }
+.metable thead th {
+  border-bottom: 1px solid var(--rule-strong);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.metable tbody tr:last-child td { border-bottom: 0; }
+.metable__scroll { overflow-x: auto; }
+
+/* ---------- figure / svg ---------- */
+
+.mefigure {
+  margin: var(--space-m) 0;
+  padding: var(--space-s);
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+.mefigure svg { display: block; width: 100%; height: auto; }
+.mefigure figcaption {
+  margin-top: 0.55rem;
+  font: 400 0.78rem/1.5 var(--font-ui);
+  color: var(--muted);
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  .lab__controls,
+  .lab button,
+  .predict summary,
+  .labquiz__opts { display: none !important; }
+  .lab {
+    break-inside: avoid-page;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+  }
+  .lab__canvaswrap { border: 1px solid #bbb; }
+  .lab__status { min-height: 0; }
+  .labquiz__why[hidden] { display: block !important; }
+  .labquiz__why::before { content: "Açıklama: "; font-weight: 600; }
+  .metable { font-size: 9pt; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab *, .labquiz * { transition: none !important; animation: none !important; }
+}
+
+@media (max-width: 520px) {
+  .lab__controls { gap: 0.45rem 0.6rem; }
+  .labfield { min-width: 7.2rem; flex: 1 1 7.2rem; }
+  .lab__readout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

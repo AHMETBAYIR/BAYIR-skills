@@ -1,0 +1,26 @@
+{
+  "deck": "Tıp::Kardiyovasküler",
+  "source": "Kardiyovasküler fizyoloji notu · 2026-11-12",
+  "cards": [
+    {
+      "front": "SV formülü nedir?",
+      "back": "SV = EDV − ESV (mL)",
+      "tags": ["fizyoloji", "kardiyo", "formül"]
+    },
+    {
+      "front": "EF %55, SV 45 mL, HR 90/dk ise CO kaçtır?",
+      "back": "CO = SV × HR = 45 × 90 = 4050 mL/dk = 4,05 L/dk. EF normal olsa da SV ve HR birlikte düşük CO üretebilir.",
+      "tags": ["fizyoloji", "kardiyo", "hesap"]
+    },
+    {
+      "front": "Ea (afterload) artarsa ESV, SV ve EF nasıl değişir?",
+      "back": "ESV artar, SV düşer; EF korunabilir çünkü EDV de küçülebilir. Ea, SVR ile aynı şey değildir.",
+      "tags": ["fizyoloji", "kardiyo", "pv-loop"]
+    },
+    {
+      "front": "CaO₂ formülü nedir?",
+      "back": "CaO₂ = 1,34 × Hb × SaO₂ + 0,003 × PaO₂ (mL O₂/dL kan). SaO₂ yüzdeyi, CaO₂ içeriği gösterir.",
+      "tags": ["solunum", "oksijen", "formül"]
+    }
+  ]
+}

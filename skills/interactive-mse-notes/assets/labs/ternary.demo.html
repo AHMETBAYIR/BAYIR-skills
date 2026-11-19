@@ -1,0 +1,84 @@
+<p class="lede">A ternary composition is a point, not a list of three independent numbers: once two components are fixed, the third is fixed by the balance. This demo page exercises the <code>ternary</code> lab module — composition reading, a schematic isothermal section, and the three-phase lever rule.</p>
+
+<h2 id="degrees">A ternary composition has two degrees of freedom</h2>
+<p>For a three-component mixture the fractions obey <em>a</em> + <em>b</em> + <em>c</em> = 1. Plot the composition in an equilateral triangle: A at the top, B at the bottom left, C at the bottom right. A point inside the triangle is one alloy; the three perpendicular distances to the sides are the three fractions. A line of constant A is parallel to the B–C edge, a line of constant B is parallel to the A–C edge, and a line of constant C is parallel to the A–B edge.</p>
+
+<aside class="callout callout--definition">
+  <p><strong>Definition.</strong> A ternary composition is a point in the composition simplex. In barycentric coordinates the point is a weighted average of the three vertices, and the weights are the component fractions. The basis matters: 40 at% Cr and 40 wt% Cr are different alloys, so the axis label must say which one is plotted.</p>
+</aside>
+
+<h2 id="barycentric">Barycentric coordinates are area ratios</h2>
+<p>Barycentric coordinates are the two-dimensional form of the lever rule. For a point <em>P</em> inside a triangle with vertices <em>X</em><sub>α</sub>, <em>X</em><sub>β</sub>, <em>X</em><sub>γ</sub>, the three weights satisfy</p>
+
+<div class="equation"><div class="equation__body">$$ f_\alpha = \frac{\text{area}(P X_\beta X_\gamma)}{\text{area}(X_\alpha X_\beta X_\gamma)},\qquad f_\alpha + f_\beta + f_\gamma = 1,\qquad \sum_i f_i\,X_i = P. $$</div><div class="equation__tag">1</div></div>
+
+<p>The fraction of a phase is the area of the sub-triangle <em>opposite</em> its vertex, divided by the whole triangle. It is the same "opposite segment" idea as the binary lever rule, extended to two dimensions. If the point is in a two-phase band instead, the construction collapses to a line: a tie line joins the two phase boundaries, and the fractions are the two segment lengths.</p>
+
+<h2 id="lab">Lab: read the map and split the point three ways</h2>
+<p>Click or drag inside the triangle. The readout separates the composition (always three percentages that add to 100.0) from the phase fractions (weights that add to 1.000 whenever a lever rule applies). Inside the central triangle both are active at once.</p>
+
+<div class="mselab" data-mse-lab="ternary">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 01 · ternary phase equilibria</p>
+    <h3>Place an alloy and read its three phase fractions</h3>
+    <p>The composition point sets A, B, and C. The phase map is a schematic isothermal section: single-phase corners, two-phase bands along the edges, and a central three-phase triangle. Drag the point and watch the construction change.</p>
+  </div>
+
+  <details class="predict">
+    <summary>Predict first</summary>
+    <p>The default point is A 42 / B 30 / C 28, inside the α+β+γ triangle. Predict the order of the three phase fractions from largest to smallest. Then drag toward the α corner: does f<sub>α</sub> rise or fall? Check whether the largest fraction belongs to the nearest vertex.</p>
+  </details>
+
+  <div class="mselab__controls" data-controls></div>
+
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap">
+        <canvas class="mselab__canvas mselab__canvas--fixed" data-canvas data-height="460" role="img" aria-label="Ternary composition triangle with a point at A 42.0 percent, B 30.0 percent, C 28.0 percent inside the three-phase triangle">A ternary composition triangle. A is the top vertex, B the bottom-left vertex, and C the bottom-right vertex. The phase map has single-phase corners, two-phase bands along the edges, and a central three-phase triangle.</canvas>
+      </div>
+      <p class="mselab__caption">Gridlines and ticks are every 10%. The dashed accent lines through the point are the constant-A, constant-B, and constant-C reads. Solid boundaries separate the phase fields; the tinted centre is the three-phase triangle. The boundaries are straight teaching lines, not a calculated equilibrium.</p>
+      <div class="mselab__legend" aria-hidden="true">
+        <span><i class="mselab__swatch" style="background: var(--mse-alpha)"></i> α</span>
+        <span><i class="mselab__swatch" style="background: var(--mse-beta)"></i> β</span>
+        <span><i class="mselab__swatch" style="background: var(--mse-gamma)"></i> γ</span>
+        <span><i class="mselab__swatch" style="background: var(--accent-soft)"></i> α+β+γ</span>
+        <span><i class="mselab__swatch" style="background: var(--rule)"></i> two-phase</span>
+      </div>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+
+  <p class="mselab__print">Print fallback: with the default map, the point A 42.0%, B 30.0%, C 28.0% lies inside the α+β+γ triangle. Its barycentric phase fractions are f<sub>α</sub> = 0.550, f<sub>β</sub> = 0.250, and f<sub>γ</sub> = 0.200; they sum to 1.000 and reproduce the composition.</p>
+
+  <script type="application/json" class="mselab-config">
+  {
+    "components": ["A", "B", "C"],
+    "basis": "at%",
+    "point": [0.42, 0.30, 0.28],
+    "corner": 0.85,
+    "threePhase": {
+      "alpha": [0.60, 0.20, 0.20],
+      "beta": [0.20, 0.60, 0.20],
+      "gamma": [0.20, 0.20, 0.60]
+    },
+    "labels": {"alpha": "α", "beta": "β", "gamma": "γ"}
+  }
+  </script>
+</div>
+
+<h2 id="check">What to check before you trust a reading</h2>
+<ul>
+  <li>The three composition percentages add to 100.0%. The lab rounds to one decimal with a largest-remainder rule, so even a three-way split can print 33.4 / 33.3 / 33.3 without losing the last tenth.</li>
+  <li>Inside the central triangle, the three phase fractions add to 1.000 and their weighted compositions return the alloy point. The readout prints the residual so the check is visible, not asserted.</li>
+  <li>In a two-phase band, the tie line must terminate on the two phase boundaries. A tie line that stops in the middle of a field is a drawing error, not an equilibrium state.</li>
+  <li>In a single-phase field there is no lever rule: the phase composition is the alloy composition. A "fraction" of 1 is the whole field, not a mixture.</li>
+  <li>Read the basis (at%, wt%, mol%) before comparing two compositions. The lever rule is linear in the composition variable of the axes, so an at% diagram returns atomic fractions, not mass fractions.</li>
+</ul>
+
+<aside class="callout callout--note">
+  <p><strong>Model note.</strong> The phase boundaries in this lab are straight lines chosen to make the topology visible. A real isothermal section has curved boundaries and tie-line directions set by the free energy; use this lab to practise reading and balancing, not to extract a phase diagram for a real alloy.</p>
+</aside>

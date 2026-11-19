@@ -1,0 +1,417 @@
+/* ============================================================
+   Interactive materials science notes — lab layer
+   Sits on top of the html-study-notes design system.
+   Vanilla CSS. No framework, no external fonts, no canvas lib.
+   ============================================================ */
+
+:root {
+  --mse-alpha: #2f5d8a;
+  --mse-beta: #9a3b32;
+  --mse-liquid: #b07a2a;
+  --mse-gamma: #2f6b4f;
+  --mse-grid: rgba(30, 27, 23, 0.10);
+  --mse-grid-strong: rgba(30, 27, 23, 0.22);
+  --mse-atom-a: #6f93b8;
+  --mse-atom-b: #c07a6a;
+  --mse-atom-edge: rgba(30, 27, 23, 0.35);
+  --mse-band: rgba(47, 93, 138, 0.10);
+}
+
+html[data-theme="dark"] {
+  --mse-alpha: #8db8df;
+  --mse-beta: #e39a7d;
+  --mse-liquid: #e0a95a;
+  --mse-gamma: #8fc9a9;
+  --mse-grid: rgba(242, 236, 223, 0.10);
+  --mse-grid-strong: rgba(242, 236, 223, 0.24);
+  --mse-atom-a: #8fb4d8;
+  --mse-atom-b: #d99a88;
+  --mse-atom-edge: rgba(242, 236, 223, 0.35);
+  --mse-band: rgba(141, 184, 223, 0.10);
+}
+
+/* ---------- shell ---------- */
+
+.mselab {
+  margin: var(--space-xl) 0;
+  padding: var(--space-m) 0 var(--space-s);
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  break-inside: avoid-page;
+}
+
+.mselab__head { margin-bottom: var(--space-s); }
+.mselab__eyebrow {
+  margin: 0 0 0.2rem;
+  font: 600 0.66rem/1.4 var(--font-ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mselab__head h3 {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.mselab__head p {
+  margin: 0;
+  max-width: 64ch;
+  color: var(--ink-2);
+  font-size: 0.96rem;
+}
+
+/* ---------- controls ---------- */
+
+.mselab__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.55rem 0.8rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--space-s);
+}
+
+.msefield {
+  display: grid;
+  gap: 0.18rem;
+  font: 600 0.62rem/1.2 var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 8.5rem;
+}
+
+.msefield select,
+.msefield input[type="range"] {
+  font: 500 0.82rem/1.2 var(--font-ui);
+  color: var(--ink);
+}
+
+.msefield select {
+  padding: 0.32rem 0.4rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  max-width: 15rem;
+}
+
+.msefield input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  min-width: 7rem;
+}
+
+.msefield output {
+  font: 500 0.78rem/1.2 var(--font-mono);
+  color: var(--ink-2);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.msebtn {
+  font: 500 0.74rem/1 var(--font-ui);
+  padding: 0.42rem 0.62rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--sheet);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+}
+.msebtn:hover { border-color: var(--accent); color: var(--accent); }
+.msebtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.msebtn[aria-pressed="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.msebtn--ghost { border-color: transparent; background: transparent; }
+
+/* ---------- grid ---------- */
+
+.mselab__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(13rem, 0.75fr);
+  gap: var(--space-m);
+  align-items: start;
+}
+
+.mselab__canvas-wrap {
+  position: relative;
+  width: 100%;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.mselab__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+  cursor: grab;
+}
+.mselab__canvas:active { cursor: grabbing; }
+.mselab__canvas--fixed { cursor: crosshair; }
+
+.mselab__caption {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.mselab__panel { display: grid; gap: 0.7rem; align-content: start; }
+
+.mselab__readout {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.6rem 0.7rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  font: 500 0.8rem/1.35 var(--font-ui);
+}
+.mselab__readout dl { margin: 0; display: grid; gap: 0.22rem; }
+.mselab__readout .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  border-bottom: 1px dotted var(--rule);
+  padding-bottom: 0.15rem;
+}
+.mselab__readout .row:last-child { border-bottom: 0; }
+.mselab__readout dt { color: var(--muted); font-weight: 500; }
+.mselab__readout dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  text-align: right;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.mselab__status {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+  min-height: 3.4em;
+}
+
+.mselab__hint {
+  margin: 0;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.mselab__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.7rem;
+  font: 500 0.7rem/1.3 var(--font-ui);
+  color: var(--ink-2);
+}
+.mselab__legend span { display: inline-flex; align-items: center; gap: 0.3rem; }
+.mselab__swatch {
+  width: 0.75rem; height: 0.75rem; border-radius: 2px;
+  border: 1px solid rgba(0,0,0,0.18);
+}
+
+/* ---------- phase fraction bar ---------- */
+
+.msebar {
+  display: flex;
+  width: 100%;
+  height: 1.4rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--sheet);
+}
+.msebar__part {
+  display: grid;
+  place-items: center;
+  font: 600 0.62rem/1 var(--font-ui);
+  color: #fffdf8;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 140ms ease;
+}
+html[data-theme="dark"] .msebar__part { color: #16130f; }
+.msebar__part--alpha { background: var(--mse-alpha); }
+.msebar__part--beta { background: var(--mse-beta); }
+.msebar__part--liquid { background: var(--mse-liquid); color: #fffdf8; }
+.msebar__part--empty { background: var(--rule); color: var(--muted); }
+
+/* ---------- mini table ---------- */
+
+.msetable {
+  width: 100%;
+  border-collapse: collapse;
+  font: 500 0.74rem/1.35 var(--font-ui);
+}
+.msetable caption {
+  caption-side: top;
+  text-align: left;
+  font: 600 0.62rem/1.4 var(--font-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 0.25rem;
+}
+.msetable th,
+.msetable td {
+  padding: 0.25rem 0.35rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: right;
+  white-space: nowrap;
+}
+.msetable th:first-child,
+.msetable td:first-child { text-align: left; }
+.msetable th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.msetable tr:last-child td { border-bottom: 0; }
+
+/* ---------- quiz ---------- */
+
+.msequiz {
+  margin: var(--space-l) 0;
+  padding: var(--space-m) 0;
+  border-top: 1px solid var(--rule-strong);
+  break-inside: avoid;
+}
+.msequiz__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+  font: 600 0.7rem/1.4 var(--font-ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.msequiz__bar .msebtn { margin-left: auto; text-transform: none; letter-spacing: 0; }
+.msequiz__bar .msebtn + .msebtn { margin-left: 0; }
+.msequiz__question {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.msequiz__question:last-child { border-bottom: 0; }
+.msequiz__prompt {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.msequiz__prompt .qnum {
+  font: 600 0.68rem/1 var(--font-ui);
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-right: 0.35rem;
+}
+.msequiz__options { display: grid; gap: 0.35rem; }
+.msequiz__option {
+  text-align: left;
+  font: 500 0.86rem/1.45 var(--font-body);
+  padding: 0.42rem 0.6rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--sheet);
+  color: var(--ink);
+  cursor: pointer;
+}
+.msequiz__option:hover:not(:disabled) { border-color: var(--accent); }
+.msequiz__option:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.msequiz__option:disabled { cursor: default; }
+.msequiz__option.is-correct { border-color: var(--ex); background: var(--ex-soft); }
+.msequiz__option.is-wrong { border-color: var(--accent); background: var(--accent-soft); }
+.msequiz__option.is-correct::after { content: "  ✓"; color: var(--ex); }
+.msequiz__option.is-wrong::after { content: "  ✗"; color: var(--accent); }
+.msequiz__explain {
+  display: none;
+  margin: 0.45rem 0 0;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+  background: var(--note-soft);
+  border-left: 2px solid var(--rule-strong);
+}
+.msequiz__question.is-answered .msequiz__explain { display: block; }
+.msequiz__explain strong { color: var(--ink); }
+
+/* ---------- static figure helper ---------- */
+
+.msefig {
+  margin: var(--space-m) 0;
+  padding: 0.8rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.msefig svg { display: block; width: 100%; height: auto; }
+.msefig figcaption {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* ---------- predict / print ---------- */
+
+.mselab .predict { margin: 0 0 var(--space-s); }
+.mselab__print { display: none; }
+.mselab__print-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 760px) {
+  .mselab__grid { grid-template-columns: 1fr; gap: var(--space-s); }
+  .mselab__panel { grid-template-columns: 1fr; }
+  .msefield { min-width: 7.2rem; }
+  .mselab__canvas-wrap { border-left: 0; border-right: 0; margin-inline: -0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msebtn, .msebar__part { transition: none; }
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  .mselab__controls,
+  .mselab__hint,
+  .msequiz__bar,
+  .msebtn { display: none !important; }
+  .mselab {
+    margin: 1.2rem 0;
+    padding-top: 0.8rem;
+    border-top: 1px solid #999;
+  }
+  .mselab__grid { grid-template-columns: 1.4fr 0.8fr; gap: 1rem; }
+  .mselab__canvas-wrap { break-inside: avoid; }
+  .mselab__readout { border-left: 2px solid #999; }
+  .mselab__status { min-height: 0; }
+  .msequiz__option { border-color: #bbb; }
+  .msequiz__explain { display: block !important; background: none; border-left-color: #999; }
+  .mselab__print { display: block; font-size: 0.8rem; color: #333; }
+}

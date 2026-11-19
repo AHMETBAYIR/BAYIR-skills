@@ -1,0 +1,308 @@
+
+<h2 id="galeri">Lab galerisi</h2>
+
+<p class="lede">Bu galeri, <strong>interactive-med-notes</strong> motorlarının görsel ve davranışsal bir duman testidir. Her lab tek bir öğrenme iddiasını izole eder: önce tahmin et, sonra parametreyi değiştir, çıktıyı oku ve mekanizmayı bir cümleyle açıkla.</p>
+
+<div class="keypoints">
+  <p class="keypoints__title">Nasıl kullanılır</p>
+  <ul>
+    <li>Her labda önce <strong>Tahmin et</strong> kutusunu aç; cevabı yazmadan sliders'a dokunma.</li>
+    <li>Bir seferde yalnızca bir parametreyi değiştir; hangi çıktının değiştiğini not et.</li>
+    <li>Sağdaki durum satırı, sonucu <em>neden</em> açıklar. Yalnızca sayıyı okuma.</li>
+    <li>Yazdırma önizlemesinde kontroller kaybolur; <code>data-print</code> satırı ve okuma değerleri kalır.</li>
+  </ul>
+</div>
+
+<div class="medsafe"><strong>Eğitim sınırı</strong> Eğitim amaçlıdır. Bu sayfadaki tüm izler, kesitler ve skorlar sentetiktir. Hiçbiri tanı, doz veya tedavi kararı için kullanılmaz. Gerçek hasta değerlendirmesi klinik bağlam, doğrulanmış ölçüm ve hekim yargısı gerektirir.</div>
+
+
+<div class="medlab" data-med-lab="ecg">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 01 · Kardiyovasküler</p>
+    <h3>Sentetik EKG: hız, eksen ve QTc</h3>
+    <p>P-QRS-T dalgalarını, eksen projeksiyonunu ve QTc'yi aynı anda değiştir. Bu bir tanı aracı değil; ölçüm mantığını gösteren sentetik bir iz.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>Kalp hızını 60'tan 120'ye çıkarınca RR aralığı ve QTc nasıl değişir? Önce tahmin et, sonra QT'yi sabit tutarak dene.</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="380" role="img" aria-label="Sentetik elektrokardiyogram ve eksen çemberi."></canvas>
+      </div>
+      <p class="medlab__caption">Lead II sentetik ritim stripi; alt panelde I, II, III projeksiyonları ve eksen çemberi.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">Einthoven: II = I + III. Eksen, I ve aVF'nin net yönünden okunur; QTc Bazett yüksek hızda fazla düzeltir.</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="pvloop">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 02 · Kardiyovasküler</p>
+    <h3>Basınç–hacim döngüsü: preload, kontraktilite, afterload</h3>
+    <p>EDV, Ees ve Ea'yı değiştirerek SV, EF, CO ve stroke work'ü izle. Normal EF'nin düşük CO'yu gizleyebildiğini gör.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>Ea'yı 2,0'dan 4,0 mmHg/mL'ye çıkarırsan ESV, SV ve EF hangi yöne gider? Tahmin et, sonra sliders ile kontrol et.</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="370" role="img" aria-label="Basınç-hacim döngüsü ve türetilmiş kardiyak output değerleri."></canvas>
+      </div>
+      <p class="medlab__caption">Şematik PV döngüsü; ESPVR eğrisi ve EDV/ESV işaretleri.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">SV = EDV − ESV; EF = SV/EDV; CO = SV × HR. Ees kontraktilite, Ea afterload'un lumped ölçüsüdür.</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="oxygen">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 03 · Solunum</p>
+    <h3>Oksijen–hemoglobin eğrisi ve oksijen içeriği</h3>
+    <p>PaO₂, Hb, pH, sıcaklık ve COHb'yi değiştir. Saturasyon ile içerik arasındaki farkı ve CO zehirlenmesinde nabız oksimetresinin neden yanıltıcı olabileceğini gör.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>Hb 15'ten 8 g/dL'ye düşerse SaO₂ aynı kalır mı, CaO₂ aynı kalır mı? Önce yaz.</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="360" role="img" aria-label="Oksijen-hemoglobin eğrisi ve oksijen içeriği."></canvas>
+      </div>
+      <p class="medlab__caption">Hill eğrisi; kesikli çizgi normal P50, düz çizgi seçili koşullar.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">CaO₂ = 1,34 × Hb × SaO₂ + 0,003 × PaO₂. P50 sağa kayarsa aynı PaO₂'de SaO₂ düşer.</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="acidbase">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 04 · Nefroloji / Solunum</p>
+    <h3>Asit–baz: pH, kompansasyon ve anyon açığı</h3>
+    <p>PaCO₂, HCO₃⁻ ve elektrolitleri değiştir. Primer bozukluğu, beklenen kompansasyonu ve düzeltilmiş anyon açığını birlikte oku.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>HCO₃⁻ 10 mEq/L ve PaCO₂ 25 mmHg ise pH kaç olur? Winter formülüne uyuyor mu? Tahmin et, sonra hesapla.</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="360" role="img" aria-label="Asit-baz nomogramı ve anyon açığı hesapları."></canvas>
+      </div>
+      <p class="medlab__caption">pH–HCO₃⁻ düzlemi; kesikli eğriler PaCO₂ izobarı, taralı bant normal pH.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">pH = 6,1 + log₁₀[HCO₃⁻/(0,03 × PaCO₂)]. Anyon açığı = Na⁺ − (Cl⁻ + HCO₃⁻).</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="pk">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 05 · Farmakoloji</p>
+    <h3>Bir kompartman PK: IV ve oral eğri</h3>
+    <p>Doz, Vd, CL, F ve ka'yı değiştir. t½'nin dozdan bağımsız olduğunu, AUC'nin F ve CL'ye bağlı olduğunu gör.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>Aynı dozda F 0,6'dan 0,3'e düşerse Cmax ve AUC nasıl değişir? t½ değişir mi?</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="360" role="img" aria-label="Farmakokinetik konsantrasyon-zaman eğrisi."></canvas>
+      </div>
+      <p class="medlab__caption">Konsantrasyon–zaman eğrisi; IV bolus veya oral absorpsiyon.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">k = CL/Vd; t½ = ln2/k; AUC = F·D/CL. Oral eğride Tmax, ka ve k arasındaki yarışla belirlenir.</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="pd">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 06 · Farmakoloji</p>
+    <h3>Doz–yanıt: Emax, EC50 ve antagonizma</h3>
+    <p>Emax, EC50 ve Hill katsayısını değiştir; kompetitif ve nonkompetitif antagonizmayı karşılaştır. Güç ile etkinliğin aynı şey olmadığını gör.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>Kompetitif antagonist [I] = Ki iken EC50 kaç katına çıkar? Emax değişir mi?</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="350" role="img" aria-label="Doz-yanıt eğrisi ve antagonizma kayması."></canvas>
+      </div>
+      <p class="medlab__caption">Log-konsantrasyon–etki eğrisi; kesikli çizgi antagonizmasız eğri.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">E = Emax·Cⁿ/(EC50ⁿ + Cⁿ). Kompetitif: EC50′ = EC50(1 + [I]/Ki). Nonkompetitif: Emax′ = Emax/(1 + [I]/Ki).</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="epi">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 07 · Halk Sağlığı</p>
+    <h3>2×2 tablo: prevalans PPV'yi nasıl değiştirir?</h3>
+    <p>Aynı sensitivite ve spesifite ile farklı prevalanslarda PPV/NPV'yi karşılaştır. Base-rate neglect'i sayıyla gör.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>Prevalans %1 iken sensitivite %90, spesifite %95 ise pozitif testin gerçek hasta olma olasılığı %90 mı? Tahmin et.</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="360" role="img" aria-label="İkiye iki tablosu ve prevalans etkisi."></canvas>
+      </div>
+      <p class="medlab__caption">1000 kişilik kohortta TP/FN/FP/TN dağılımı ve 2×2 tablo.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">PPV = TP/(TP+FP). Sensitivite hastaları, spesifite sağlıklıları yakalar; PPV pozitif testin içindeki gerçek hasta oranıdır.</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="visualfield">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 08 · Nöroanatomi</p>
+    <h3>Görme alanı defektini lokalize et</h3>
+    <p>Lezyon yerini seç; iki gözün görme alanında kaybın nerede olduğunu gör. Kiazma, trakt, Meyer, parietal ve oksipital paternleri karşılaştır.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>Bitemporal hemianopi hangi yapıyı işaret eder? Homonim hemianopi hangi tarafta kayıp verir?</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="350" role="img" aria-label="Görme alanı defekt şeması."></canvas>
+      </div>
+      <p class="medlab__caption">Sol ve sağ gözün şematik görme alanı; kırmızı noktalar kaybı, T temporal alanı gösterir.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">Kiazma: çaprazlaşan nazal lifler → bitemporal. Retrokiazmal: homonim. Meyer: üst kuadrant. Parietal: alt kuadrant. Oksipital: makula korunabilir.</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="ct">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 09 · Radyoloji</p>
+    <h3>BT pencereleme: aynı HU, farklı gri tonu</h3>
+    <p>WW ve WL'yi değiştir; kesite tıklayarak probun HU değerini oku. Pencerelemenin tanıyı değil görüntülemeyi değiştirdiğini gör.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>Beyin penceresinde (WW 80, WL 40) gri madde ile beyaz madde arasındaki kontrast, kemik penceresinde (WW 2000, WL 500) nasıl değişir?</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="380" role="img" aria-label="Sentetik bilgisayarlı tomografi kesiti ve pencereleme."></canvas>
+      </div>
+      <p class="medlab__caption">Sentetik aksiyal BT kesiti; hematom, ventrikül ve kalsifikasyon. Kesite tıkla.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">Gösterim = clamp((HU − (WL − WW/2))/WW, 0, 1). Pencereleme görüntülenen kontrastı değiştirir; dokunun HU'su değişmez.</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<div class="medlab" data-med-lab="brachial">
+  <header class="medlab__head">
+    <p class="medlab__eyebrow">Lab 10 · Anatomi</p>
+    <h3>Brachial plexus lezyon lokalizasyonu</h3>
+    <p>Kök, trunkus, kord ve terminal dal düzeyinde lezyon seç. Tutulan dalları ve beklenen motor/duyu defisitini birlikte oku.</p>
+  </header>
+  <details class="predict">
+    <summary>Tahmin et</summary>
+    <p>C5–C6 kök lezyonunda neden el intrinsikleri korunur? C8–T1 lezyonunda Horner neden görülebilir?</p>
+  </details>
+  <div class="medlab__controls" data-controls></div>
+  <div class="medlab__grid medlab__grid--stack">
+    <div>
+      <div class="medlab__canvas-wrap">
+        <canvas class="medlab__canvas" data-canvas data-height="340" role="img" aria-label="Brachial plexus lezyon şeması."></canvas>
+      </div>
+      <p class="medlab__caption">Şematik brachial plexus; kırmızı halka lezyon düzeyini, kırmızı dallar tutulan yapıları gösterir.</p>
+    </div>
+    <div class="medlab__panel">
+      <div class="medlab__readout" data-readout></div>
+      <p class="medlab__status" data-status aria-live="polite"></p>
+      <p class="medlab__hint">Üst trunkus C5–C6 → omuz abdüksiyonu ve dirsek fleksiyonu. Alt trunkus C8–T1 → el intrinsikleri; T1 sempatik lifleri → Horner.</p>
+    </div>
+  </div>
+  <p class="medlab__print" data-print></p>
+</div>
+
+
+<h2 id="kaynaklar">Kaynaklar ve doğrulama</h2>
+<p>Her labın sayısal çekirdeği <code>scripts/check_med.py</code> içinde bağımsız olarak yeniden yazılmıştır. Motor ile kontrolcü aynı kodu paylaşmaz; bu yüzden bir birim veya formül hatası iki tarafta aynı anda oluşmaz.</p>
+<ul>
+  <li><a href="https://www.escardio.org/Guidelines">ESC kılavuzları</a> — kardiyovasküler eşikler ve sınıflamalar.</li>
+  <li><a href="https://goldcopd.org/">GOLD</a> — obstrüktif akciğer hastalığı ve spirometri.</li>
+  <li><a href="https://kdigo.org/guidelines/">KDIGO</a> — böbrek hastalığı ve elektrolitler.</li>
+  <li><a href="https://www.who.int/tools/child-growth-standards">WHO Child Growth Standards</a> — büyüme eğrileri (bu galeride yok; ayrı lab).</li>
+  <li><a href="https://radiopaedia.org/">Radiopaedia</a> — radyoloji referansları (CC BY-NC-SA; görseller gömülmedi).</li>
+</ul>
+

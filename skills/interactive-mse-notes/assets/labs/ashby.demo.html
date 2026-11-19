@@ -1,0 +1,191 @@
+<p class="lede">A property chart is a map, not a decision. The decision comes from what the part must do, what it must not do, and what you are trying to minimise. This page turns the Ashby chart into that argument: choose a property pair, change the exponent, move the constant-index line, and watch the candidate list change.</p>
+
+<div class="keypoints">
+  <p><strong>After this page you can</strong></p>
+  <ul>
+    <li>read a log–log property chart without treating the axes as linear;</li>
+    <li>derive the slope of a constant performance index on that chart;</li>
+    <li>separate a material property from a design constraint and an objective;</li>
+    <li>explain why a high-index material can still fail the shortlist.</li>
+  </ul>
+</div>
+
+<h2 id="selection-is-not-a-property">Selection is not a property</h2>
+
+<p>A material property is a number with units. A <em>performance index</em> is a combination of properties that measures how well a material performs a function. For a light stiff tie, the mass is proportional to <span class="inline-math">\(ρ/E\)</span>, so the index to maximise is <span class="inline-math">\(E/ρ\)</span>. For a light stiff panel in bending, the thickness needed falls as <span class="inline-math">\(E^{-1/3}\)</span>, so the index becomes <span class="inline-math">\(E^{1/3}/\rho\)</span>. The exponent is not decoration; it encodes the load case.</p>
+
+<aside class="callout callout--definition">
+  <p><strong>Definition.</strong> For a property <span class="inline-math">\(P\)</span> and a density <span class="inline-math">\(ρ\)</span>, a one-property performance index has the form</p>
+  <div class="equation"><div class="equation__body">$$M=\frac{P^{a}}{\rho}$$</div><div class="equation__tag">(1)</div></div>
+  <p>with <span class="inline-math">\(a=1\)</span> for a tie, <span class="inline-math">\(a=1/2\)</span> for a beam, and <span class="inline-math">\(a=1/3\)</span> for a panel in bending (stiffness-limited design). When the objective is cost instead of mass, replace <span class="inline-math">\(ρ\)</span> by cost per kilogram.</p>
+</aside>
+
+<p>Taking logarithms of equation (1) gives a straight line on a log–log chart:</p>
+
+<div class="equation"><div class="equation__body">$$\log P=\frac{1}{a}\log\rho+\frac{1}{a}\log M$$</div><div class="equation__tag">(2)</div></div>
+
+<p>The slope is <span class="inline-math">\(1/a\)</span>. A constant-index line is therefore a geometric statement about the index, not a trend fitted to the data. Move the line and you change the threshold, not the materials.</p>
+
+<h2 id="lab-ashby">Lab: move the index line, not the materials</h2>
+
+<div class="mselab mselab--ashby" data-mse-lab="ashby">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab · materials selection</p>
+    <h3>Read the trade-off, then impose the constraints</h3>
+    <p>Choose a chart and an exponent, then drag the constant-index line. The shortlist is the set of materials that pass the minimum-property and maximum-density filters and lie on the feasible side of the line.</p>
+  </div>
+
+  <details class="predict">
+    <summary>Predict first</summary>
+    <p>For a light stiff panel (<span class="inline-math">\(a=1/3\)</span>), which should lie further above a constant <span class="inline-math">\(M\)</span> line: CFRP or tungsten? Tungsten has the higher modulus. Commit to an answer, then set the chart to <em>E vs ρ</em> and the exponent to <span class="inline-math">\(1/3\)</span>. Look at the vertical distance from each point to a line of slope 3.</p>
+  </details>
+
+  <div class="mselab__controls" data-controls></div>
+
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap">
+        <canvas class="mselab__canvas" data-canvas data-height="430" role="img"
+                aria-label="Log-log materials selection chart. Density or cost runs horizontally; modulus or strength runs vertically. The controls above the chart change the property pair, the index exponent, the constraints, and the constant-index line."></canvas>
+      </div>
+      <p class="mselab__caption">Both axes are logarithmic; decade labels are powers of ten. Colour marks the material family. Filled points pass the constraints; the ring marks the best feasible material. Strength mixes yield, tensile, and flexural values by family; CFRP and wood values are along the fibre/grain direction. <strong>Data limitation:</strong> approximate teaching data after Ashby/Callister/EduPack; verify before design.</p>
+      <div class="mselab__legend" data-legend aria-label="Material family colours"></div>
+    </div>
+
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite">The chart plots properties. The index, the constraints, and the objective decide what counts as a candidate.</p>
+      <p class="mselab__hint" data-hint></p>
+      <div class="ashby-table" data-table></div>
+    </div>
+  </div>
+
+  <p class="mselab__print" data-print>Printed fallback: for a light stiff panel (a = 1/3) with E ≥ 50 GPa and ρ ≤ 5 g/cm³, CFRP (UD) has M = 3.25, ahead of SiC (2.32) and alumina (1.85). The chart is a map; the index is the argument.</p>
+
+  <script type="application/json" class="mselab-config">
+    {"preset": "e-rho", "exponent": "0.5", "minProperty": 0, "maxDensity": 20, "threshold": 0.45, "shade": true}
+  </script>
+</div>
+
+<h2 id="index">Where the performance index comes from</h2>
+
+<p>A design problem has three parts, and only the first is visible in the chart:</p>
+
+<table class="msetable">
+  <caption>The three inputs to a materials index</caption>
+  <thead>
+    <tr><th>Input</th><th>Question</th><th>Example: light stiff panel</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Function</td><td>What must the part do?</td><td>Carry a bending load with a specified stiffness.</td></tr>
+    <tr><td>Constraint</td><td>What must it not do?</td><td>Stay below a density limit; do not fracture; fit the space.</td></tr>
+    <tr><td>Objective</td><td>What is being minimised or maximised?</td><td>Minimise mass.</td></tr>
+  </tbody>
+</table>
+
+<p>For a panel of fixed area <span class="inline-math">\(A\)</span> and span <span class="inline-math">\(L\)</span>, the bending stiffness scales as <span class="inline-math">\(S \propto E t^3/L^3\)</span>, while the mass is <span class="inline-math">\(m = \rho A t\)</span>. Eliminate the thickness <span class="inline-math">\(t\)</span> at fixed stiffness:</p>
+
+<div class="equation"><div class="equation__body">$$t \propto \left(\frac{S L^3}{E}\right)^{1/3},\qquad m \propto \rho\left(\frac{1}{E}\right)^{1/3}\quad\Rightarrow\quad m \propto \frac{\rho}{E^{1/3}}$$</div><div class="equation__tag">(3)</div></div>
+
+<p>To make the mass as small as possible, maximise <span class="inline-math">\(E^{1/3}/\rho\)</span>. That is equation (1) with <span class="inline-math">\(a=1/3\)</span>. A tie gives <span class="inline-math">\(E/\rho\)</span> and a beam with a free cross-section gives <span class="inline-math">\(E^{1/2}/\rho\)</span>. The exponent is the engineering content; the log–log line is only its picture.</p>
+
+<aside class="callout callout--warning">
+  <p><strong>Do not read the winner off the chart.</strong> The chart shows <span class="inline-math">\(E\)</span> and <span class="inline-math">\(ρ\)</span>. The slope <span class="inline-math">\(1/a\)</span> depends on the load case, and the constraint sliders decide which points are even allowed. A material can be far above the line and still be unacceptable because it is too dense, too weak, too costly, or too brittle.</p>
+</aside>
+
+<h2 id="worked">Worked example: a light stiff panel</h2>
+
+<p>A panel must have <span class="inline-math">\(E \ge 50\ \text{GPa}\)</span> and <span class="inline-math">\(\rho \le 5\ \text{g/cm}^3\)</span>. Use the panel index <span class="inline-math">\(M=E^{1/3}/\rho\)</span> and rank the materials that pass both constraints.</p>
+
+<table class="msetable">
+  <caption>Candidate set from the teaching dataset</caption>
+  <thead>
+    <tr><th>Material</th><th>E (GPa)</th><th>ρ (g/cm³)</th><th>M = E<sup>1/3</sup>/ρ</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Al 6061-T6</td><td>69</td><td>2.70</td><td>1.52</td></tr>
+    <tr><td>Ti-6Al-4V</td><td>114</td><td>4.43</td><td>1.09</td></tr>
+    <tr><td>CFRP (UD)</td><td>140</td><td>1.60</td><td>3.25</td></tr>
+    <tr><td>Soda-lime glass</td><td>70</td><td>2.50</td><td>1.65</td></tr>
+    <tr><td>Alumina 99.5%</td><td>390</td><td>3.95</td><td>1.85</td></tr>
+    <tr><td>Silicon carbide</td><td>410</td><td>3.20</td><td>2.32</td></tr>
+  </tbody>
+</table>
+
+<p>CFRP wins on the index, but the decision is not finished. It is anisotropic, expensive, and weak in compression and through-thickness loading; the chart has no axis for any of those. If the aluminium panel weighs 10.0 kg at the target stiffness, the CFRP panel weighs about</p>
+
+<div class="equation"><div class="equation__body">$$m_{\text{CFRP}}\approx 10.0\ \text{kg}\times\frac{M_{\text{Al}}}{M_{\text{CFRP}}}=10.0\times\frac{1.52}{3.25}\approx 4.7\ \text{kg}.$$</div><div class="equation__tag">(4)</div></div>
+
+<p>The ratio is unit-consistent because both panels are designed to the same bending stiffness and the same panel area; the absolute value is illustrative, not a quotation.</p>
+
+<h2 id="mistakes">Common mistakes</h2>
+
+<div class="callout callout--warning">
+  <p><strong>“The chart picks the material.”</strong> A chart is a property map. The index, the constraints, and the objective pick the material. Change the exponent from 1 to 1/3 and the ranking can change even though no data point moved.</p>
+</div>
+
+<div class="callout callout--warning">
+  <p><strong>“Higher modulus always wins.”</strong> Tungsten has <span class="inline-math">\(E=411\)</span> GPa but <span class="inline-math">\(\rho=19.3\)</span> g/cm³, so <span class="inline-math">\(E^{1/3}/\rho\approx0.39\)</span>. Aluminium 6061 gives about 1.52 at one seventh of the density. The index is a ratio, not a league table of stiffness.</p>
+</div>
+
+<div class="callout callout--warning">
+  <p><strong>“The strength axis is the same for every family.”</strong> The dataset uses approximate yield strength for most metals and polymers, but tensile or flexural strength for cast iron, ceramics, and concrete. Ceramics fail from flaws and need Weibull statistics; a single strength number is a placeholder, not a design allowable.</p>
+</div>
+
+<div class="callout callout--warning">
+  <p><strong>“Cost and density are interchangeable.”</strong> The <em>E vs cost</em> chart uses cost in the denominator, so its index is stiffness per unit cost. Do not use that line to choose a light part, and do not compare its numerical <span class="inline-math">\(M\)</span> with the density-chart value; the denominators have different units. Concrete can win the raw stiffness-per-cost index because it is cheap and stiff in compression, but it is not a tensile structural material; the chart does not encode that failure mode.</p>
+</div>
+
+<h2 id="retrieval">Retrieval practice</h2>
+
+<section class="msequiz" data-mse-quiz data-quiz-id="ashby-lab">
+  <div class="msequiz__bar">
+    <span data-quiz-progress></span>
+    <span data-quiz-score></span>
+    <button type="button" class="msebtn" data-quiz-retry hidden>Retry missed</button>
+    <button type="button" class="msebtn" data-quiz-reset>Reset</button>
+  </div>
+  <div data-quiz-questions></div>
+  <script type="application/json" class="quiz-data">
+  [
+    {
+      "prompt": "On a log E versus log ρ chart, what is the slope of a constant M = E^(1/2)/ρ line?",
+      "options": ["0.5", "1", "2", "−2"],
+      "answer": 2,
+      "explain": "Take logs: log M = 0.5 log E − log ρ. At constant M, log E = 2 log ρ + constant, so the slope is 1/a = 2. A slope of 0.5 would correspond to a = 2, which is not this index."
+    },
+    {
+      "prompt": "You change the exponent from a = 1/3 to a = 1. How does the constant-index line change on log property versus log density?",
+      "options": ["It becomes steeper.", "It becomes shallower.", "It does not move.", "It becomes vertical."],
+      "answer": 1,
+      "explain": "The slope is 1/a. Going from a = 1/3 (slope 3) to a = 1 (slope 1) makes the line shallower, so density is traded against property less aggressively."
+    },
+    {
+      "prompt": "A rigid foam has a very high strength-to-weight index. Why can it still be absent from a real shortlist?",
+      "options": ["Because its absolute strength may be below the minimum-strength constraint.", "Because foams cannot be plotted on log axes.", "Because its density is too high for the density axis.", "Because the index is only valid for metals."],
+      "answer": 0,
+      "explain": "The index rewards a small denominator, so a weak, very light material can rank well. A minimum-property constraint removes it when the part needs an absolute load capacity, which the ratio alone does not measure."
+    },
+    {
+      "prompt": "Which statement best describes the role of the constant-M line in this lab?",
+      "options": ["It is a trend line fitted to the material data.", "It is a threshold derived from the index; the feasible side satisfies M ≥ M₀.", "It is an axis of the phase diagram.", "It marks the most expensive material."],
+      "answer": 1,
+      "explain": "The line is a level set of the performance index, not a fit. Moving it changes the threshold M₀; the slope 1/a is fixed by the index definition and the load case."
+    }
+  ]
+  </script>
+</section>
+
+<h2 id="summary">Summary</h2>
+
+<div class="keypoints">
+  <ul>
+    <li>A property chart plots material data; a performance index encodes the function, constraint, and objective.</li>
+    <li>For <span class="inline-math">\(M=P^{a}/\rho\)</span>, constant-index lines on log–log axes have slope <span class="inline-math">\(1/a\)</span>.</li>
+    <li>Common stiffness exponents are 1 (tie), 1/2 (beam), and 1/3 (panel).</li>
+    <li>Constraints can remove a high-index material; always report the candidate set, not only the winner.</li>
+    <li>Teaching data are approximate. Verify modulus, strength, cost, and failure mode before design.</li>
+  </ul>
+</div>
+
+<p class="source-note"><strong>Data and limits.</strong> The 28-material dataset is approximate teaching data after Ashby, Callister, and Granta EduPack-style property charts. Costs are order-of-magnitude material prices, not quotes. Strength values mix yield, tensile, and flexural measures by family; CFRP and wood values are along the fibre/grain direction. The chart does not model anisotropy, temperature, corrosion, fatigue, or processing. Verify before design.</p>

@@ -1,0 +1,231 @@
+<p class="lede">Bu not, bir merdivenin <strong>planda sığması</strong> ile <strong>kesitte geçmesi</strong> arasındaki farkı konu alır. Mimarlık stüdyosunda en sık yapılan hata, merdiveni bir plan sembolü olarak çizmek; rıht, basamak, sahanlık ve baş yüksekliğini aynı anda kapatmamaktır. Laboratuvar, tek bir tasarım hamlesini — kovan ağzının kaydırılmasını — plan, kesit ve sayı üzerinden okutur.</p>
+
+<div class="keypoints">
+  <p><strong>Bu notun sonunda:</strong></p>
+  <ul>
+    <li>Rıht yüksekliği, basamak derinliği ve Blondel bağıntısını hesaplayabilirsiniz.</li>
+    <li>Bir merdivenin plan uzunluğunu ve kesitteki baş yüksekliğini ayrı ayrı kontrol edebilirsiniz.</li>
+    <li>“Plan sığıyor” cümlesinin neden yeterli olmadığını bir kesitle gösterebilirsiniz.</li>
+    <li>TS 9111 ile stüdyo konvansiyonunu birbirine karıştırmadan bir kısıt tablosu kurabilirsiniz.</li>
+  </ul>
+</div>
+
+<h2 id="sistem">1. Sistem: plan, kesit ve ölçek</h2>
+
+<p>Bir merdiven, aynı anda üç temsil ister. <strong>Plan</strong>, yatayda kaç basamak ve ne kadar sahanlık sığdığını; <strong>kesit</strong>, düşeyde rıht yüksekliğini ve baş yüksekliğini; <strong>ölçü zinciri</strong> ise bu ikisinin aynı geometriye ait olduğunu gösterir. Planı kesitsiz, kesiti plansız çizmek, aynı binanın iki farklı yerini anlatmak gibidir.</p>
+
+<p>Bu notta kullanılan model, iki kollu ve düz kollu bir merdivendir. Kat yüksekliği <em>H</em>, toplam rıht sayısı <em>N</em>, basamak derinliği <em>G</em>, ara sahanlık <em>L<sub>m</sub></em>, merdiven genişliği <em>W</em> ve kovan açıklığı <em>L<sub>open</sub></em> ile tanımlanır. Kesit, merdivenin kendi üstündeki döşeme ile kesiştiği yerde baş yüksekliğini verir. Model <strong>şematiktir</strong>; kiriş, sahanlık plakası, korkuluk ve yangın kaçışı bu notun dışındadır.</p>
+
+<div class="equation">
+  <div class="equation__body">$$R = \frac{H}{N}, \qquad L_{req} = (N-2)\,G + L_m$$</div>
+  <div class="equation__tag">rıht ve plan uzunluğu</div>
+</div>
+
+<p>Buradaki <em>N</em> rıht sayısıdır; basamak sayısı genellikle <em>N</em>−1’dir. <em>L<sub>req</sub></em>, iki kolun basamak uzunlukları ile ara sahanlığın toplamıdır. Plan uzunluğu, kovanın toplam uzunluğu <em>L<sub>avail</sub></em> ile karşılaştırılır. Kesitte ise baş yüksekliği, merdivenin en yüksek basamağı ile üstteki döşemenin alt yüzü arasındaki düşey mesafedir.</p>
+
+<h2 id="kisitlar">2. Kısıtlar: kod, konvansiyon, öğretim varsayımı</h2>
+
+<p>Merdiven ölçüleri yalnızca “güzel” değildir; bir kısmı yönetmelik, bir kısmı stüdyo konvansiyonu, bir kısmı ise bu notun öğretim varsayımıdır. Üçünü ayırmadan sayı vermek, mimarlıkta en yaygın kanıt hatasıdır. Aşağıdaki tablo, laboratuvarın kullandığı değerleri türleriyle birlikte verir.</p>
+
+<table class="archledger">
+  <caption>Merdiven kısıt tablosu — değer, tür, kaynak</caption>
+  <thead><tr><th>Kısıt</th><th>Değer</th><th>Tür</th><th>Kaynak / not</th></tr></thead>
+  <tbody>
+    <tr><td>Rıht yüksekliği <em>R</em></td><td>≤ 160 mm (erişilebilir)</td><td><span class="archbadge" data-type="code">kod</span></td><td>TS 9111:2011, 4.7.1.3.1; konutta 180 mm’ye kadar çıkabilir</td></tr>
+    <tr><td>Basamak derinliği <em>G</em></td><td>≥ 280 mm</td><td><span class="archbadge" data-type="code">kod</span></td><td>TS 9111:2011, 4.7.1.3.1</td></tr>
+    <tr><td>Blondel <em>2R+G</em></td><td>600–640 mm</td><td><span class="archbadge" data-type="convention">konvansiyon</span></td><td>Konfor bağıntısı; tek başına uygunluk kanıtı değildir</td></tr>
+    <tr><td>Ara sahanlık <em>L<sub>m</sub></em></td><td>≥ 1.50 m</td><td><span class="archbadge" data-type="code">kod</span></td><td>TS 9111:2011, 4.7.1.3.2</td></tr>
+    <tr><td>Kol başına rıht</td><td>≤ 10</td><td><span class="archbadge" data-type="code">kod</span></td><td>TS 9111:2011, 4.7.1.3.2</td></tr>
+    <tr><td>Merdiven genişliği <em>W</em></td><td>≥ 1.20 m (konut)</td><td><span class="archbadge" data-type="code">kod</span></td><td>TS 9111:2011, 4.7.1.3.2; kamu yapısında 1.50 m</td></tr>
+    <tr><td>Baş yüksekliği</td><td>≥ 2.20 m</td><td><span class="archbadge" data-type="code">kod</span></td><td>TS 9111:2011, 4.7.1.1</td></tr>
+    <tr><td>Kesit döşeme kalınlığı</td><td>0.30 m</td><td><span class="archbadge" data-type="teaching">öğretim</span></td><td>Bu notun varsayımı; gerçek projede statik tasarım belirler</td></tr>
+  </tbody>
+</table>
+
+<div class="callout callout--warning">
+  <p><strong>Model sınırı.</strong> Bu not bir izin veya yangın kaçışı hesabı değildir. Korkuluk yükü, yangın dayanımı, kaçış mesafesi, ıslak zemin kayması ve kullanıcı akışı modellenmez. TS 9111’in yürürlükteki baskısını ve yerel yönetmelikleri proje bazında doğrulayın.</p>
+</div>
+
+<h2 id="lab">3. Laboratuvar: plan sığar, kesit geçmez</h2>
+
+<details class="predict">
+  <summary>Tahmin edin</summary>
+  <p>Varsayılan geometride plan uzunluğu 8.00 m’lik kovana sığıyor. Sizce baş yüksekliği 2.20 m’yi sağlıyor mu? Cevabınızı vermeden önce rıht sayısını ve kovan ağzının yerini düşünün. Sonra <em>L<sub>open</sub></em> değerini 4.00 m’den 5.70 m’ye çıkarın ve neyin değiştiğini izleyin.</p>
+</details>
+
+<div class="lab" id="lab-stair" data-lab="stair">
+  <div class="lab__head">
+    <p class="lab__eyebrow">Etkileşimli lab · merdiven kesiti</p>
+    <h3>Bir kovan ağzı neyi değiştirir?</h3>
+    <p>Plan ve kesit aynı geometriden çizilir. Kırmızı kesikli çizgi kovan ağzıdır; kesitteki kırmızı ölçü baş yüksekliğidir. Önce tahmin edin, sonra kaydırın.</p>
+  </div>
+
+  <div class="lab__controls" data-controls>
+    <label class="labfield">Kat yüksekliği H
+      <input type="range" data-param="H" min="2.40" max="4.20" step="0.05" value="3.00" data-default="3.00" data-digits="2">
+      <output data-out="H"></output> m
+    </label>
+    <label class="labfield">Rıht sayısı N
+      <input type="range" data-param="N" min="14" max="22" step="1" value="19" data-default="19" data-digits="0">
+      <output data-out="N"></output>
+    </label>
+    <label class="labfield">Basamak G
+      <input type="range" data-param="Gmm" min="260" max="320" step="5" value="300" data-default="300" data-digits="0">
+      <output data-out="Gmm"></output> mm
+    </label>
+    <label class="labfield">Kovan ağzı L_open
+      <input type="range" data-param="Lopen" min="2.00" max="6.60" step="0.10" value="4.00" data-default="4.00" data-digits="2">
+      <output data-out="Lopen"></output> m
+    </label>
+    <label class="labfield">Sahanlık L_m
+      <input type="range" data-param="Lm" min="1.20" max="2.00" step="0.05" value="1.50" data-default="1.50" data-digits="2">
+      <output data-out="Lm"></output> m
+    </label>
+    <label class="labfield">Genişlik W
+      <input type="range" data-param="W" min="1.00" max="2.00" step="0.05" value="1.50" data-default="1.50" data-digits="2">
+      <output data-out="W"></output> m
+    </label>
+    <label class="labfield">Kovan L_avail
+      <input type="number" data-param="Lavail" min="4" max="12" step="0.1" value="8.0" data-default="8.0" data-digits="2">
+      <output data-out="Lavail"></output> m
+    </label>
+    <label class="labfield">Döşeme t
+      <input type="number" data-param="t" min="0.15" max="0.50" step="0.01" value="0.30" data-default="0.30" data-digits="2">
+      <output data-out="t"></output> m
+    </label>
+    <label class="labfield">Yapı türü
+      <select data-param="building" data-default="konut">
+        <option value="konut">konut</option>
+        <option value="kamu">kamu</option>
+      </select>
+    </label>
+    <label class="labfield">Erişilebilirlik
+      <select data-param="accessible" data-default="true">
+        <option value="true">erişilebilir (R ≤ 160)</option>
+        <option value="false">standart (R ≤ 180)</option>
+      </select>
+    </label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+
+  <div class="lab__canvaswrap">
+    <canvas data-canvas data-height="380" role="img" aria-label="Merdiven planı ve kesiti"></canvas>
+  </div>
+  <p class="lab__caption">Şematik; ölçek çubuğu ve kuzey oku bu kesit için anlamsızdır. Plan üstten, kesit A–A hattından okunur. Kesitteki kırmızı ölçü baş yüksekliğidir.</p>
+  <div class="lab__readout" data-readout></div>
+  <p class="lab__status" data-status></p>
+</div>
+
+<p><strong>Ne fark ettiniz?</strong> Varsayılan durumda <em>L<sub>req</sub></em> = 6.60 m, kovan 8.00 m; plan rahatça sığıyor. Buna karşılık kovan ağzı 4.00 m’deyken üstteki döşeme, merdivenin 1.42 m yükseldiği yeri örtüyor; baş yüksekliği 3.00 − 0.30 − 1.42 = <strong>1.28 m</strong> kalıyor. Kovan ağzını 5.70 m’ye kaydırdığınızda örtülen yükseklik 0.47 m’ye düşer ve baş yüksekliği <strong>2.23 m</strong> olur. Aynı plan, farklı kesit: mimarlıkta “sığdı” cümlesi tek başına bir kanıt değildir.</p>
+
+<h2 id="ornek">4. Çözümlü örnek: 3.00 m kat, 19 rıht</h2>
+
+<p><strong>Verilen:</strong> <em>H</em> = 3.00 m, <em>N</em> = 19, <em>G</em> = 300 mm, <em>L<sub>m</sub></em> = 1.50 m, <em>W</em> = 1.50 m, <em>L<sub>avail</sub></em> = 8.00 m, <em>t</em> = 0.30 m. Erişilebilir konut.</p>
+
+<ol>
+  <li><strong>Rıht:</strong> \(R = 3.00/19 = 0.1579\ \mathrm{m} = 157.9\ \mathrm{mm}\). 160 mm sınırının altında.</li>
+  <li><strong>Blondel:</strong> \(2R+G = 2(157.9)+300 = 615.8\ \mathrm{mm}\). 600–640 aralığında.</li>
+  <li><strong>Plan:</strong> \(L_{req} = (19-2)(0.300)+1.50 = 5.10+1.50 = 6.60\ \mathrm{m}\). 8.00 m’ye sığar.</li>
+  <li><strong>Kesit:</strong> Kovan ağzı 4.00 m’deyken örtülen en yüksek basamak 1.421 m; \(h = 3.00-0.30-1.421 = 1.279\ \mathrm{m}\). <strong>2.20 m’nin altında.</strong></li>
+  <li><strong>Düzeltme:</strong> Kovan ağzını 5.70 m’ye alın. Örtülen yükseklik 0.474 m; \(h = 3.00-0.30-0.474 = 2.226\ \mathrm{m}\). Geçer.</li>
+</ol>
+
+<p>Dikkat: 5.70 m, “yaklaşık 5.7” değil; 6.60 − 5.70 = 0.90 m’lik bir açık kenar bırakır. Bu kenar, merdivenin ilk üç rıhtını örten döşemeyi kaldırır. Kesit çiziminde bu kenar mutlaka görünmelidir; yoksa plan ile kesit birbirini tutmaz.</p>
+
+<h2 id="iddia">5. Tasarım iddiası defteri</h2>
+
+<p>Bir stüdyo paftasında her büyük hamle, bir iddia ve o iddiayı zayıflatan bir karşı-okuma ile birlikte sunulmalıdır. Aşağıdaki defter, bu notun laboratuvarındaki üç iddiayı kaydeder.</p>
+
+<table class="archledger">
+  <caption>Tasarım iddiası defteri — iddia → kanıt → karşı-argüman</caption>
+  <thead><tr><th>İddia</th><th>Kanıt</th><th>Temsil</th><th>Karşı-argüman</th></tr></thead>
+  <tbody>
+    <tr><td>“Merdiven 8.00 m’lik kovana sığar.”</td><td><em>L<sub>req</sub></em> = 6.60 m</td><td>plan, ölçü zinciri</td><td>Plan sığması kesitin geçtiğini göstermez; baş yüksekliği ayrı kontrol edilir.</td></tr>
+    <tr data-claim="weak"><td>“Merdiven konforludur.”</td><td><em>2R+G</em> = 615.8 mm</td><td>kesit, rıht-basamak</td><td>Blondel tek başına yeterli değil; sahanlık, genişlik ve baş yüksekliği de gerekir.</td></tr>
+    <tr><td>“Kovan ağzı 5.70 m’ye kaydırılmalıdır.”</td><td><em>h</em> = 2.23 m ≥ 2.20 m</td><td>kesit A–A</td><td>Döşeme kalınlığı 0.30 m varsayımı; gerçek kiriş derinliği daha büyükse tekrar kontrol gerekir.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="hatalar">6. Sık yapılan hatalar</h2>
+
+<ul>
+  <li><strong>Planı kesit sanmak.</strong> Merdiveni yalnızca plan sembolüyle göstermek; rıht yüksekliğini ve baş yüksekliğini hiç çizmemek. Karşı örnek: aynı plan, 1.28 m baş yüksekliğiyle geçmez.</li>
+  <li><strong>2R+G’yi tek uygunluk ölçütü sanmak.</strong> 615.8 mm “konforlu” görünürken baş yüksekliği 1.28 m olabilir. Blondel bir konfor bağıntısıdır; yönetmelik değildir.</li>
+  <li><strong>Rıht sayısını basamak sayısıyla karıştırmak.</strong> 19 rıht, 18 basamak demektir; <em>L<sub>req</sub></em> formülündeki <em>N</em>−2, iki sahanlık dışındaki basamakları sayar.</li>
+  <li><strong>Kovan ağzını döşeme kenarıyla karıştırmak.</strong> Kovan ağzı, merdivenin üstündeki boşluğun başladığı yerdir; döşeme kenarı ise taşıyıcı sistemin bitişidir. İkisi aynı kot değildir.</li>
+  <li><strong>Ölçek çubuğu ve kuzey oku koymamak.</strong> Plan ve kesit aynı ölçekte değilse, okuyucu iki çizimi birleştiremez. Her paftada ölçek ve yön gösterilir.</li>
+</ul>
+
+<h2 id="quiz">7. Yoklama soruları</h2>
+
+<div class="labquiz" data-quiz>
+  <div class="labquiz__q" data-answer="b" data-explain="Baş yüksekliği, merdivenin örtülen en yüksek basamağı ile döşeme altı arasındaki düşey mesafedir; plan uzunluğu bunu söylemez.">
+    <p><strong>1.</strong> Plan uzunluğu kovana sığıyorsa baş yüksekliği hakkında ne söylenebilir?</p>
+    <div class="labquiz__opts">
+      <button class="labquiz__opt" data-option="a">Her zaman yeterlidir.</button>
+      <button class="labquiz__opt" data-option="b">Plan sığması baş yüksekliğini garanti etmez; kesit ayrıca kontrol edilir.</button>
+      <button class="labquiz__opt" data-option="c">Baş yüksekliği yalnızca rıht sayısına bağlıdır.</button>
+      <button class="labquiz__opt" data-option="d">Kovan ağzı ne kadar küçükse baş yüksekliği o kadar büyür.</button>
+    </div>
+    <p class="labquiz__why" hidden></p>
+  </div>
+  <div class="labquiz__q" data-answer="c" data-explain="R = H/N = 3.00/20 = 0.150 m = 150 mm; 2R+G = 600 mm.">
+    <p><strong>2.</strong> H = 3.00 m ve N = 20 için R ve 2R+G (G = 300 mm) nedir?</p>
+    <div class="labquiz__opts">
+      <button class="labquiz__opt" data-option="a">R = 157.9 mm; 2R+G = 615.8 mm</button>
+      <button class="labquiz__opt" data-option="b">R = 150 mm; 2R+G = 615 mm</button>
+      <button class="labquiz__opt" data-option="c">R = 150 mm; 2R+G = 600 mm</button>
+      <button class="labquiz__opt" data-option="d">R = 160 mm; 2R+G = 620 mm</button>
+    </div>
+    <p class="labquiz__why" hidden></p>
+  </div>
+  <div class="labquiz__q" data-answer="a" data-explain="Kovan ağzı büyüdükçe örtülen basamak sayısı azalır; baş yüksekliği artar. Ancak plan uzunluğu ve döşeme kenarı değişir.">
+    <p><strong>3.</strong> Kovan ağzı <em>L<sub>open</sub></em> büyürse ne olur?</p>
+    <div class="labquiz__opts">
+      <button class="labquiz__opt" data-option="a">Örtülen basamak sayısı azalır, baş yüksekliği artar.</button>
+      <button class="labquiz__opt" data-option="b">Rıht yüksekliği artar.</button>
+      <button class="labquiz__opt" data-option="c">Plan uzunluğu kısalır.</button>
+      <button class="labquiz__opt" data-option="d">Basamak derinliği azalır.</button>
+    </div>
+    <p class="labquiz__why" hidden></p>
+  </div>
+  <div class="labquiz__q" data-answer="d" data-explain="TS 9111 bir Türk standardıdır; IBC ve ADA ABD’de geçerlidir. Türkiye’de proje için TS 9111 ve yerel yönetmelik esas alınır.">
+    <p><strong>4.</strong> Türkiye’de bir konut merdiveni için hangi kaynak önceliklidir?</p>
+    <div class="labquiz__opts">
+      <button class="labquiz__opt" data-option="a">Yalnızca ADA</button>
+      <button class="labquiz__opt" data-option="b">Yalnızca IBC</button>
+      <button class="labquiz__opt" data-option="c">Yalnızca Neufert</button>
+      <button class="labquiz__opt" data-option="d">TS 9111 ve yürürlükteki yerel yönetmelik</button>
+    </div>
+    <p class="labquiz__why" hidden></p>
+  </div>
+</div>
+
+<h2 id="ozet">8. Özet ve alıştırmalar</h2>
+
+<div class="keypoints">
+  <p><strong>Tek ekranda:</strong> Merdiven tasarımı üç ayrı kontrol ister — rıht/basamak geometrisi, plan uzunluğu ve kesitte baş yüksekliği. Planın sığması, kesitin geçtiğini göstermez. Kovan ağzı, baş yüksekliğini belirleyen asıl tasarım değişkenidir. Her sayıya türünü (kod / konvansiyon / öğretim) ve kaynağını yazın.</p>
+</div>
+
+<div class="exercise">
+  <p><strong>Alıştırma 1.</strong> H = 3.60 m, N = 22, G = 290 mm, L<sub>m</sub> = 1.50 m olsun. R, 2R+G ve L<sub>req</sub> nedir? Erişilebilir konut için hangi kısıtlar sağlanır?</p>
+  <details class="solution"><summary>Çözüm</summary>
+    <p>R = 3.60/22 = 0.1636 m = 163.6 mm → 160 mm sınırı aşılır. 2R+G = 2(163.6)+290 = 617.3 mm → aralıkta. L<sub>req</sub> = (22−2)(0.290)+1.50 = 5.80+1.50 = 7.30 m. Plan 8.00 m’ye sığar; ancak rıht 160 mm’yi aştığı için erişilebilir konut koşulu sağlanmaz. N’yi 23’e çıkarmak R’yi 156.5 mm’ye düşürür; bu durumda L<sub>req</sub> = 7.59 m olur.</p>
+  </details>
+</div>
+
+<div class="exercise">
+  <p><strong>Alıştırma 2.</strong> 3.00 m kat yüksekliğinde, 19 rıht ve 300 mm basamakla çalışıyorsunuz. Baş yüksekliğini 2.20 m’nin üstüne çıkarmak için kovan ağzı en az kaç metre olmalıdır? Hesabı kesit üzerinden gösterin.</p>
+  <details class="solution"><summary>Çözüm</summary>
+    <p>İlk kolda basamak üst kotları 0.1579, 0.3158, 0.4737, … m’dir. Baş yüksekliği h = 3.00 − 0.30 − y<sub>örtülen</sub> ≥ 2.20 → y<sub>örtülen</sub> ≤ 0.50 m. Bu, 0.4737 m’lik üçüncü basamağa kadar örtmenin kabul edilebilir olduğu anlamına gelir. Dördüncü basamak 0.6316 m’de başlar; kovan ağzı en az 4 × 0.300 = 1.20 m’lik yatay konumda olmalıdır. L<sub>open</sub> = L<sub>req</sub> − 1.20 = 6.60 − 1.20 = 5.40 m. 5.40 m’de h = 3.00 − 0.30 − 0.4737 = 2.226 m olur; 5.70 m daha güvenli bir pay bırakır.</p>
+  </details>
+</div>
+
+<div class="exercise">
+  <p><strong>Alıştırma 3.</strong> Bir stüdyo paftasında merdiven planı 1:50, kesiti 1:20 çizilmiş. Bu iki çizimi aynı paftada sunmanın okuyucu için iki riskini yazın ve bir düzeltme önerin.</p>
+  <details class="solution"><summary>Çözüm</summary>
+    <p>Risk 1: Okuyucu iki çizimi aynı ölçekte sanıp basamak derinliğini yanlış okuyabilir. Risk 2: Kesitteki baş yüksekliği, plandaki kovan ağzıyla eşleştirilemez; çizimler birbirini tutmaz. Düzeltme: her çizime ayrı ölçek çubuğu ve “1:50 / 1:20” etiketi koyun; kesit üzerine A–A kesit izini ve kovan ağzı kotunu işaretleyin; plan ve kesitte aynı ölçü zincirini (R, G, L<sub>m</sub>) tekrarlayın.</p>
+  </details>
+</div>
+
+<p class="source">Kaynaklar: TS 9111:2011 (erişilebilirlik), Neufert Yapı Tasarımı (merdiven geometrisi), Mimarlık stüdyosu plan-kesit konvansiyonları. Sayılar <code>scripts/check_arch.py</code> ve sayfa içi <code>?selftest=1</code> ile doğrulanır. Bu not bir izin hesabı değildir.</p>

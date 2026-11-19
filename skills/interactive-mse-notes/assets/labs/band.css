@@ -1,0 +1,79 @@
+/* ============================================================
+   Lab: band diagram — carrier-balance bars
+   Extends assets/mse-labs.css; no external assets.
+   ============================================================ */
+
+.mselab__canvas--band,
+.mselab__canvas--band:active {
+  cursor: default;
+}
+
+.bandcarrier {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.5rem 0.6rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.bandcarrier__title {
+  margin: 0 0 0.1rem;
+  font: 600 0.6rem/1.4 var(--font-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.bandcarrier__row {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.bandcarrier__tag {
+  font: 600 0.7rem/1 var(--font-mono);
+  color: var(--ink-2);
+}
+
+.bandcarrier__track {
+  position: relative;
+  display: block;
+  height: 0.42rem;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.bandcarrier__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  background: var(--mse-alpha);
+  border-radius: 2px;
+  transition: width 140ms ease;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.bandcarrier__row--p .bandcarrier__fill {
+  background: var(--mse-beta);
+}
+
+.bandcarrier__val {
+  font: 500 0.68rem/1 var(--font-mono);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bandcarrier__fill { transition: none; }
+}
+
+@media print {
+  .bandcarrier { border-left: 2px solid #999; }
+  .bandcarrier__fill { transition: none; }
+}

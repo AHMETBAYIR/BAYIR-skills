@@ -1,0 +1,224 @@
+<p class="lede">Betonarme kiriş tasarımı, tek bir formülle “donatı bulma” işi değildir. Aynı kesitte eğilme, süneklik, minimum donatı, kesme, gövde ezilmesi, etriye aralığı ve yerleşim aynı anda kontrol edilir. Bu not, TS 500:2000 çerçevesinde dikdörtgen bir kirişi <strong>sınır durum defteri</strong> olarak okur: her satırda talep, kapasite, oran ve yöneten sınır vardır. Laboratuvar, donatıyı ve kesiti değiştirip hangi sınırın öne geçtiğini gösterir.</p>
+
+<div class="keypoints">
+  <p><strong>Bu notun sonunda:</strong></p>
+  <ul>
+    <li>Karakteristik, tasarım ve emniyet gerilmesi ailelerini ayırabilirsiniz.</li>
+    <li>Dikdörtgen kesitte \(A_{s,req}\), \(M_{Rd}\) ve \(V_r\) hesaplayabilirsiniz.</li>
+    <li>Eğilme, süneklik ve kesme arasından yöneten sınırı seçebilirsiniz.</li>
+    <li>Bir “taşıyor” cümlesini talep/kapasite/oran ve göçme moduyla kanıtlayabilirsiniz.</li>
+  </ul>
+</div>
+
+<h2 id="aileler">1. Sayı aileleri: karakteristik, tasarım, emniyet</h2>
+
+<p>Betonarme hesabın en yaygın hatası, \(f_{ck}\) ile \(f_{cd}\)’yi veya \(M_d\) ile \(M_{Rd}\)’yi aynı aileden sanmaktır. TS 500’de betonun karakteristik silindir dayanımı \(f_{ck}\), tasarım dayanımı \(f_{cd}=f_{ck}/\gamma_{mc}\) ile elde edilir; \(\gamma_{mc}=1.5\)’tir. Çelikte \(f_{yd}=f_{yk}/\gamma_{ms}\), \(\gamma_{ms}=1.15\)’tir. Talepler \(M_d\), \(V_d\) tasarım değerleridir; kapasiteler \(M_{Rd}\), \(V_r\) de tasarım kapasiteleridir. Emniyet gerilmesi (ASD) ayrı bir gelenektir; TS 500’ün taşıma gücü yöntemiyle karıştırılmaz.</p>
+
+<div class="numberfamily">
+  <div data-family="characteristic"><dt>Karakteristik</dt><dd>f<sub>ck</sub> = 30 MPa · f<sub>yk</sub> = 420 MPa</dd></div>
+  <div data-family="design"><dt>Tasarım</dt><dd>f<sub>cd</sub> = 20 MPa · f<sub>yd</sub> = 365.2 MPa</dd></div>
+  <div data-family="design"><dt>Tasarım talebi</dt><dd>M<sub>d</sub> = 250 kN·m · V<sub>d</sub> = 200 kN</dd></div>
+</div>
+
+<div class="equation">
+  <div class="equation__body">$$f_{cd}=\frac{f_{ck}}{1.5},\qquad f_{yd}=\frac{f_{yk}}{1.15},\qquad \varepsilon_{yd}=\frac{f_{yd}}{E_s}$$</div>
+  <div class="equation__tag">TS 500 §6.2.5 · N–mm–MPa</div>
+</div>
+
+<p>Bu notta tüm iç hesap <strong>N, mm, MPa</strong> birim sistemindedir; momentler okunabilirlik için kN·m’ye çevrilir. \(1\ \mathrm{MPa}=1\ \mathrm{N/mm^2}\), \(1\ \mathrm{kN\cdot m}=10^6\ \mathrm{N\cdot mm}\). İşaret konvansiyonu: eğilme momenti pozitif (sarkma), çekme donatısı altta, beton basıncı üstte.</p>
+
+<h2 id="lab">2. Laboratuvar: hangi sınır yönetiyor?</h2>
+
+<details class="predict">
+  <summary>Tahmin edin</summary>
+  <p>Varsayılan kesit 300 × 600 mm, \(d=550\) mm, C30/37, B420C, \(M_d=250\) kN·m, \(V_d=200\) kN, 3Ø25 ve Ø8/200 etriyedir. Sizce hangi sınır en yüksek kullanıma sahip: eğilme mi, kesme mi, süneklik mi? Tahmininizi yazın; sonra etriye aralığını 150 mm’ye düşürün ve hangi satırın değiştiğini izleyin.</p>
+</details>
+
+<div class="lab" id="lab-beam" data-lab="beam">
+  <div class="lab__head">
+    <p class="lab__eyebrow">Etkileşimli lab · TS 500 kiriş kontrolü</p>
+    <h3>Talep, kapasite ve yöneten sınır</h3>
+    <p>Kesiti, donatıyı ve yükleri değiştirin. Sağdaki defter her sınır durumunu talep/kapasite oranıyla listeler; yöneten satır işaretlenir. Kesit çizimi ve birim deformasyon diyagramı aynı hesaptan beslenir.</p>
+  </div>
+
+  <div class="lab__controls" data-controls>
+    <label class="labfield">Genişlik b
+      <input type="range" data-param="b" min="200" max="600" step="25" value="300" data-default="300" data-digits="0">
+      <output data-out="b"></output> mm
+    </label>
+    <label class="labfield">Yükseklik h
+      <input type="range" data-param="h" min="350" max="1000" step="25" value="600" data-default="600" data-digits="0">
+      <output data-out="h"></output> mm
+    </label>
+    <label class="labfield">Faydalı yükseklik d
+      <input type="range" data-param="d" min="250" max="950" step="10" value="550" data-default="550" data-digits="0">
+      <output data-out="d"></output> mm
+    </label>
+    <label class="labfield">Beton sınıfı
+      <select data-param="conc" data-default="C30/37">
+        <option>C25/30</option><option selected>C30/37</option><option>C35/45</option><option>C40/50</option>
+      </select>
+    </label>
+    <label class="labfield">Çelik sınıfı
+      <select data-param="steel" data-default="B420C">
+        <option selected>B420C</option><option>B500C</option>
+      </select>
+    </label>
+    <label class="labfield">M_d
+      <input type="range" data-param="Md" min="0" max="800" step="5" value="250" data-default="250" data-digits="0">
+      <output data-out="Md"></output> kN·m
+    </label>
+    <label class="labfield">V_d
+      <input type="range" data-param="Vd" min="0" max="500" step="5" value="200" data-default="200" data-digits="0">
+      <output data-out="Vd"></output> kN
+    </label>
+    <label class="labfield">Boyuna donatı
+      <select data-param="n" data-default="3">
+        <option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option>
+      </select>
+    </label>
+    <label class="labfield">Çap φ
+      <select data-param="phi" data-default="25">
+        <option>16</option><option>20</option><option selected>25</option><option>28</option><option>32</option>
+      </select>
+      mm
+    </label>
+    <label class="labfield">Etriye φ
+      <select data-param="phis" data-default="8">
+        <option>8</option><option>10</option><option>12</option>
+      </select>
+      mm
+    </label>
+    <label class="labfield">Etriye aralığı s
+      <input type="range" data-param="s" min="50" max="300" step="10" value="200" data-default="200" data-digits="0">
+      <output data-out="s"></output> mm
+    </label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+
+  <div class="lab__canvaswrap">
+    <canvas data-canvas data-height="360" role="img" aria-label="Betonarme kiriş kesiti ve birim deformasyon diyagramı"></canvas>
+  </div>
+  <p class="lab__caption">Kesit şematiktir; paspayı 25 mm, tek sıra donatı ve 25 mm net aralık varsayılmıştır. Birim deformasyon diyagramı düzlem kesit varsayımına dayanır; kesme ve ikinci mertebe etkileri bu diyagramda yoktur.</p>
+  <div class="lab__readout" data-readout></div>
+  <p class="lab__status" data-status></p>
+  <div data-ledger></div>
+</div>
+
+<p><strong>Ne fark ettiniz?</strong> Varsayılan durumda eğilme \(M_d/M_{Rd}=250/267.45=0.934\), kesme \(V_d/V_r=200/209.65=0.954\) ve etriye aralığı \(200/275=0.727\). Kesme, eğilmeden biraz daha yüksek kullanımdadır; ama ikisi de 1.0’ın altındadır. Etriye aralığını 150 mm’ye düşürdüğünüzde \(V_r\) yaklaşık 243 kN’ye çıkar ve kesme rahatlar; eğilme yöneten sınır olur. Bu, “hangi sınır yönetiyor?” sorusunun yalnızca bir sayı değil, bir tasarım kararı olduğunu gösterir.</p>
+
+<h2 id="ornek">3. Çözümlü örnek: 300 × 600 mm kiriş</h2>
+
+<p><strong>Verilen:</strong> \(b=300\) mm, \(h=600\) mm, \(d=550\) mm, C30/37 (\(f_{ck}=30\), \(f_{ctk}=1.9\) MPa), B420C (\(f_{yk}=420\) MPa), \(M_d=250\) kN·m, \(V_d=200\) kN, 3Ø25, Ø8/200.</p>
+
+<ol>
+  <li><strong>Malzeme:</strong> \(f_{cd}=30/1.5=20\) MPa, \(f_{ctd}=1.9/1.5=1.267\) MPa, \(f_{yd}=420/1.15=365.2\) MPa, \(\varepsilon_{yd}=365.2/200000=0.001826\).</li>
+  <li><strong>Eğilme:</strong> \(\mu=M_d/(b d^2 f_{cd})=(250\times10^6)/(300\cdot550^2\cdot20)=0.1377\). \(\alpha=1-\sqrt{1-2\mu/0.85}=0.1779\). \(a=\alpha d=97.8\) mm. \(A_{s,flex}=0.85 f_{cd} b a/f_{yd}=0.85\cdot20\cdot300\cdot97.8/365.2=1366\) mm². \(A_{s,min}=0.8 f_{ctd} b d/f_{yd}=0.8\cdot1.267\cdot300\cdot550/365.2=458\) mm². \(A_{s,req}=1366\) mm²; 3Ø25 = 1473 mm² yeterli.</li>
+  <li><strong>Kapasite:</strong> \(a=1473\cdot365.2/(0.85\cdot20\cdot300)=105.5\) mm; \(x=a/0.82=128.7\) mm; \(M_{Rd}=0.85 f_{cd} b a(d-a/2)=0.85\cdot20\cdot300\cdot105.5\cdot497.3/10^6=267.45\) kN·m. \(M_d/M_{Rd}=0.934\).</li>
+  <li><strong>Süneklik:</strong> \(\rho=1473/(300\cdot550)=0.00893=0.893\%\). \(\rho_{max}=\min(0.85\rho_b,0.02)\). Bu kesitte \(\rho_{max}\approx 0.0174\); \(\rho<\rho_{max}\). \(\varepsilon_s/\varepsilon_{yd}=5.38>1\), çelik akıyor.</li>
+  <li><strong>Kesme:</strong> \(V_{cr}=0.65 f_{ctd} b d=0.65\cdot1.267\cdot300\cdot550=135.8\) kN; \(V_c=0.8V_{cr}=108.6\) kN. Ø8 iki kollu \(A_{sw}=100.5\) mm²; \(A_{sw}/s=0.5027\) mm²/mm; \(V_w=0.5027\cdot365.2\cdot550/1000=100.9\) kN; \(V_r=209.5\) kN. \(V_d/V_r=0.955\).</li>
+  <li><strong>Etriye:</strong> \(s_{max}=d/2=275\) mm; \(s=200\) mm ≤ 275. \(V_d=200<3V_{cr}=407\) kN olduğu için \(d/4\) koşulu devreye girmez. Minimum etriye \(A_{sw}/s\geq0.3 f_{ctd}b/f_{yd}=0.312\) mm²/mm; 0.5027 sağlar.</li>
+  <li><strong>Yerleşim:</strong> Tek sırada \(n_{fit}=\lfloor(300-25)/(25+25)\rfloor=5\); 3Ø25 sığar. 6Ø25 sığmaz (n_fit=5) ve \(M_{Rd}\) iki katına çıkmaz; kaldıraç kolu küçülür.</li>
+</ol>
+
+<table class="civilledger">
+  <caption>Sınır durumu defteri — varsayılan kiriş</caption>
+  <thead><tr><th>Sınır durumu</th><th>Talep</th><th>Kapasite</th><th>Oran</th><th>Yöneten</th></tr></thead>
+  <tbody>
+    <tr><td>Eğilme</td><td>250 kN·m</td><td>267.45 kN·m</td><td>0.934</td><td></td></tr>
+    <tr><td>Süneklik (ρ)</td><td>0.893%</td><td>1.74%</td><td>0.513</td><td></td></tr>
+    <tr><td>Min. donatı</td><td>458 mm²</td><td>1473 mm²</td><td>0.311</td><td></td></tr>
+    <tr class="is-governing"><td>Kesme</td><td>200 kN</td><td>209.65 kN</td><td>0.954</td><td>●</td></tr>
+    <tr><td>Gövde ezilmesi</td><td>200 kN</td><td>726 kN</td><td>0.275</td><td></td></tr>
+    <tr><td>Etriye aralığı</td><td>200 mm</td><td>275 mm</td><td>0.727</td><td></td></tr>
+    <tr><td>Yerleşim</td><td>3Ø25</td><td>5 çubuk</td><td>0.600</td><td></td></tr>
+  </tbody>
+</table>
+
+<div class="callout callout--warning">
+  <p><strong>Model sınırı.</strong> Bu hesap tek donatılı, dikdörtgen, bir doğrultuda eğilen bir kesittir. Burulma, ikinci mertebe, sehim, çatlak genişliği, kenetlenme, ek yeri, yangın ve TBDY süneklik detayları yoktur. Kesme, mesnetten \(d\) uzaklıkta hesaplanır; çerçeve uçlarında \(2h\) bölgesi ayrıca TS 500 §8.1.6 ve TBDY §7.4.5 ile kontrol edilir. Bu bir öğretim kontrolüdür, uygulama projesi değildir.</p>
+</div>
+
+<h2 id="hatalar">4. Sık yapılan hatalar</h2>
+
+<ul>
+  <li><strong>\(f_{ck}\) ile \(f_{cd}\)’yi karıştırmak.</strong> 30 MPa betonla hesaplanan kapasite, 20 MPa tasarım dayanımıyla elde edilenden yüksektir. Karşı örnek: \(M_{Rd}\) 267.45 kN·m, \(f_{ck}\) ile yapılsa 401 kN·m çıkardı; bu, güvenli olmayan bir sonuçtur.</li>
+  <li><strong>Yalnızca eğilmeye bakmak.</strong> 3Ø25 ile eğilme geçer; ama \(V_d=220\) kN’de Ø8/200 kesme kapasitesi 209.65 kN’de kalır ve kesme yönetir. Kesme, eğilmeden bağımsız kontrol edilir.</li>
+  <li><strong>Donatıyı doğrusal sanmak.</strong> 3Ø25’ten 6Ø25’e çıkmak \(M_{Rd}\)’yi iki katına çıkarmaz; \(a\) büyür, kaldıraç kolu \(d-a/2\) küçülür. 6Ø25’te \(M_{Rd}=478.18\) kN·m, oran 1.79’dur.</li>
+  <li><strong>Etriye aralığını yalnızca “s ≤ d/2” ile geçmek.</strong> \(V_d>3V_{cr}\) ise \(s\leq d/4\) olur; ayrıca minimum etriye alanı ve çerçeve uçları vardır.</li>
+  <li><strong>Tek sıra yerleşimi unutmak.</strong> 6Ø25, 300 mm genişliğe tek sırada sığmaz; iki sıra veya daha büyük kesit gerekir. Kapasite hesabı, yerleşim kontrolü olmadan tamamlanmış sayılmaz.</li>
+</ul>
+
+<h2 id="quiz">5. Yoklama soruları</h2>
+
+<div class="labquiz" data-quiz>
+  <div class="labquiz__q" data-answer="b" data-explain="TS 500 taşıma gücü yönteminde f_cd = f_ck/1.5 ve f_yd = f_yk/1.15 kullanılır. Karakteristik değerler doğrudan kapasiteye konmaz.">
+    <p><strong>1.</strong> C30/37 ve B420C için tasarım dayanımları hangi çifttir?</p>
+    <div class="labquiz__opts">
+      <button class="labquiz__opt" data-option="a">30 MPa ve 420 MPa</button>
+      <button class="labquiz__opt" data-option="b">20 MPa ve 365.2 MPa</button>
+      <button class="labquiz__opt" data-option="c">45 MPa ve 420 MPa</button>
+      <button class="labquiz__opt" data-option="d">20 MPa ve 420 MPa</button>
+    </div>
+    <p class="labquiz__why" hidden></p>
+  </div>
+  <div class="labquiz__q" data-answer="c" data-explain="M_Rd = C(d − a/2) ve a, A_s ile büyür; kaldıraç kolu küçüldüğü için artış doğrusalın altındadır. 3Ø25 → 6Ø25 oranı 1.79’dur.">
+    <p><strong>2.</strong> Donatı alanı iki katına çıkarsa eğilme kapasitesi neden iki katına çıkmaz?</p>
+    <div class="labquiz__opts">
+      <button class="labquiz__opt" data-option="a">Beton dayanımı düşer.</button>
+      <button class="labquiz__opt" data-option="b">Çelik akmaz.</button>
+      <button class="labquiz__opt" data-option="c">Basınç bloğu derinliği a artar, kaldıraç kolu d − a/2 küçülür.</button>
+      <button class="labquiz__opt" data-option="d">Etriye kapasitesi azalır.</button>
+    </div>
+    <p class="labquiz__why" hidden></p>
+  </div>
+  <div class="labquiz__q" data-answer="a" data-explain="V_r = V_c + V_w; V_c beton katkısı, V_w etriye katkısıdır. Etriye aralığını küçültmek V_w’yi artırır.">
+    <p><strong>3.</strong> Etriye aralığını 200 mm’den 150 mm’ye düşürmek neyi değiştirir?</p>
+    <div class="labquiz__opts">
+      <button class="labquiz__opt" data-option="a">V_w ve V_r artar; kesme kullanımı düşer.</button>
+      <button class="labquiz__opt" data-option="b">M_Rd artar.</button>
+      <button class="labquiz__opt" data-option="c">A_s,req azalır.</button>
+      <button class="labquiz__opt" data-option="d">Süneklik sınırı değişir.</button>
+    </div>
+    <p class="labquiz__why" hidden></p>
+  </div>
+  <div class="labquiz__q" data-answer="d" data-explain="Kesme kırılması gevrek bir moddur; eğilme ise çelik akmasıyla sünek olabilir. Bu yüzden kesme, eğilmeden bağımsız ve genellikle daha konservatif kontrol edilir.">
+    <p><strong>4.</strong> Kesme neden eğilmeden ayrı kontrol edilir?</p>
+    <div class="labquiz__opts">
+      <button class="labquiz__opt" data-option="a">Kesme her zaman daha büyüktür.</button>
+      <button class="labquiz__opt" data-option="b">Kesme yalnızca betonla taşınır.</button>
+      <button class="labquiz__opt" data-option="c">Kesme momentten bağımsızdır.</button>
+      <button class="labquiz__opt" data-option="d">Kesme kırılması gevrek olabilir; ayrı bir sınır durum ve göçme modudur.</button>
+    </div>
+    <p class="labquiz__why" hidden></p>
+  </div>
+</div>
+
+<h2 id="ozet">6. Özet ve alıştırmalar</h2>
+
+<div class="keypoints">
+  <p><strong>Tek ekranda:</strong> Betonarme kirişte “taşıyor” demek, en az eğilme, süneklik, minimum donatı, kesme, gövde ezilmesi, etriye aralığı ve yerleşim satırlarının her birinde talep ≤ kapasite demektir. Karakteristik ve tasarım değerleri karıştırılmaz. Yöneten sınır, tasarımı belirleyen satırdır; onu görmeden yapılan optimizasyon eksiktir.</p>
+</div>
+
+<div class="exercise">
+  <p><strong>Alıştırma 1.</strong> Aynı kesitte \(V_d=220\) kN olsun. Ø8/200 yeterli mi? Değilse Ø8/150 veya Ø10/200’den hangisi daha ekonomik olur? \(V_r\)’yi hesaplayın.</p>
+  <details class="solution"><summary>Çözüm</summary>
+    <p>Ø8/200: \(A_{sw}=100.5\) mm², \(A_{sw}/s=0.5027\), \(V_w=100.9\) kN, \(V_r=209.5\) kN < 220 kN; yetersiz. Ø8/150: \(A_{sw}/s=0.670\), \(V_w=134.6\) kN, \(V_r=243.2\) kN > 220; yeterli. Ø10/200: \(A_{sw}=157.1\) mm², \(A_{sw}/s=0.785\), \(V_w=157.7\) kN, \(V_r=266.3\) kN; daha fazla kapasite, daha fazla çelik. 220 kN için Ø8/150 daha ekonomik görünür; ancak \(s_{max}=275\) ve minimum etriye koşulları da sağlanmalıdır.</p>
+  </details>
+</div>
+
+<div class="exercise">
+  <p><strong>Alıştırma 2.</strong> \(b=250\) mm, \(h=500\) mm, \(d=450\) mm, C25/30, B420C, \(M_d=180\) kN·m. \(A_{s,req}\) ve 3Ø25’in yeterliliğini kontrol edin. Süneklik sınırı sağlanıyor mu?</p>
+  <details class="solution"><summary>Çözüm</summary>
+    <p>\(f_{cd}=25/1.5=16.67\) MPa, \(f_{ctd}=1.8/1.5=1.2\) MPa, \(f_{yd}=365.2\) MPa. \(\mu=180\times10^6/(250\cdot450^2\cdot16.67)=0.213\). \(\alpha=1-\sqrt{1-2(0.213)/0.85}=0.290\). \(a=130.5\) mm. \(A_{s,flex}=0.85\cdot16.67\cdot250\cdot130.5/365.2=1265\) mm². \(A_{s,min}=0.8\cdot1.2\cdot250\cdot450/365.2=296\) mm². \(A_{s,req}=1265\) mm². 3Ø25=1473 mm² > 1265; kapasite \(M_{Rd}=0.85\cdot16.67\cdot250\cdot1473\cdot365.2/(0.85\cdot16.67\cdot250)=...\) doğrudan \(a=1473\cdot365.2/(0.85\cdot16.67\cdot250)=151.8\) mm; \(M_{Rd}=0.85\cdot16.67\cdot250\cdot151.8\cdot(450-75.9)/10^6=201.1\) kN·m > 180. \(\rho=1473/(250\cdot450)=1.31\%\); \(\rho_{max}\approx1.74\%\); sağlanır. \(\varepsilon_s/\varepsilon_{yd}\) hesaplanır ve >1 olmalıdır.</p>
+  </details>
+</div>
+
+<div class="exercise">
+  <p><strong>Alıştırma 3.</strong> Bir arkadaşınız “6Ø25 koydum, kapasite iki katına çıktı” diyor. Hangi iki kontrolle bu iddiayı çürütürsünüz?</p>
+  <details class="solution"><summary>Çözüm</summary>
+    <p>(1) \(M_{Rd}\) hesabı: \(a\) donatıyla büyür, \(z=d-a/2\) küçülür; 3Ø25’te 267.45 kN·m, 6Ø25’te 478.18 kN·m, oran 1.79’dur. (2) Yerleşim: 300 mm genişlikte tek sıraya en fazla 5Ø25 sığar; 6Ø25 iki sıra gerektirir, bu da \(d\)’yi küçültür ve kapasiteyi daha da düşürür. Ayrıca \(\rho\leq\rho_{max}\) ve \(\varepsilon_s\geq\varepsilon_{yd}\) kontrol edilmelidir.</p>
+  </details>
+</div>
+
+<p class="source">Kaynaklar: TS 500:2000 (Betonarme Yapıların Tasarım ve Yapım Kuralları), TS 498 (yükler), TBDY 2018 (deprem). Sayılar <code>scripts/check_civil.py</code> ve sayfa içi <code>?selftest=1</code> ile doğrulanır. Bu not bir uygulama projesi hesabı değildir.</p>

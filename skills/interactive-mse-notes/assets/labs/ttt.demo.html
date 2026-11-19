@@ -1,0 +1,200 @@
+<p class="lede">A TTT diagram answers “what happens if I hold this steel at a temperature?” A CCT diagram answers the question a heat treater actually asks: “what happens if I cool it?” This note builds one eutectoid steel (0.76 wt% C), follows a cooling path across both diagrams, and turns the crossings into a microstructure and a hardness number.</p>
+
+<div class="keypoints">
+  <p class="keypoints__title">What you should be able to do</p>
+  <ul>
+    <li>Read a TTT diagram: A<sub>1</sub> = 727 °C, M<sub>s</sub> = 220 °C, and the C-shaped start and finish curves.</li>
+    <li>Predict whether a given cooling rate forms pearlite, bainite, martensite, or a mixture.</li>
+    <li>Explain why the CCT curves sit to the right of and below the TTT curves.</li>
+    <li>Check a microstructure by making the fractions sum to one and by estimating HV.</li>
+  </ul>
+</div>
+
+<h2 id="diagram">A map of what the steel does while it cools</h2>
+<p>A time–temperature–transformation (TTT) diagram is an <em>isothermal</em> map. Each curve is measured by holding a small specimen at one temperature and watching how long the transformation takes. The horizontal axis is time on a logarithmic scale; the vertical axis is temperature. The two C-shaped curves that bound the transformation region are the <strong>start</strong> curve (1% transformed) and the <strong>finish</strong> curve (99% transformed).</p>
+
+<aside class="callout callout--definition">
+  <p><strong>Definition — TTT and CCT.</strong> A TTT diagram gives the start and finish times of an isothermal transformation at each temperature. A continuous-cooling-transformation (CCT) diagram gives the temperatures at which the same transformation starts and finishes when the specimen is cooled at a constant rate. They are different experiments, so they are different diagrams.</p>
+</aside>
+
+<p>For the eutectoid composition, three products compete:</p>
+<ul>
+  <li><strong>Pearlite</strong> — alternating ferrite and cementite lamellae, formed at high undercooling just below A<sub>1</sub>. Its nose is near 550 °C at about 1 s, so it is the easiest product to form.</li>
+  <li><strong>Bainite</strong> — a finer ferrite–carbide aggregate formed at lower temperature. Its nose is near 350 °C at about 10 s, so it needs more time at temperature.</li>
+  <li><strong>Martensite</strong> — a diffusionless shear transformation that begins at M<sub>s</sub> = 220 °C. It needs no incubation time; it needs only that the austenite survives that far.</li>
+</ul>
+
+<p>The nose is the point closest to the time axis. It is the shortest time at which the transformation can start, and it therefore controls how fast you may cool and still transform. A constant cooling rate <em>r</em> from 800 °C passes the nose temperature <em>T</em><sub>nose</sub> at <em>t</em> = (800 − <em>T</em><sub>nose</sub>)/<em>r</em>. Setting that time equal to the nose time gives the critical cooling rate:</p>
+
+<div class="equation"><div class="equation__body">$$r_{\text{crit}} \approx \frac{800 - T_{\text{nose}}}{t_{\text{nose}}}$$</div><div class="equation__tag"></div></div>
+
+<p>For the CCT pearlite nose at 525 °C and 10 s this estimate gives (800 − 525)/10 = 27.5 °C/s. The lab finds the same value by walking the path against the curve, because the nose is the first contact point for these curves. Cool faster than <em>r</em><sub>crit</sub> and the path misses the start curve; the austenite then reaches M<sub>s</sub> and becomes martensite.</p>
+
+<div class="table-wrap">
+<table class="msetable">
+  <caption>Teaching values used by the lab — eutectoid steel, 0.76 wt% C</caption>
+  <tr><th>Quantity</th><th>Value</th><th>Role in the model</th></tr>
+  <tr><td>A<sub>1</sub></td><td>727 °C</td><td>upper limit of the pearlite range</td></tr>
+  <tr><td>M<sub>s</sub></td><td>220 °C</td><td>start of martensite</td></tr>
+  <tr><td>Pearlite nose, TTT</td><td>550 °C, 1 s</td><td>fastest pearlite start</td></tr>
+  <tr><td>Bainite nose, TTT</td><td>350 °C, 10 s</td><td>fastest bainite start</td></tr>
+  <tr><td>Pearlite nose, CCT</td><td>525 °C, 10 s</td><td>shifted right and lower</td></tr>
+  <tr><td>Critical rate, TTT</td><td>≈ 250 °C/s</td><td>misses the pearlite nose</td></tr>
+  <tr><td>Critical rate, CCT</td><td>≈ 27 °C/s</td><td>misses the shifted nose</td></tr>
+  <tr><td>HV: pearlite / bainite / martensite / austenite</td><td>250 / 350 / 700 / 200</td><td>rough weighted estimate</td></tr>
+</table>
+</div>
+
+<p>The numbers are authored teaching values, not a measured diagram or a CALPHAD calculation. Real noses and critical rates depend on grain size, prior austenite, alloying, and specimen size.</p>
+
+<h2 id="lab">Lab: cool the steel and read the structure</h2>
+<p>Set a cooling rate and, if you like, hold the steel at 620 °C on the way down. The dark curve is the cooling path; the amber curves are pearlite and the blue curves are bainite. Solid is the start curve, dashed is the finish. Watch which curves the path actually crosses.</p>
+
+<div class="mselab" data-mse-lab="ttt">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 01 · phase transformations</p>
+    <h3>Cool a eutectoid steel across the TTT and CCT diagrams</h3>
+    <p>Change the cooling rate over four decades, add an isothermal hold, and switch between TTT and CCT. The readout turns the crossings into phase fractions and an estimated hardness.</p>
+  </div>
+
+  <details class="predict">
+    <summary>Predict first</summary>
+    <p>Start in CCT at 10 °C/s. Will the path cross the pearlite start, the bainite start, both, or neither? Commit to an answer before you drag the slider. Then predict what happens at 100 °C/s, and whether a 300 s hold at 620 °C can turn a mostly martensitic structure into pearlite.</p>
+  </details>
+
+  <div class="mselab__controls" data-controls></div>
+
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap">
+        <canvas class="mselab__canvas mselab__canvas--fixed" data-canvas data-height="400"
+                role="img" aria-label="TTT or CCT diagram for eutectoid steel with a cooling path and the resulting phase fractions"></canvas>
+      </div>
+      <p class="mselab__caption">Vertical axis: temperature from 0 to 800 °C. Horizontal axis: time from 0.1 to 10<sup>5</sup> s on a log scale. The dashed horizontals are A<sub>1</sub> = 727 °C and M<sub>s</sub> = 220 °C. Amber = pearlite, blue = bainite; solid = start, dashed = finish. The dark line is the cooling path; a horizontal step is the hold at 620 °C. The shaded bands are the transformation regions, not measured fractions.</p>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+
+  <p class="mselab__print">Printed default: in CCT at 10 °C/s the path reaches 500 °C in 30 s, enters the pearlite start near 584 °C and the bainite start near 398 °C, and gives about 48% pearlite, 22% bainite, 27% martensite, and 3% retained austenite — an estimated 392 HV. At 100 °C/s the path misses both start curves and the structure is about 90% martensite plus 10% retained austenite.</p>
+
+  <script type="application/json" class="mselab-config">
+    {"coolingRate":10,"hold":0,"mode":"CCT"}
+  </script>
+</div>
+
+<h2 id="rule">From path crossings to fractions</h2>
+<p>The model uses three rules, in order. First, if the path enters the pearlite start curve, pearlite forms; how much depends on how far the path penetrates toward the pearlite finish. Second, if it then enters the bainite start curve, bainite forms from the austenite that pearlite left behind. Third, whatever austenite is left when the path reaches M<sub>s</sub> = 220 °C transforms to martensite, except for a retained fraction of 10% of that austenite. The four fractions are then normalised so that they sum to exactly one.</p>
+
+<p>The fractions are not a kinetic calculation. They are a monotone estimate: deeper penetration of the start–finish band means more of that constituent. That is enough to teach the competition, but it does not reproduce a measured CCT diagram.</p>
+
+<aside class="callout callout--example">
+  <p><strong>Worked example — CCT, 10 °C/s, no hold, 1 kg of austenite.</strong></p>
+  <p>(1) Time to 500 °C: (800 − 500)/10 = 30 s. (2) The path crosses the pearlite start near 584 °C and the bainite start near 398 °C. (3) The model returns 0.48 kg pearlite, 0.22 kg bainite, 0.27 kg martensite, and 0.03 kg retained austenite. Mass balance: 0.48 + 0.22 + 0.27 + 0.03 = 1.00 kg, so no mass is lost or invented. (4) Weighted hardness: 0.48(250) + 0.22(350) + 0.27(700) + 0.03(200) = 120 + 77 + 189 + 6 = 392 HV.</p>
+  <p>The 10% retained-austenite rule applies only to the austenite still present at M<sub>s</sub>. Here that is 0.30 kg, so 0.03 kg is retained and 0.27 kg becomes martensite. If the path had formed 100% pearlite above M<sub>s</sub>, there would be no austenite left and therefore no retained austenite.</p>
+</aside>
+
+<p>Check the units: kilograms in, kilograms out; volume fractions are treated as mass fractions in this schematic; HV is a weighted average of hardness values, not a rule of mixtures for strength. The hardness numbers are approximate because real pearlite spacing, bainite morphology, and carbon in solution all move them.</p>
+
+<h2 id="shift">Why the CCT curves move right and down</h2>
+<p>An isothermal experiment gives the steel unlimited time at one temperature. Continuous cooling gives it only a short visit to each temperature, so the transformation is delayed: the start curve moves to longer times (right) and to lower temperatures (down). The finish curve moves with it. The shift is not a change in the steel; it is a change in the experiment.</p>
+
+<p>In this model the CCT pearlite nose moves from 550 °C / 1 s to 525 °C / 10 s, and its critical rate falls from about 250 °C/s to about 27 °C/s. That is why a steel that would transform isothermally at 550 °C can miss the transformation entirely when cooled quickly. The bainite curve shifts less, because bainite is already sluggish and needs a long hold even in the isothermal experiment.</p>
+
+<table class="msetable">
+  <caption>Same steel, two experiments</caption>
+  <tr><th>Feature</th><th>TTT</th><th>CCT</th></tr>
+  <tr><td>Experiment</td><td>hold at constant T</td><td>cool at constant rate</td></tr>
+  <tr><td>Pearlite nose</td><td>550 °C, 1 s</td><td>525 °C, 10 s</td></tr>
+  <tr><td>Critical rate</td><td>≈ 250 °C/s</td><td>≈ 27 °C/s</td></tr>
+  <tr><td>Path comparison</td><td>schematic only</td><td>like-for-like</td></tr>
+</table>
+
+<aside class="callout callout--warning">
+  <p><strong>Model limits.</strong> The curves are parabolas in <em>T</em> versus log <em>t</em>, chosen to put the noses at the stated temperatures and times. They are not measured or calculated CCT curves. The model ignores grain growth, prior microstructure, alloying, deformation, and the latent heat that makes a real cooling curve slow down during transformation.</p>
+</aside>
+
+<h2 id="mistakes">Common mistakes</h2>
+<ul>
+  <li><strong>“Crossing the start curve gives 100% of that phase.”</strong> The start curve is 1% transformed. The fraction grows as the path moves toward the finish curve. A path that clips the start and then leaves the band gives only a little pearlite, not a fully pearlitic structure.</li>
+  <li><strong>“A constant cooling rate is a straight line on this plot.”</strong> It is straight on temperature versus linear time. The axis here is logarithmic, so the same path curves: equal temperature drops take equal times, but each equal time step covers fewer decades as time grows.</li>
+  <li><strong>“Faster cooling always gives a harder part.”</strong> Past the critical rate the structure is already martensite plus retained austenite. In this model, 100 °C/s and 200 °C/s both give 90% martensite and 10% retained austenite, so both give 650 HV: extra cooling speed cannot remove the retained austenite. Real steels can also crack or distort when cooled this fast.</li>
+  <li><strong>“TTT and CCT are two views of the same curves.”</strong> They are different experiments. Using an isothermal start curve to judge a continuous cool overestimates how much transformation occurs, because the path does not spend the isothermal time at any one temperature.</li>
+</ul>
+
+<h2 id="check">Retrieval check</h2>
+<p>Answer without scrolling back. Each explanation names the cause.</p>
+
+<section class="msequiz" data-mse-quiz data-quiz-id="ttt-lab">
+  <div class="msequiz__bar">
+    <span data-quiz-progress></span>
+    <span data-quiz-score></span>
+    <button type="button" class="msebtn" data-quiz-retry hidden>Retry missed</button>
+    <button type="button" class="msebtn" data-quiz-reset>Reset</button>
+  </div>
+  <div data-quiz-questions></div>
+  <script type="application/json" class="quiz-data">
+  [
+    {
+      "prompt": "In the CCT view, you cool at 100 °C/s from 800 °C. Which structure does the model predict?",
+      "options": ["Almost all pearlite, because pearlite is the equilibrium product", "Mostly bainite, because the path crosses the bainite nose", "About 90% martensite plus 10% retained austenite, because the path misses both start curves", "Pure austenite, because nothing can transform below A1"],
+      "answer": 2,
+      "explain": "At 100 °C/s the path reaches 500 °C in about 3 s, far to the left of the CCT start curves. The austenite therefore survives to Ms = 220 °C, where about 90% shears to martensite and 10% is retained. Pearlite is the equilibrium product only if diffusion has time; here it does not."
+    },
+    {
+      "prompt": "Why do the CCT start and finish curves lie to the right of the TTT curves?",
+      "options": ["Because the steel is cooled below A1, which lowers the transformation temperature", "Because continuous cooling gives the steel only a short time near each temperature, so transformation starts later and at a lower temperature", "Because the cooling rate changes the carbon content of the steel", "Because Ms rises when the cooling rate increases"],
+      "answer": 1,
+      "explain": "The alloy is the same; the experiment is different. An isothermal hold gives unlimited time at one temperature, while a continuous cool passes through each temperature quickly. The start is delayed (right) and displaced to a lower temperature (down). Ms is essentially unchanged, and the composition does not change."
+    },
+    {
+      "prompt": "A cooling path crosses the pearlite start curve but never reaches the pearlite finish curve. What can you conclude?",
+      "options": ["The steel is 100% pearlite", "Pearlite has started but is incomplete, so the remaining austenite can form bainite or martensite on further cooling", "No pearlite formed, because the finish curve was not crossed", "The steel must be fully martensitic"],
+      "answer": 1,
+      "explain": "The start curve marks the beginning of transformation, not its completion. Crossings between start and finish give a partial fraction. Whatever austenite remains can transform to bainite if the path enters the bainite band, or to martensite once the path passes Ms."
+    },
+    {
+      "prompt": "Which feature of the TTT diagram sets the critical cooling rate for avoiding pearlite?",
+      "options": ["The finish curve at 727 °C", "The Ms line at 220 °C", "The nose, because it is the shortest time at which transformation can start", "The right-hand edge of the time axis at 10⁵ s"],
+      "answer": 2,
+      "explain": "The nose is the closest point to the time axis. A cooling path must pass that temperature within the nose time to transform; if it passes later, it is to the right of the start curve and transformation has already begun. The critical rate is roughly (800 − Tnose)/tnose, which is why moving the nose right in CCT lowers the critical rate."
+    },
+    {
+      "prompt": "In CCT at 20 °C/s with no hold, the model gives about 15% pearlite. Adding a 300 s hold at 620 °C changes the result to about 100% pearlite. Why?",
+      "options": ["The hold lowers Ms, so less martensite forms", "The hold changes the steel composition toward the eutectoid", "The hold moves the path horizontally at constant temperature, keeping it inside the start–finish band long enough for pearlite to finish", "The hold makes the cooling rate effectively zero for the rest of the path"],
+      "answer": 2,
+      "explain": "A hold is a horizontal segment on a temperature–log time plot. The path stays at 620 °C while time increases, so it moves right through the pearlite band and can cross the finish curve. Ms and the composition are unchanged; only the time spent in the transformation range changed."
+    }
+  ]
+  </script>
+</section>
+
+<h2 id="summary">Summary and exercises</h2>
+<p>A TTT diagram is an isothermal map; a CCT diagram is a continuous-cooling map. The nose controls the critical cooling rate, and the CCT nose sits right and lower, so the critical rate is lower. Cross the start curve to begin a transformation; approach the finish curve to complete it; whatever austenite reaches M<sub>s</sub> becomes martensite, with some retained austenite. Check every microstructure by making the fractions sum to one.</p>
+
+<div class="exercise">
+  <p><strong>1.</strong> A eutectoid steel is cooled at 2 °C/s and at 50 °C/s. Compute the time to reach 500 °C in each case. Which path is more likely to cross the pearlite start in the CCT view, and why?</p>
+  <details class="solution">
+    <summary>Solution</summary>
+    <p>At 2 °C/s: (800 − 500)/2 = 150 s. At 50 °C/s: (800 − 500)/50 = 6 s. The slow path spends far longer in the 500–600 °C window, so it sits to the right of the start curve and crosses it; the fast path is still far to the left and misses. The start curve is a time threshold, not a temperature threshold.</p>
+  </details>
+</div>
+
+<div class="exercise">
+  <p><strong>2.</strong> A microstructure contains 60% pearlite, 25% bainite, 12% martensite, and 3% retained austenite. Estimate HV with the lab's values (250, 350, 700, 200). Check the fractions first.</p>
+  <details class="solution">
+    <summary>Solution</summary>
+    <p>The fractions sum to 0.60 + 0.25 + 0.12 + 0.03 = 1.00. HV = 0.60(250) + 0.25(350) + 0.12(700) + 0.03(200) = 150 + 87.5 + 84 + 6 = 327.5 ≈ 328 HV. The result is dominated by the martensite despite its small fraction, because its hardness is roughly three times that of pearlite.</p>
+  </details>
+</div>
+
+<div class="exercise">
+  <p><strong>3.</strong> Explain why a 300 s hold at 620 °C can produce a fully pearlitic structure when the same steel cooled at 20 °C/s without a hold gives only about 15% pearlite.</p>
+  <details class="solution">
+    <summary>Solution</summary>
+    <p>Without the hold, the path passes 620 °C quickly and leaves the pearlite band before much transformation accumulates. The hold adds time at constant temperature, moving the path horizontally to the right; it crosses the start curve and then the finish curve, so the pearlite reaction can complete. The hold does not change A1, Ms, or the composition — it changes the time available.</p>
+  </details>
+</div>

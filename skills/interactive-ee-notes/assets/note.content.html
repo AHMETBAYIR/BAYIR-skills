@@ -1,0 +1,68 @@
+<p class="lede">
+  Bu bir başlangıç notudur. Kendi konunuzu, denkleminizi ve labınızı ekleyin;
+  sayıyı önce <code>check_ee.py</code> ile doğrulayın, sonra metne yazın.
+</p>
+
+<h2 id="model">Model</h2>
+
+<p>
+  Seri RC devresinde zaman sabiti <span class="math">τ = RC</span>'dir.
+  Aşağıdaki labde <span class="math">R</span> ve <span class="math">t</span>
+  değişir; gerilim eğrisi <span class="math">V<sub>s</sub>(1−e<sup>−t/τ</sup>)</span>
+  ile ilerler.
+</p>
+
+<div class="eelab" data-ee-lab="transient">
+  <p class="eelab__eyebrow">Lab · RC</p>
+  <h3 id="lab-rc">Zaman sabiti</h3>
+  <div class="eegate" data-gate data-answer="b"
+       data-why="τ = RC; R iki katına çıkarsa τ iki katına çıkar.">
+    <p class="eegate__q">R iki katına çıkarsa τ ne olur?</p>
+    <div class="eegate__opts">
+      <button class="eegate__opt" data-opt="a" type="button">Yarıya iner</button>
+      <button class="eegate__opt" data-opt="b" type="button">İki katına çıkar</button>
+      <button class="eegate__opt" data-opt="c" type="button">Değişmez</button>
+    </div>
+    <p class="eegate__why" hidden></p>
+  </div>
+  <div class="eelab__controls" data-controls>
+    <label class="eefield">V_s (V)
+      <input type="range" data-param="vs" data-default="10" min="1" max="20" step="0.5" data-digits="1">
+      <output data-out="vs"></output>
+    </label>
+    <label class="eefield">R (kΩ)
+      <input type="range" data-param="r" data-default="1" min="0.1" max="10" step="0.1" data-digits="1">
+      <output data-out="r"></output>
+    </label>
+    <label class="eefield">C (µF)
+      <input type="range" data-param="c" data-default="1" min="0.1" max="10" step="0.1" data-digits="1">
+      <output data-out="c"></output>
+    </label>
+    <label class="eefield">t (ms)
+      <input type="range" data-param="t" data-default="1" min="0" max="5" step="0.05" data-digits="2">
+      <output data-out="t"></output>
+    </label>
+    <button type="button" data-reset>Sıfırla</button>
+  </div>
+  <div class="eelab__canvaswrap">
+    <canvas data-canvas data-height="300" role="img"></canvas>
+  </div>
+  <div class="eelab__readout" data-readout></div>
+  <p class="eelab__status" data-status aria-live="polite"></p>
+  <p class="eelab__print" data-print>Statik yedek: τ = RC; R = 1 kΩ, C = 1 µF için τ = 1 ms ve v_C(τ) = 6,32 V.</p>
+</div>
+
+<h2 id="ozet">Özet</h2>
+
+<div class="keypoints">
+  <p class="keypoints__title">Anahtar noktalar</p>
+  <ul>
+    <li><span class="math">τ = RC</span>.</li>
+    <li><span class="math">v<sub>C</sub>(τ) = 0,632V<sub>s</sub></span>.</li>
+    <li><span class="math">5τ</span> sonunda kararlı hâl kabul edilir.</li>
+  </ul>
+</div>
+
+<h2 id="kaynaklar">Kaynaklar</h2>
+
+<p>Dorf &amp; Svoboda, <em>Introduction to Electric Circuits</em>, 9. baskı.</p>

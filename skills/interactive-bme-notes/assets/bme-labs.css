@@ -1,0 +1,417 @@
+/* ============================================================
+   Interactive materials science notes — lab layer
+   Sits on top of the html-study-notes design system.
+   Vanilla CSS. No framework, no external fonts, no canvas lib.
+   ============================================================ */
+
+:root {
+  --bme-alpha: #2f5d8a;
+  --bme-beta: #9a3b32;
+  --bme-liquid: #b07a2a;
+  --bme-gamma: #2f6b4f;
+  --bme-grid: rgba(30, 27, 23, 0.10);
+  --bme-grid-strong: rgba(30, 27, 23, 0.22);
+  --bme-atom-a: #6f93b8;
+  --bme-atom-b: #c07a6a;
+  --bme-atom-edge: rgba(30, 27, 23, 0.35);
+  --bme-band: rgba(47, 93, 138, 0.10);
+}
+
+html[data-theme="dark"] {
+  --bme-alpha: #8db8df;
+  --bme-beta: #e39a7d;
+  --bme-liquid: #e0a95a;
+  --bme-gamma: #8fc9a9;
+  --bme-grid: rgba(242, 236, 223, 0.10);
+  --bme-grid-strong: rgba(242, 236, 223, 0.24);
+  --bme-atom-a: #8fb4d8;
+  --bme-atom-b: #d99a88;
+  --bme-atom-edge: rgba(242, 236, 223, 0.35);
+  --bme-band: rgba(141, 184, 223, 0.10);
+}
+
+/* ---------- shell ---------- */
+
+.bmelab {
+  margin: var(--space-xl) 0;
+  padding: var(--space-m) 0 var(--space-s);
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  break-inside: avoid-page;
+}
+
+.bmelab__head { margin-bottom: var(--space-s); }
+.bmelab__eyebrow {
+  margin: 0 0 0.2rem;
+  font: 600 0.66rem/1.4 var(--font-ui);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.bmelab__head h3 {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.bmelab__head p {
+  margin: 0;
+  max-width: 64ch;
+  color: var(--ink-2);
+  font-size: 0.96rem;
+}
+
+/* ---------- controls ---------- */
+
+.bmelab__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.55rem 0.8rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--space-s);
+}
+
+.bmefield {
+  display: grid;
+  gap: 0.18rem;
+  font: 600 0.62rem/1.2 var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 8.5rem;
+}
+
+.bmefield select,
+.bmefield input[type="range"] {
+  font: 500 0.82rem/1.2 var(--font-ui);
+  color: var(--ink);
+}
+
+.bmefield select {
+  padding: 0.32rem 0.4rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  max-width: 15rem;
+}
+
+.bmefield input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  min-width: 7rem;
+}
+
+.bmefield output {
+  font: 500 0.78rem/1.2 var(--font-mono);
+  color: var(--ink-2);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.bmebtn {
+  font: 500 0.74rem/1 var(--font-ui);
+  padding: 0.42rem 0.62rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--sheet);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+}
+.bmebtn:hover { border-color: var(--accent); color: var(--accent); }
+.bmebtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bmebtn[aria-pressed="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.bmebtn--ghost { border-color: transparent; background: transparent; }
+
+/* ---------- grid ---------- */
+
+.bmelab__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(13rem, 0.75fr);
+  gap: var(--space-m);
+  align-items: start;
+}
+
+.bmelab__canvas-wrap {
+  position: relative;
+  width: 100%;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.bmelab__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+  cursor: grab;
+}
+.bmelab__canvas:active { cursor: grabbing; }
+.bmelab__canvas--fixed { cursor: crosshair; }
+
+.bmelab__caption {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.bmelab__panel { display: grid; gap: 0.7rem; align-content: start; }
+
+.bmelab__readout {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.6rem 0.7rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  font: 500 0.8rem/1.35 var(--font-ui);
+}
+.bmelab__readout dl { margin: 0; display: grid; gap: 0.22rem; }
+.bmelab__readout .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  border-bottom: 1px dotted var(--rule);
+  padding-bottom: 0.15rem;
+}
+.bmelab__readout .row:last-child { border-bottom: 0; }
+.bmelab__readout dt { color: var(--muted); font-weight: 500; }
+.bmelab__readout dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  text-align: right;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.bmelab__status {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+  min-height: 3.4em;
+}
+
+.bmelab__hint {
+  margin: 0;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.bmelab__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.7rem;
+  font: 500 0.7rem/1.3 var(--font-ui);
+  color: var(--ink-2);
+}
+.bmelab__legend span { display: inline-flex; align-items: center; gap: 0.3rem; }
+.bmelab__swatch {
+  width: 0.75rem; height: 0.75rem; border-radius: 2px;
+  border: 1px solid rgba(0,0,0,0.18);
+}
+
+/* ---------- phase fraction bar ---------- */
+
+.bmebar {
+  display: flex;
+  width: 100%;
+  height: 1.4rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--sheet);
+}
+.bmebar__part {
+  display: grid;
+  place-items: center;
+  font: 600 0.62rem/1 var(--font-ui);
+  color: #fffdf8;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 140ms ease;
+}
+html[data-theme="dark"] .bmebar__part { color: #16130f; }
+.bmebar__part--alpha { background: var(--bme-alpha); }
+.bmebar__part--beta { background: var(--bme-beta); }
+.bmebar__part--liquid { background: var(--bme-liquid); color: #fffdf8; }
+.bmebar__part--empty { background: var(--rule); color: var(--muted); }
+
+/* ---------- mini table ---------- */
+
+.bmetable {
+  width: 100%;
+  border-collapse: collapse;
+  font: 500 0.74rem/1.35 var(--font-ui);
+}
+.bmetable caption {
+  caption-side: top;
+  text-align: left;
+  font: 600 0.62rem/1.4 var(--font-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 0.25rem;
+}
+.bmetable th,
+.bmetable td {
+  padding: 0.25rem 0.35rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: right;
+  white-space: nowrap;
+}
+.bmetable th:first-child,
+.bmetable td:first-child { text-align: left; }
+.bmetable th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.bmetable tr:last-child td { border-bottom: 0; }
+
+/* ---------- quiz ---------- */
+
+.bmequiz {
+  margin: var(--space-l) 0;
+  padding: var(--space-m) 0;
+  border-top: 1px solid var(--rule-strong);
+  break-inside: avoid;
+}
+.bmequiz__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+  font: 600 0.7rem/1.4 var(--font-ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.bmequiz__bar .bmebtn { margin-left: auto; text-transform: none; letter-spacing: 0; }
+.bmequiz__bar .bmebtn + .bmebtn { margin-left: 0; }
+.bmequiz__question {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.bmequiz__question:last-child { border-bottom: 0; }
+.bmequiz__prompt {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.bmequiz__prompt .qnum {
+  font: 600 0.68rem/1 var(--font-ui);
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-right: 0.35rem;
+}
+.bmequiz__options { display: grid; gap: 0.35rem; }
+.bmequiz__option {
+  text-align: left;
+  font: 500 0.86rem/1.45 var(--font-body);
+  padding: 0.42rem 0.6rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--sheet);
+  color: var(--ink);
+  cursor: pointer;
+}
+.bmequiz__option:hover:not(:disabled) { border-color: var(--accent); }
+.bmequiz__option:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bmequiz__option:disabled { cursor: default; }
+.bmequiz__option.is-correct { border-color: var(--ex); background: var(--ex-soft); }
+.bmequiz__option.is-wrong { border-color: var(--accent); background: var(--accent-soft); }
+.bmequiz__option.is-correct::after { content: "  ✓"; color: var(--ex); }
+.bmequiz__option.is-wrong::after { content: "  ✗"; color: var(--accent); }
+.bmequiz__explain {
+  display: none;
+  margin: 0.45rem 0 0;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+  background: var(--note-soft);
+  border-left: 2px solid var(--rule-strong);
+}
+.bmequiz__question.is-answered .bmequiz__explain { display: block; }
+.bmequiz__explain strong { color: var(--ink); }
+
+/* ---------- static figure helper ---------- */
+
+.bmefig {
+  margin: var(--space-m) 0;
+  padding: 0.8rem;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.bmefig svg { display: block; width: 100%; height: auto; }
+.bmefig figcaption {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* ---------- predict / print ---------- */
+
+.bmelab .predict { margin: 0 0 var(--space-s); }
+.bmelab__print { display: none; }
+.bmelab__print-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 760px) {
+  .bmelab__grid { grid-template-columns: 1fr; gap: var(--space-s); }
+  .bmelab__panel { grid-template-columns: 1fr; }
+  .bmefield { min-width: 7.2rem; }
+  .bmelab__canvas-wrap { border-left: 0; border-right: 0; margin-inline: -0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bmebtn, .bmebar__part { transition: none; }
+}
+
+/* ---------- print ---------- */
+
+@media print {
+  .bmelab__controls,
+  .bmelab__hint,
+  .bmequiz__bar,
+  .bmebtn { display: none !important; }
+  .bmelab {
+    margin: 1.2rem 0;
+    padding-top: 0.8rem;
+    border-top: 1px solid #999;
+  }
+  .bmelab__grid { grid-template-columns: 1.4fr 0.8fr; gap: 1rem; }
+  .bmelab__canvas-wrap { break-inside: avoid; }
+  .bmelab__readout { border-left: 2px solid #999; }
+  .bmelab__status { min-height: 0; }
+  .bmequiz__option { border-color: #bbb; }
+  .bmequiz__explain { display: block !important; background: none; border-left-color: #999; }
+  .bmelab__print { display: block; font-size: 0.8rem; color: #333; }
+}

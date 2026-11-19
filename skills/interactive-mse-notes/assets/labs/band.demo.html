@@ -1,0 +1,140 @@
+<p class="lede">A band diagram is an energy map, not a picture of electrons. The gap between the valence and conduction bands is a property of the crystal; the Fermi level is a property of the doping and the temperature. This lab keeps the gap fixed and lets you move the Fermi level across seven decades of doping and a 200–500 K temperature window.</p>
+
+<div class="keypoints">
+  <p class="keypoints__title">What you should be able to do</p>
+  <ul>
+    <li>Place <em>E</em><sub>c</sub>, <em>E</em><sub>v</sub>, <em>E</em><sub>i</sub>, and <em>E</em><sub>F</sub> on the same energy axis and read the offset in eV.</li>
+    <li>Predict which way <em>E</em><sub>F</sub> moves when you add donors or acceptors.</li>
+    <li>Explain why heating an extrinsic semiconductor pulls <em>E</em><sub>F</sub> back toward midgap.</li>
+    <li>Use <em>np</em> = <em>n</em><sub>i</sub>² to check a majority/minority pair.</li>
+  </ul>
+</div>
+
+<h2 id="gap">The gap is fixed; the Fermi level is not</h2>
+<p>The valence band is the sea of bonding states; the conduction band is the empty set of antibonding states above it. Their separation is the band gap <em>E</em><sub>g</sub>. At <em>T</em> = 0 K the valence band is full and the conduction band is empty. At finite temperature a few electrons are thermally promoted, leaving holes behind, and the electron and hole populations are tied together by</p>
+
+<div class="equation"><div class="equation__body">$$n_i = \sqrt{N_c N_v}\;e^{-E_g/2k_BT}$$</div><div class="equation__tag"></div></div>
+
+<p>with <em>N</em><sub>c</sub> and <em>N</em><sub>v</sub> the effective densities of states at the band edges and <em>k</em><sub>B</sub> = 8.617333 × 10<sup>−5</sup> eV/K. The intrinsic level <em>E</em><sub>i</sub> is the chemical potential of the undoped crystal. Adding donors or acceptors moves <em>E</em><sub>F</sub> away from <em>E</em><sub>i</sub>; it does not change <em>E</em><sub>g</sub> in this model.</p>
+
+<div class="table-wrap">
+<table class="msetable">
+  <caption>Approximate room-temperature parameters used by the lab</caption>
+  <tr><th>Material</th><th>Eg (eV)</th><th>Nc (cm⁻³)</th><th>Nv (cm⁻³)</th><th>ni at 300 K (cm⁻³)</th></tr>
+  <tr><td>Si</td><td>1.12</td><td>2.8 × 10¹⁹</td><td>1.04 × 10¹⁹</td><td>6.7 × 10⁹</td></tr>
+  <tr><td>Ge</td><td>0.66</td><td>1.04 × 10¹⁹</td><td>6.0 × 10¹⁸</td><td>2.3 × 10¹³</td></tr>
+  <tr><td>GaAs</td><td>1.42</td><td>4.7 × 10¹⁷</td><td>7.0 × 10¹⁸</td><td>2.1 × 10⁶</td></tr>
+  <tr><td>GaN</td><td>3.4</td><td>2.3 × 10¹⁸</td><td>1.0 × 10¹⁹</td><td>≈ 1 × 10⁻¹⁰</td></tr>
+</table>
+</div>
+
+<p>The numbers are rounded textbook values. Real <em>N</em><sub>c</sub>, <em>N</em><sub>v</sub>, and <em>E</em><sub>g</sub> depend on temperature and on the band structure; the lab keeps <em>E</em><sub>g</sub> constant and scales the densities of states as <em>T</em><sup>3/2</sup>. With these rounded values the computed Si <em>n</em><sub>i</sub> is 6.7 × 10⁹ cm⁻³ at 300 K; handbook values near 1 × 10¹⁰ cm⁻³ use slightly different effective masses and gap values.</p>
+
+<h2 id="lab">Lab: move the Fermi level with doping and temperature</h2>
+<p>Switch the doping type and sweep the concentration. The band edges stay put; the accent line is the Fermi level. The dashed line, when enabled, is where <em>E</em><sub>F</sub> sat at 300 K.</p>
+
+<div class="mselab" data-mse-lab="band">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 01 · electronic materials</p>
+    <h3>Dope a semiconductor and watch the Fermi level move</h3>
+    <p>Choose a material, n- or p-type doping, a concentration over seven decades, and a temperature. The readout gives <em>n</em>, <em>p</em>, <em>n</em><sub>i</sub>, and the <em>E</em><sub>F</sub> − <em>E</em><sub>i</sub> offset.</p>
+  </div>
+
+  <details class="predict">
+    <summary>Predict first</summary>
+    <p>At fixed donor concentration, heat Si from 300 K to 500 K. Does <em>E</em><sub>F</sub> move toward the conduction band, stay put, or move back toward midgap? And does <em>E</em><sub>g</sub> change? Commit to both answers before you move the temperature slider.</p>
+  </details>
+
+  <div class="mselab__controls" data-controls></div>
+
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap">
+        <canvas class="mselab__canvas mselab__canvas--band" data-canvas data-height="420"
+                role="img" aria-label="Band diagram with valence band, conduction band, intrinsic level, and Fermi level"></canvas>
+      </div>
+      <p class="mselab__caption">The vertical axis is scaled to each material's gap, so compare positions <em>within</em> the gap, not gap widths across materials. Filled blue dots are electrons above <em>E</em><sub>c</sub>; open red circles are holes below <em>E</em><sub>v</sub>. Dot counts are qualitative. <em>E</em><sub>i</sub> is drawn at midgap.</p>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+
+  <p class="mselab__print">Print fallback: at 300 K, Si with <em>N</em><sub>d</sub> = 1 × 10¹⁶ cm⁻³ has <em>n</em><sub>i</sub> ≈ 6.7 × 10⁹ cm⁻³, <em>n</em> ≈ 1 × 10¹⁶ cm⁻³, <em>p</em> ≈ 4.5 × 10³ cm⁻³, and <em>E</em><sub>F</sub> − <em>E</em><sub>i</sub> ≈ +0.37 eV. At 500 K, <em>n</em><sub>i</sub> ≈ 8.3 × 10¹³ cm⁻³ and the offset falls to ≈ +0.21 eV. <em>E</em><sub>g</sub> stays 1.12 eV.</p>
+
+  <script type="application/json" class="mselab-config">
+    {"material":"si","type":"n","doping":1e16,"temperature":300,"showGhost":false}
+  </script>
+</div>
+
+<h2 id="reading">How to read the number</h2>
+<p>For a non-degenerate n-type sample with full ionisation, <em>n</em> ≈ <em>N</em><sub>d</sub>. The Boltzmann relation <em>n</em> = <em>n</em><sub>i</sub> exp[(<em>E</em><sub>F</sub> − <em>E</em><sub>i</sub>)/<em>k</em><sub>B</sub><em>T</em>] then gives</p>
+
+<div class="equation"><div class="equation__body">$$E_F - E_i = k_BT\ln\!\left(\frac{N_d}{n_i}\right)$$</div><div class="equation__tag"></div></div>
+
+<p>and the minority holes follow from <em>np</em> = <em>n</em><sub>i</sub>². For p-type doping the sign flips: <em>E</em><sub>i</sub> − <em>E</em><sub>F</sub> = <em>k</em><sub>B</sub><em>T</em> ln(<em>N</em><sub>a</sub>/<em>n</em><sub>i</sub>). The logarithm is why a factor-of-ten change in doping shifts <em>E</em><sub>F</sub> by only 2.3 <em>k</em><sub>B</sub><em>T</em>, about 0.06 eV at room temperature.</p>
+
+<aside class="callout callout--example">
+  <p><strong>Worked example — Si, <em>N</em><sub>d</sub> = 1 × 10¹⁶ cm⁻³, 300 K.</strong></p>
+  <p>(1) Densities of states: <em>N</em><sub>c</sub> = 2.8 × 10¹⁹ cm⁻³ and <em>N</em><sub>v</sub> = 1.04 × 10¹⁹ cm⁻³, so √(<em>N</em><sub>c</sub><em>N</em><sub>v</sub>) = 1.71 × 10¹⁹ cm⁻³. (2) Thermal factor: exp[−1.12/(2 × 0.025852)] = exp(−21.66) = 3.9 × 10⁻¹⁰. (3) <em>n</em><sub>i</sub> = 1.71 × 10¹⁹ × 3.9 × 10⁻¹⁰ = 6.7 × 10⁹ cm⁻³. (4) Offset: <em>k</em><sub>B</sub><em>T</em> = 0.025852 eV, ln(10¹⁶/6.7 × 10⁹) = 14.2, so <em>E</em><sub>F</sub> − <em>E</em><sub>i</sub> = 0.37 eV. (5) Minority holes: <em>p</em> = <em>n</em><sub>i</sub>²/<em>n</em> = (6.7 × 10⁹)²/10¹⁶ = 4.5 × 10³ cm⁻³. The product <em>np</em> = 4.5 × 10¹⁹ cm⁻⁶ is <em>n</em><sub>i</sub>², as required.</p>
+</aside>
+
+<p>Check the units: <em>N</em><sub>d</sub>/<em>n</em><sub>i</sub> is dimensionless, so the logarithm is dimensionless; <em>k</em><sub>B</sub><em>T</em> is in eV; the offset is in eV. A shift of 0.37 eV is well inside the 0.56 eV half-gap, so the non-degenerate treatment is reasonable.</p>
+
+<h2 id="limits">Where the model stops</h2>
+<p>The lab is a teaching model, not a device simulator. Four limits matter:</p>
+<ul>
+  <li><strong>Constant gap.</strong> <em>E</em><sub>g</sub> shrinks with temperature in a real crystal (Varshni). Holding it fixed isolates the doping and <em>n</em><sub>i</sub> effects.</li>
+  <li><strong>Full ionisation.</strong> Every dopant is assumed ionised. At low temperature, donors and acceptors freeze out and the carrier density falls below the doping.</li>
+  <li><strong>Boltzmann statistics.</strong> When <em>E</em><sub>F</sub> comes within a few <em>k</em><sub>B</sub><em>T</em> of a band edge, the exponential tail is no longer valid; degenerate statistics and band-gap renormalisation are needed. The lab clamps the drawn level at the band edge and flags the case.</li>
+  <li><strong>Midgap <em>E</em><sub>i</sub>.</strong> The true intrinsic level is shifted toward the band with the smaller effective mass. For GaAs, where <em>N</em><sub>c</sub> and <em>N</em><sub>v</sub> differ by a factor of 15, that shift is not negligible.</li>
+  <li><strong>Flat bands, one material.</strong> The diagram is a homogeneous crystal with no junction, field, surface band bending, or contact. It is not a device band diagram.</li>
+</ul>
+
+<p>A common mistake is to read “<em>E</em><sub>F</sub> is in the gap” as “there are no free carriers.” The Fermi level is a chemical potential, not an occupied state; the carrier densities come from the distance to the band edges and the temperature. A second mistake is to expect doping to widen the gap: doping changes the occupation, not the band structure in this model.</p>
+
+<h2 id="check">Retrieval check</h2>
+<p>Answer without scrolling back. Each explanation names the cause.</p>
+
+<section class="msequiz" data-mse-quiz data-quiz-id="band-lab">
+  <div class="msequiz__bar">
+    <span data-quiz-progress></span>
+    <span data-quiz-score></span>
+    <button type="button" class="msebtn" data-quiz-retry hidden>Retry missed</button>
+    <button type="button" class="msebtn" data-quiz-reset>Reset</button>
+  </div>
+  <div data-quiz-questions></div>
+  <script type="application/json" class="quiz-data">
+  [
+    {
+      "prompt": "Silicon is doped n-type at 10¹⁶ cm⁻³. You heat it from 300 K to 500 K at fixed doping. What happens to the Fermi level?",
+      "options": ["It moves toward the conduction band", "It stays at the same energy", "It moves back toward midgap", "It moves below the valence band"],
+      "answer": 2,
+      "explain": "The offset is kT ln(Nd/ni). Heating raises ni much faster than kT, so Nd/ni shrinks and the logarithm falls. The Fermi level moves back toward the intrinsic level. The band edges themselves do not move in this constant-gap model."
+    },
+    {
+      "prompt": "Which material in the lab has the largest intrinsic carrier density at 300 K?",
+      "options": ["Si, because it is the most common semiconductor", "Ge, because its band gap is the smallest", "GaAs, because its electron mobility is highest", "GaN, because its gap is the widest"],
+      "answer": 1,
+      "explain": "ni depends exponentially on Eg. Ge has Eg ≈ 0.66 eV, the smallest of the four, so exp(−Eg/2kT) is largest and ni ≈ 2.3 × 10¹³ cm⁻³ — about 3000 times Si and seven orders of magnitude above GaAs."
+    },
+    {
+      "prompt": "For Si at 300 K with Nd = 10¹⁶ cm⁻³, ni ≈ 6.7 × 10⁹ cm⁻³. What is the minority hole density?",
+      "options": ["≈ 6.7 × 10⁹ cm⁻³", "≈ 1 × 10¹⁶ cm⁻³", "≈ 4.5 × 10³ cm⁻³", "≈ 1.5 × 10²⁶ cm⁻³"],
+      "answer": 2,
+      "explain": "Charge neutrality and np = ni² give p = ni²/n = (6.7 × 10⁹)²/10¹⁶ ≈ 4.5 × 10³ cm⁻³. The minority density is not zero; it is set by the mass-action relation, and it falls as the majority doping rises."
+    },
+    {
+      "prompt": "In Si, EF sits 0.55 eV above Ei while Eg/2 = 0.56 eV. Which statement is most accurate?",
+      "options": ["The sample is lightly doped p-type", "EF is at midgap and the sample is intrinsic", "EF is close to the conduction band; degenerate statistics may be needed", "The band gap has widened to 1.10 eV"],
+      "answer": 2,
+      "explain": "EF − Ei is almost the whole half-gap, so EF is within a few kT of Ec. The Boltzmann tail is marginal and degenerate statistics, band-gap renormalisation, and dopant-band effects matter. It is not intrinsic: an intrinsic sample has EF at Ei."
+    }
+  ]
+  </script>
+</section>
+
+<h2 id="summary">One-screen summary</h2>
+<p>Doping moves <em>E</em><sub>F</sub> by <em>k</em><sub>B</sub><em>T</em> ln(<em>N</em><sub>dopant</sub>/<em>n</em><sub>i</sub>) and leaves <em>E</em><sub>g</sub> alone. Temperature moves <em>n</em><sub>i</sub> exponentially, so heating pulls an extrinsic sample back toward intrinsic behaviour. Check every carrier pair with <em>np</em> = <em>n</em><sub>i</sub>², and distrust the exponential once <em>E</em><sub>F</sub> reaches the band edge.</p>

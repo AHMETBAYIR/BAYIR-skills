@@ -1,0 +1,82 @@
+/* Architecture lab layer — builds on labkit.css */
+
+:root {
+  --arch-cut: #9a3b32;
+  --arch-beyond: #7d7468;
+  --arch-public: #2f5d8a;
+  --arch-private: #5b3a6b;
+  --arch-ok: #2f6b4f;
+  --arch-bad: #9a3b32;
+}
+
+html[data-theme="dark"] {
+  --arch-cut: #e39a7d;
+  --arch-beyond: #b9ae9b;
+  --arch-public: #8db8df;
+  --arch-private: #c3a6d4;
+  --arch-ok: #8fc9a9;
+  --arch-bad: #e39a7d;
+}
+
+.lab[data-lab="stair"] canvas,
+.lab[data-lab="ramp"] canvas { min-height: 300px; }
+
+.lab__checks {
+  margin: 0.4rem 0 var(--space-s);
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.25rem;
+  font: 400 0.8rem/1.45 var(--font-ui);
+}
+.lab__checks li {
+  display: grid;
+  grid-template-columns: 1.2rem 1fr auto;
+  gap: 0.4rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.lab__checks li[data-pass="false"] { color: var(--arch-bad); }
+.lab__checks li[data-pass="true"] { color: var(--ink-2); }
+.lab__checks .check-mark { font-weight: 600; }
+.lab__checks .check-limit { color: var(--muted); font-family: var(--font-mono); font-size: 0.74rem; }
+
+.archledger {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 0.8rem/1.4 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  margin: var(--space-s) 0;
+}
+.archledger th, .archledger td {
+  padding: 0.35rem 0.45rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+.archledger thead th {
+  border-bottom: 1px solid var(--rule-strong);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.archledger tr[data-claim="weak"] td { background: color-mix(in srgb, var(--arch-bad) 7%, transparent); }
+
+.archbadge {
+  display: inline-block;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  font: 600 0.6rem/1.4 var(--font-ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.archbadge[data-type="code"] { border-color: var(--arch-cut); color: var(--arch-cut); }
+.archbadge[data-type="convention"] { border-color: var(--arch-public); color: var(--arch-public); }
+.archbadge[data-type="teaching"] { border-color: var(--muted); color: var(--muted); }
+
+@media print {
+  .lab[data-lab="stair"] canvas,
+  .lab[data-lab="ramp"] canvas { min-height: 0; }
+  .archledger { font-size: 8.5pt; }
+}

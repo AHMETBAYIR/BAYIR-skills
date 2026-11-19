@@ -1,0 +1,192 @@
+<p class="lede">A working gallery of the five lab engines in this kit. Use it to test the build, then copy one or two labs into a real note. The prose is deliberately short: a real note needs a derivation, a worked example, a common-mistakes section, and retrieval practice.</p>
+
+<div class="keypoints">
+  <p class="keypoints__title">What this page tests</p>
+  <ul>
+    <li>Five canvases: crystal cell, binary phase diagram, stress–strain curve, diffusion profile, powder XRD.</li>
+    <li>Drag, parameter sweeps, presets, a phase-fraction bar, a microstructure sketch, and a retrieval quiz.</li>
+    <li>Readouts and formulas that can be checked with <code>scripts/check_mse.py</code>.</li>
+  </ul>
+</div>
+
+<h2 id="crystal">The unit cell is a bookkeeping device</h2>
+<p>A crystal structure is a lattice plus a basis. The cell is the smallest repeating box, but the number of atoms <em>per cell</em> is not the number of spheres you can count in a drawing: corners are shared by eight cells, faces by two. Rotate the cell and watch which atoms are really nearest neighbours.</p>
+
+<div class="mselab" data-mse-lab="crystal">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 01 · crystallography</p>
+    <h3>Rotate an FCC cell and count what is shared</h3>
+    <p>Drag to rotate. Switch between SC, BCC, FCC, diamond, and rock salt. The readout recomputes atoms per cell, coordination, packing fraction, and density from the same lattice parameter.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>FCC has four atoms per cell and coordination 12. If you double the lattice parameter, what happens to the density: double, halve, or divide by eight? Commit before you move the slider.</p></details>
+  <div class="mselab__controls" data-controls></div>
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap"><canvas class="mselab__canvas" data-canvas data-height="400" role="img" aria-label="Interactive three-dimensional unit cell"></canvas></div>
+      <p class="mselab__caption">The dashed box is the unit cell; the shaded slice is the selected (hkl) plane. Corner atoms are shared by eight cells, face atoms by two. Drag to rotate; the sliders are the keyboard path.</p>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+  <p class="mselab__print">Print fallback: FCC has 4 atoms per cell, Z = 12, APF = 0.740, and ρ = 4M/(N<sub>A</sub>a³).</p>
+  <script type="application/json" class="mselab-config">{"structure":"fcc","a":3.615,"mass":63.55,"species":"Cu","showPlane":true,"plane":[1,1,1]}</script>
+</div>
+
+<h2 id="phase">A phase diagram is a map with a lever</h2>
+<p>At equilibrium, the phase diagram tells you which phases exist at a given composition and temperature. The lever rule then tells you <em>how much</em> of each: the fraction of a phase is the opposite segment of the tie line divided by the whole tie line. It is a mass balance, not a rule to memorize.</p>
+
+<div class="mselab" data-mse-lab="phase">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 02 · phase equilibria</p>
+    <h3>Move the alloy and read the tie line</h3>
+    <p>Click or drag in the diagram. The tie line, the phase compositions, the lever-rule fractions, and the microstructure sketch all update together.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>At 40 wt% Sn and 200 °C, is the alloy fully liquid, in α + L, or fully solid? Then predict which phase has the larger fraction. Check your answer by dragging to that point.</p></details>
+  <div class="mselab__controls" data-controls></div>
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap"><canvas class="mselab__canvas mselab__canvas--fixed" data-canvas data-height="390" role="img" aria-label="Binary eutectic phase diagram with a tie line"></canvas></div>
+      <p class="mselab__caption">Solid lines are phase boundaries; the dashed horizontal is the eutectic isotherm. The accent dot is the alloy; the accent bar is the tie line.</p>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <div class="msebar" data-bar aria-label="Phase fractions"></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <div class="mselab__canvas-wrap"><canvas data-micro data-height="132" role="img" aria-label="Schematic microstructure"></canvas></div>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+  <p class="mselab__print">Print fallback: at 40 wt% Sn and 200 °C the tie line runs from about 16.8 wt% Sn (α) to about 54.6 wt% Sn (L), so f<sub>α</sub> ≈ 0.39 and f<sub>L</sub> ≈ 0.61.</p>
+  <script type="application/json" class="mselab-config">{"preset":"pb-sn"}</script>
+</div>
+
+<h2 id="stress">The stress–strain curve is a design document</h2>
+<p>Young's modulus is the initial slope; yield is where the curve leaves linearity; the UTS is the maximum; the area under the curve is toughness. True stress and true strain correct for the changing cross-section, which is why the true curve keeps rising after the engineering curve peaks.</p>
+
+<div class="mselab" data-mse-lab="stress">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 03 · mechanical behaviour</p>
+    <h3>Read modulus, yield, UTS, and toughness from one curve</h3>
+    <p>Drag the strain cursor. Switch materials and toggle true stress or the 0.2% offset construction.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>Which is larger for mild steel: the engineering toughness or the true-stress toughness? Decide before you toggle the curve, then explain the difference in one sentence.</p></details>
+  <div class="mselab__controls" data-controls></div>
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap"><canvas class="mselab__canvas mselab__canvas--fixed" data-canvas data-height="380" role="img" aria-label="Engineering stress-strain curve with cursor and offset line"></canvas></div>
+      <p class="mselab__caption">The shaded area is energy absorbed per unit volume up to the cursor. The inset zooms the initial strain to show the 0.2% offset construction.</p>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <div data-table></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+  <p class="mselab__print">Print fallback: E is the initial slope, σ<sub>y</sub> the first departure from linearity, σ<sub>u</sub> the maximum, and toughness the area under the curve.</p>
+  <script type="application/json" class="mselab-config">{"preset":"steel"}</script>
+</div>
+
+<h2 id="diffusion">Diffusion is a random walk with a square-root clock</h2>
+<p>Fick's second law with a constant surface concentration gives an error-function profile. The only length in the problem is √(Dt). That is why doubling the time moves the penetration front by only √2, while a modest temperature increase can change D by orders of magnitude.</p>
+
+<div class="mselab" data-mse-lab="diffusion">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 04 · kinetics</p>
+    <h3>Carburise steel and watch the profile move</h3>
+    <p>Change temperature, time, and surface concentration. The dashed profiles are t/4 and 4t at the same D.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>At 950 °C for 1 h, √(Dt) is about 200 µm. If you hold for 4 h instead, will the 50% depth be 400 µm, 800 µm, or 200 µm? Commit, then move the time slider.</p></details>
+  <div class="mselab__controls" data-controls></div>
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap"><canvas class="mselab__canvas mselab__canvas--fixed" data-canvas data-height="360" role="img" aria-label="Concentration-depth diffusion profile"></canvas></div>
+      <p class="mselab__caption">The solid curve is the current time; the dashed curves are t/4 and 4t. The accent marker is the depth where the excess concentration has fallen by half.</p>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <div data-table></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+  <p class="mselab__print">Print fallback: C(x,t) = C₀ + (Cₛ − C₀)[1 − erf(x/2√(Dt))], with D = D₀ exp(−Q/RT).</p>
+  <script type="application/json" class="mselab-config">{"preset":"c-fe"}</script>
+</div>
+
+<h2 id="xrd">A diffraction pattern is a fingerprint of the lattice</h2>
+<p>Bragg's law fixes the peak positions; the structure factor decides which peaks are allowed. For a cubic cell, d = a/√(h² + k² + l²). The sequence of allowed reflections distinguishes SC, BCC, FCC, diamond, and rock salt without a microscope.</p>
+
+<div class="mselab" data-mse-lab="xrd">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 05 · characterisation</p>
+    <h3>Index a powder pattern</h3>
+    <p>Switch the lattice type and the radiation. The (hkl) labels, d-spacings, and relative intensities are recalculated from the same cell.</p>
+  </div>
+  <details class="predict"><summary>Predict first</summary><p>For an FCC metal, which reflection comes first: (100), (110), or (111)? For BCC? Write both answers down before switching the menu.</p></details>
+  <div class="mselab__controls" data-controls></div>
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap"><canvas class="mselab__canvas mselab__canvas--fixed" data-canvas data-height="380" role="img" aria-label="Powder X-ray diffraction pattern with indexed peaks"></canvas></div>
+      <p class="mselab__caption">Stick heights use Cromer–Mann form factors, multiplicity, Lorentz–polarisation, and a Debye–Waller factor. Positions are exact for the stated cubic cell; absorption and texture are not modelled.</p>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <div data-table></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+  <p class="mselab__print">Print fallback: λ = 2d sin θ and d = a/√(h² + k² + l²). Allowed reflections: BCC h + k + l even; FCC all-odd or all-even; diamond all-odd, or all-even with h + k + l = 4n.</p>
+  <script type="application/json" class="mselab-config">{"structure":"fcc","a":3.615,"lambda":1.5406}</script>
+</div>
+
+<h2 id="check">Retrieval check</h2>
+<p>Answer without looking back. Each explanation names the cause, not just the right option.</p>
+
+<section class="msequiz" data-mse-quiz data-quiz-id="gallery">
+  <div class="msequiz__bar">
+    <span data-quiz-progress></span>
+    <span data-quiz-score></span>
+    <button type="button" class="msebtn" data-quiz-retry hidden>Retry missed</button>
+    <button type="button" class="msebtn" data-quiz-reset>Reset</button>
+  </div>
+  <div data-quiz-questions></div>
+  <script type="application/json" class="quiz-data">
+  [
+    {
+      "prompt": "FCC copper has a = 3.615 Å and M = 63.55 g/mol. Which density is correct?",
+      "options": ["4.47 g/cm³", "8.94 g/cm³", "17.9 g/cm³", "2.24 g/cm³"],
+      "answer": 1,
+      "explain": "ρ = nM/(N_A a³) with n = 4. The cell volume is (3.615×10⁻⁸ cm)³ = 4.72×10⁻²³ cm³, so ρ = 4(63.55)/(6.022×10²³ × 4.72×10⁻²³) = 8.94 g/cm³."
+    },
+    {
+      "prompt": "In the Pb–Sn eutectic diagram, an alloy at 40 wt% Sn and 230 °C sits in α + L. Which statement is true?",
+      "options": ["The α fraction is larger because the alloy is closer to the α end of the tie line", "The liquid fraction is larger because the alloy is above the eutectic temperature", "The fractions are equal because the alloy is at 40 wt%", "The lever rule cannot be applied above the eutectic"],
+      "answer": 0,
+      "explain": "The lever rule gives the fraction of a phase by the opposite segment. At 230 °C the tie line runs from about 19 to 45 wt% Sn; 40 is closer to 45, so the α arm (45 − 40) is short and the liquid arm (40 − 19) is long. The α fraction is about 0.73."
+    },
+    {
+      "prompt": "Why does the true stress–strain curve keep rising after the engineering curve reaches its maximum?",
+      "options": ["The specimen gets hotter and stronger", "The cross-sectional area is decreasing, so the same load is carried by less area", "The strain rate increases without limit", "Necking removes defects and hardens the metal"],
+      "answer": 1,
+      "explain": "Engineering stress uses the original area. After necking the actual area falls fast, so load/current area (true stress) can keep rising even though load/initial area falls."
+    },
+    {
+      "prompt": "Carburising at 950 °C for 1 h gives a 50% case depth of about 200 µm. Roughly what depth after 4 h at the same temperature?",
+      "options": ["200 µm", "400 µm", "800 µm", "1600 µm"],
+      "answer": 1,
+      "explain": "The diffusion length scales as √(Dt). Quadrupling t multiplies √t by 2, so the depth becomes about 400 µm. Holding four times longer does not give four times the depth."
+    },
+    {
+      "prompt": "Which reflection is forbidden for a BCC lattice but allowed for an FCC lattice?",
+      "options": ["(110)", "(111)", "(200)", "(220)"],
+      "answer": 1,
+      "explain": "BCC allows only h + k + l even. For (111) the sum is 3 (odd), so the reflection is absent. FCC allows all-odd or all-even sets, so (111) is present. The other three have an even sum and are allowed in both lattices."
+    }
+  ]
+  </script>
+</section>

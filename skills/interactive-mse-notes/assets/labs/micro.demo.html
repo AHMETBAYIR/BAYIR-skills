@@ -1,0 +1,195 @@
+<p class="lede">Grain size is the one microstructural length scale you can measure with a straight line. This note builds the linear-intercept method from the scale bar up: a synthetic, deterministic grain field, a draggable traverse, an honest intersection count, and the ASTM E112 conversion from mean intercept to a grain-size number.</p>
+
+<div class="keypoints">
+  <p class="keypoints__title">What you will be able to do</p>
+  <ul>
+    <li>Read a scale bar and convert a measured chord on the canvas into micrometres.</li>
+    <li>Count boundary intersections and compute the mean intercept <em>L</em> = length / <em>N</em>.</li>
+    <li>Convert <em>L</em> in millimetres to the ASTM grain-size number <em>G</em>.</li>
+    <li>Explain why one traverse is a sample, not a measurement of the whole specimen.</li>
+  </ul>
+</div>
+
+<h2 id="why">Grain size is a length, not a label</h2>
+
+<p>A polycrystalline metal is a patchwork of grains separated by boundaries. Many properties — yield strength through the Hall–Petch relation, toughness, corrosion path, recrystallisation behaviour — depend on how much boundary area exists per unit volume. The usual shorthand is “grain size”, but the quantity that enters the equations is a length: the mean distance a random line travels through a grain before crossing a boundary.</p>
+
+<aside class="callout callout--definition">
+  <p><strong>Mean intercept length.</strong> For a straight traverse of length <em>ℓ</em> crossing <em>N</em> internal grain boundaries, the mean intercept is <em>L</em> = <em>ℓ</em> / <em>N</em>. It has units of length. The field boundary is a specimen edge, not a grain boundary, so it is not counted.</p>
+</aside>
+
+<p>The default field in the lab is <strong>500 µm × 500 µm</strong>; the field-width control switches between 250, 500, and 1000 µm without changing the physical grain size. A 100 µm scale bar is drawn on the canvas (50 µm on the 250 µm field), and the scale in µm per pixel is shown in the readout because the canvas width changes with the window. The microstructure is generated from a seed, so the same seed always gives the same field; “New field” increments the seed.</p>
+
+<h2 id="intercept">The intercept method in one equation</h2>
+
+<p>ASTM E112 relates the mean intercept, expressed in millimetres, to a grain-size number:</p>
+
+<div class="equation">
+  <div class="equation__body">$$G = -6.6438\,\log_{10}\!\left(\frac{L}{\mathrm{mm}}\right) - 3.288$$</div>
+  <div class="equation__tag">ASTM E112, intercept form</div>
+</div>
+
+<p>The logarithm is the part that catches people. A larger <em>G</em> means a <em>finer</em> grain, because <em>L</em> is in the denominator of the logarithm. One ASTM number corresponds to a factor</p>
+
+<div class="equation">
+  <div class="equation__body">$$10^{-1/6.6438} = 0.7071$$</div>
+  <div class="equation__tag">intercept ratio per unit G</div>
+</div>
+
+<p>so <em>G</em> = 8 is not “2 µm finer” than <em>G</em> = 6; it is a mean intercept 0.707² ≈ 0.50 times as large. Doubling <em>L</em> lowers <em>G</em> by 6.6438 log₁₀2 = 2.00.</p>
+
+<h2 id="lab">Lab: draw a line and count boundaries</h2>
+
+<p><strong>What to notice:</strong> rotate or slide the line and watch <em>N</em> change while the field stays the same. The readout is computed from line–segment intersections with the polygon edges — it is not a decorative number.</p>
+
+<div class="mselab" data-mse-lab="micro">
+  <div class="mselab__head">
+    <p class="mselab__eyebrow">Lab 01 · quantitative metallography</p>
+    <h3>Measure the mean intercept on a synthetic field</h3>
+    <p>Drag the line across the grains or change its angle. Coarsen or refine the grain size, change the field width, then press <em>New field</em> to see how much one traverse scatters.</p>
+  </div>
+
+  <details class="predict">
+    <summary>Predict first</summary>
+    <p>On the default field the line is 500 µm long. If it crosses 10 boundaries, what is the mean intercept? Now double the mean intercept without changing the field. Does <em>G</em> go up or down, and by how much? Commit to a number before you move the slider.</p>
+  </details>
+
+  <div class="mselab__controls" data-controls></div>
+
+  <div class="mselab__grid">
+    <div class="mselab__viz">
+      <div class="mselab__canvas-wrap">
+        <canvas class="mselab__canvas" data-canvas data-height="460"
+                role="img" aria-label="Synthetic micrograph with a measurement line and a 100 micrometre scale bar"></canvas>
+      </div>
+      <p class="mselab__caption">Each polygon is one grain. Thin lines are grain boundaries; the accent line is the traverse. The scale bar below the field sets the scale (100 µm, or 50 µm on the 250 µm field). The field is a jittered hexagonal tiling — a teaching model, not a real micrograph.</p>
+    </div>
+    <div class="mselab__panel">
+      <div class="mselab__readout" data-readout></div>
+      <p class="mselab__status" data-status role="status" aria-live="polite"></p>
+      <p class="mselab__hint" data-hint></p>
+    </div>
+  </div>
+
+  <p class="mselab__print">Printed fallback: on the default field (seed 7, 500 µm × 500 µm, 45 µm lattice pitch), a horizontal 500 µm traverse crosses 21 boundaries, giving L = 23.8 µm and ASTM G ≈ 7.50.</p>
+
+  <script type="application/json" class="mselab-config">{"seed":7,"fieldUm":500,"grain":55,"angle":0,"showBoundaries":true}</script>
+</div>
+
+<h2 id="worked">Worked example with units</h2>
+
+<aside class="callout callout--example">
+  <p><strong>Problem.</strong> A 500 µm traverse crosses 14 grain boundaries. Find the mean intercept in micrometres and millimetres, then the ASTM grain-size number.</p>
+  <p><strong>Step 1 — divide a length by a count.</strong> <em>L</em> = 500 µm / 14 = 35.71 µm. The unit stays micrometres because the count is dimensionless.</p>
+  <p><strong>Step 2 — convert to millimetres.</strong> 35.71 µm × (1 mm / 1000 µm) = 0.03571 mm. This conversion is mandatory: the ASTM constant 6.6438 assumes millimetres.</p>
+  <p><strong>Step 3 — take the logarithm.</strong> log₁₀(0.03571) = −1.447.</p>
+  <p><strong>Step 4 — apply the relation.</strong> <em>G</em> = −6.6438 × (−1.447) − 3.288 = 9.613 − 3.288 = 6.325, reported as <strong>G ≈ 6.3</strong>.</p>
+</aside>
+
+<p><strong>Unit balance check.</strong> The logarithm must be taken of a dimensionless ratio. Writing log₁₀(0.03571) is shorthand for log₁₀(0.03571 mm / 1 mm). If you feed 35.71 (micrometres) into the same formula you get <em>G</em> = −13.6, which is physically meaningless. The 1000× conversion is worth 6.6438 × 3 = 19.9 ASTM numbers — an error you cannot miss.</p>
+
+<p><strong>Sampling check.</strong> Doubling the count to 28 gives <em>L</em> = 17.86 µm = 0.01786 mm, log₁₀ = −1.748, and <em>G</em> = 8.33. The difference is exactly 2.00. This is why the result from one line should be reported with the number of intersections and the number of fields, not as an exact material constant.</p>
+
+<h2 id="mistakes">Common mistakes</h2>
+
+<table class="msetable">
+  <caption>Four traps in intercept grain sizing</caption>
+  <tr><th>mistake</th><th>counterexample</th><th>fix</th></tr>
+  <tr>
+    <td>Feeding micrometres into the ASTM formula</td>
+    <td>L = 35.7 µm gives G = −13.6 instead of 6.3</td>
+    <td>Divide L by 1000 first; the constant is for millimetres</td>
+  </tr>
+  <tr>
+    <td>Counting the field border as boundaries</td>
+    <td>A 500 µm line touches the left and right specimen edges; those are not grain boundaries</td>
+    <td>Count internal polygon edges only; the lab excludes the chord endpoints</td>
+  </tr>
+  <tr>
+    <td>Reporting one traverse as the grain size</td>
+    <td>At N = 10 the relative standard error is about 1/√10 ≈ 32%</td>
+    <td>Use several lines and fields; report N and the scatter</td>
+  </tr>
+  <tr>
+    <td>Reading G as a linear size</td>
+    <td>G = 8 is not 2 µm finer than G = 6; L halves</td>
+    <td>Convert back: L = 10<sup>−(G + 3.288)/6.6438</sup> mm</td>
+  </tr>
+</table>
+
+<p><strong>One more.</strong> A tilted line is longer than the field width. In a square field a line at 45° through the centre is 707 µm long, not 500 µm; the lab measures the actual chord, which is why the length readout changes with angle and offset. Do not reuse the horizontal length for a tilted traverse. The hex-lattice pitch shown in the readout is also not <em>L</em>: a traverse enters and leaves each grain, so the measured intercept is roughly half the centre-to-centre pitch.</p>
+
+<h2 id="quiz">Retrieval practice</h2>
+
+<section class="msequiz" data-mse-quiz data-quiz-id="micro-intercept">
+  <div class="msequiz__bar">
+    <span data-quiz-progress></span>
+    <span data-quiz-score></span>
+    <button type="button" class="msebtn" data-quiz-retry hidden>Retry missed</button>
+    <button type="button" class="msebtn" data-quiz-reset>Reset</button>
+  </div>
+  <div data-quiz-questions></div>
+  <script type="application/json" class="quiz-data">
+  [
+    {
+      "prompt": "A 500 µm traverse crosses 20 grain boundaries. What is the mean intercept?",
+      "options": ["10 µm", "25 µm", "50 µm", "100 µm"],
+      "answer": 1,
+      "explain": "L = length / N = 500 µm / 20 = 25 µm. Dividing by the count is the definition; multiplying or using the scale-bar length as L gives the distractors."
+    },
+    {
+      "prompt": "You double the mean intercept while keeping the field and the magnification fixed. What happens to the ASTM grain-size number?",
+      "options": ["It rises by 2.00", "It falls by 2.00", "It falls by 6.64", "It does not change"],
+      "answer": 1,
+      "explain": "G = −6.6438 log10(L). Doubling L adds log10(2) = 0.301 to the logarithm, so G changes by −6.6438 × 0.301 = −2.00. Coarser grains mean a smaller G."
+    },
+    {
+      "prompt": "Which intersection should NOT be included in N?",
+      "options": ["A boundary between two grains", "A triple junction crossed by the line", "The point where the line leaves the specimen edge", "A boundary crossed at a shallow angle"],
+      "answer": 2,
+      "explain": "The specimen edge is a free surface, not a grain boundary. Counting it would inflate N and make the intercept too small. Triple junctions are legitimate boundary crossings and are counted once."
+    },
+    {
+      "prompt": "A single traverse gives N = 6. Roughly how large is the relative sampling error, 1/√N?",
+      "options": ["About 6%", "About 17%", "About 41%", "About 100%"],
+      "answer": 2,
+      "explain": "1/√6 ≈ 0.41, so the count is uncertain at the ±40% level. That is why a grain-size report needs several traverses, not one line through one field."
+    },
+    {
+      "prompt": "A specimen has G = 8. Compared with G = 6, its mean intercept is…",
+      "options": ["twice as large", "half as large", "smaller by 2 µm", "smaller by a factor of 4"],
+      "answer": 1,
+      "explain": "Each ASTM unit multiplies L by 10^(−1/6.6438) = 0.707. Two units give 0.707² = 0.50, so G = 8 has half the intercept of G = 6. The number is logarithmic, not a length in micrometres."
+    }
+  ]
+  </script>
+</section>
+
+<h2 id="summary">Summary and exercises</h2>
+
+<p>Measure a chord, count internal boundary crossings, divide. Convert the intercept to millimetres before applying <em>G</em> = −6.6438 log₁₀(<em>L</em>/mm) − 3.288. Treat every traverse as one sample and report how many you used.</p>
+
+<div class="exercise">
+  <p><strong>1.</strong> A 400 µm line crosses 32 boundaries. Compute <em>L</em> in µm and mm, then <em>G</em>.</p>
+  <details class="solution"><summary>Solution</summary><p><em>L</em> = 400/32 = 12.5 µm = 0.0125 mm. log₁₀(0.0125) = −1.903. <em>G</em> = 12.644 − 3.288 = 9.36.</p></details>
+</div>
+
+<div class="exercise">
+  <p><strong>2.</strong> Convert <em>G</em> = 5.0 back to a mean intercept in micrometres.</p>
+  <details class="solution"><summary>Solution</summary><p>Rearrange: log₁₀(<em>L</em>/mm) = −(<em>G</em> + 3.288)/6.6438 = −8.288/6.6438 = −1.2475. <em>L</em> = 10<sup>−1.2475</sup> mm = 0.0566 mm = 56.6 µm.</p></details>
+</div>
+
+<div class="exercise">
+  <p><strong>3.</strong> Two operators measure the same field. One uses a horizontal line; the other uses a 45° line and forgets that the chord is longer. Which <em>G</em> is biased, and in which direction?</p>
+  <details class="solution"><summary>Solution</summary><p>If the second operator keeps the horizontal length of 500 µm but actually counts intersections over a 707 µm chord, <em>L</em> is underestimated by a factor 500/707 = 0.707. Because <em>G</em> = −6.6438 log₁₀<em>L</em>, a smaller <em>L</em> gives a <em>larger</em> <em>G</em>: the reported number is too high by 6.6438 × log₁₀(1/0.707) ≈ 1.0, i.e. it claims a finer grain. The correct procedure is to use the true chord length or a fixed-length line.</p></details>
+</div>
+
+<h2 id="sources">Sources and limits</h2>
+
+<ul>
+  <li>ASTM E112, <em>Standard Test Methods for Determining Average Grain Size</em> — intercept and planimetric methods, and the grain-size number relation.</li>
+  <li>ISO 643 — equivalent intercept method for steels; the constants and counting conventions differ slightly, so state the standard used.</li>
+  <li>G. F. Vander Voort, <em>Metallography: Principles and Practice</em> — specimen preparation, etching, and the practical counting rules.</li>
+</ul>
+
+<p><strong>Limits of this lab.</strong> The field is a seeded jittered-hex tiling, not a micrograph and not a real grain-growth simulation. It is equiaxed and single-phase; it does not model elongation, twins, precipitation, or a distribution of grain sizes. The 1/√N estimate is a rough sampling guide, not a formal confidence interval. The module computes exact line–segment intersections on the drawn polygons, but the polygon field itself is a teaching model.</p>
