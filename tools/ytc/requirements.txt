@@ -1,0 +1,4 @@
+# Pinned parser. Re-audit before changing this version.
+youtube-comment-downloader==0.1.84
+# Browser TLS fingerprint for YouTube metadata (optional at runtime).
+curl-cffi>=0.17,<0.18

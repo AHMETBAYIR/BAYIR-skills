@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# ytt — agent-friendly YouTube transcripts.
+#
+# Portable launcher: resolves the package from this checkout, so it works from
+# any directory on Linux, macOS or Termux. Set YTT_PYTHON to force an
+# interpreter, or activate a virtualenv before calling.
+set -u
+SELF="$(readlink -f "$0" 2>/dev/null || printf '%s\n' "$0")"
+ROOT="$(cd "$(dirname "$SELF")/.." && pwd)"
+export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+
+PY="${YTT_PYTHON:-}"
+if [ -z "$PY" ]; then
+  for cand in "$ROOT/.venv/bin/python" python3 python; do
+    if command -v "$cand" >/dev/null 2>&1; then PY="$cand"; break; fi
+  done
+fi
+[ -n "$PY" ] || { echo "ytt: no python3 found (set YTT_PYTHON)" >&2; exit 1; }
+
+exec "$PY" -m yt_transcript "$@"

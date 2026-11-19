@@ -16,3 +16,7 @@ Thumbs.db
 out/
 *.tmp
 *.log
+
+# Local backup copies
+*.bak
+*.bak-*

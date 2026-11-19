@@ -1,0 +1,10 @@
+# Runtime dependencies for the ytt CLI.
+# System tools that are not pip packages: yt-dlp, ffmpeg (and ffprobe).
+numpy>=1.24
+soundfile>=0.12
+scipy>=1.10
+tiktoken>=0.7
+
+# Optional: Chrome TLS fingerprint for signed caption URLs; without it the
+# fallback requests/urllib path is used.
+curl-cffi>=0.17,<0.18

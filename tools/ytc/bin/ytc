@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# ytc — agent-friendly YouTube comments.
+#
+# Portable launcher: resolves the package from this checkout, so it works from
+# any directory on Linux, macOS or Termux. Set YTC_PYTHON to force an
+# interpreter, or point YTC_VENV at the virtualenv made by install.sh.
+set -u
+SELF="$(readlink -f "$0" 2>/dev/null || printf '%s\n' "$0")"
+ROOT="$(cd "$(dirname "$SELF")/.." && pwd)"
+export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+
+VENV="${YTC_VENV:-${XDG_DATA_HOME:-$HOME/.local/share}/ytc/venv}"
+PY="${YTC_PYTHON:-}"
+if [ -z "$PY" ]; then
+  for cand in "$ROOT/.venv/bin/python" "$VENV/bin/python" python3 python; do
+    if command -v "$cand" >/dev/null 2>&1; then PY="$cand"; break; fi
+  done
+fi
+[ -n "$PY" ] || { echo "ytc: no python3 found (set YTC_PYTHON)" >&2; exit 1; }
+
+if ! "$PY" -c 'import youtube_comment_downloader' >/dev/null 2>&1; then
+  echo "ytc: dependency missing." >&2
+  echo "  run: $ROOT/install.sh" >&2
+  echo "  or:  $PY -m pip install -r $ROOT/requirements.txt" >&2
+  exit 3
+fi
+
+exec "$PY" -m yt_comments "$@"
