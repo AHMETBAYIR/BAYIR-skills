@@ -267,11 +267,11 @@ Every lab is a `<div class="mathlab" data-math-lab="...">` containing a JSON con
   <div class="figure__canvas">
     <img src="../figures/topic.svg" alt="Describe the figure">
   </div>
-  <figcaption><span class="figure__label"></span>Generated with MatLivre; the interactive lab is the primary figure.</figcaption>
+  <figcaption><span class="figure__label"></span>Generated with MATLAB, Octave, or MatLivre; the interactive lab is the primary figure.</figcaption>
 </figure>
 ```
 
-The build script inlines local SVG files. It namespaces SVG ids so two MatLivre figures can coexist on one page.
+The build script inlines local SVG files. It namespaces SVG ids so two figures can coexist on one page.
 
 ## 12. Validation
 

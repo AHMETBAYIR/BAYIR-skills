@@ -145,7 +145,7 @@ Use it to catch a sign error in an analytic derivative, not to replace the deriv
 - Verify the exact solution by substitution.
 - Verify the initial condition.
 - Run one step by hand and compare with the lab.
-- Compare with `solve_ivp` at tight tolerance (SciPy) or MatLivre's fixed-step code.
+- Compare with `solve_ivp` at tight tolerance (SciPy) or a fixed-step `.m` script in MATLAB/Octave/MatLivre.
 
 ### Linear algebra check
 

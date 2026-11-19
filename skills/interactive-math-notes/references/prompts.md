@@ -89,12 +89,14 @@ For each number:
 Do not accept "the lab shows it" as verification. The lab and the check must be independent.
 ```
 
-## 6. MatLivre check
+## 6. MATLAB-compatible check
 
 ```text
 Write a small MATLAB script that reproduces [calculation] with the same method and parameters as the note.
-Run it through:
-python3 ~/.agents/skills/interactive-math-notes/scripts/matlivre_mcp.py --code-file check.m --out-dir ./matlivre --name check
+Run it with whichever oracle is installed:
+    octave --no-gui check.m                                                                        # free
+    matlab -batch "run('check.m')"                                                                 # licensed
+    python3 <skill>/scripts/matlivre_mcp.py --code-file check.m --out-dir ./matlivre --name check   # optional
 Compare the text output with the note's readout.
 If a figure is needed, save an SVG with saveas(gcf, '/absolute/path/fig.svg') and cite it as a static print figure.
 Do not use matlivre-cli for figures; it has no renderer.

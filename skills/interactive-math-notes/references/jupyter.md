@@ -62,7 +62,7 @@ jupyter nbconvert --to notebook --execute notebook.ipynb \
   --output executed.ipynb
 ```
 
-If only the Python stack is available (as on this device), extract the code cells and run them as a script:
+If only the Python stack is available (no Jupyter), extract the code cells and run them as a script:
 
 ```bash
 python3 - <<'PY'
@@ -72,10 +72,10 @@ nb = json.loads(Path('notebook.ipynb').read_text())
 code = "\n\n".join("".join(c['source']) for c in nb['cells'] if c['cell_type'] == 'code')
 Path('notebook.py').write_text('import matplotlib\nmatplotlib.use("Agg")\n' + code)
 PY
-MPLBACKEND=Agg python-gui-run notebook.py
+MPLBACKEND=Agg python3 notebook.py   # or your launcher/wrapper
 ```
 
-The glibc Python stack on this device has NumPy, SciPy, Matplotlib, SymPy, and Pandas. It does not have Jupyter installed by default; the notebook JSON is still usable in other environments.
+The examples assume NumPy, SciPy, Matplotlib, SymPy, and Pandas. Jupyter is optional; without it the notebook JSON is still a valid file to run in Colab or VS Code.
 
 ### Colab / VS Code
 

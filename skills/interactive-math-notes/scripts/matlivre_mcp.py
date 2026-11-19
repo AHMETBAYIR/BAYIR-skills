@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
-"""Run MATLAB code through MatLivre's headless MCP server.
+"""Run MATLAB code through a MatLivre MCP server (optional).
 
-MatLivre is installed at ~/.local/bin/matlivre. `matlivre --mcp` exposes
+MatLivre is a clean-room MATLAB-compatible runtime; `matlivre --mcp` exposes
 `run_code` over JSON-RPC and returns both text output and PNG figures. This
 script is the bridge used while authoring a note: compute the numbers, save a
 publication figure, or check the readout of a lab against an independent
 MATLAB implementation.
+
+MatLivre is optional. MATLAB or Octave run the same `.m` checks. Use this
+script only when MatLivre is installed and you want its MCP figure output.
+
+Binary resolution, first match wins:
+    1. --matlivre PATH
+    2. $MATLIVRE_BIN
+    3. `matlivre` on PATH
+    4. ~/.local/bin, ~/.local/lib/matlivre, /usr/local/bin, /usr/bin
 
 Usage:
     python3 matlivre_mcp.py --code-file check.m --out-dir ./out
@@ -13,8 +22,10 @@ Usage:
     python3 matlivre_mcp.py --code-file figure.m --out-dir ./out --name ode
 
 It writes:
-    <out-dir>/<name>.txt      text output
-    <out-dir>/<name>-fig1.png first returned figure, etc.
+    <out-dir>/<name>.txt       text output
+    <out-dir>/<name>-fig.png   first returned figure; -fig2.png, ... after that
+
+With no MatLivre installed it prints an install hint and exits 2.
 
 The CLI binary cannot render figures (it has no editor renderer). Use this
 MCP path, or the MatLivre GUI, when a figure is required.
@@ -25,11 +36,66 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import os
 import select
+import shutil
 import subprocess
 import sys
 import time
 from pathlib import Path
+
+FALLBACK_BINARIES = [
+    "~/.local/bin/matlivre",
+    "~/.local/lib/matlivre/matlivre",
+    "/usr/local/bin/matlivre",
+    "/usr/bin/matlivre",
+]
+
+
+def _executable(candidate: str) -> str | None:
+    """Return an absolute path for an executable candidate, or None."""
+    path = Path(candidate).expanduser()
+    if path.is_file() and os.access(path, os.X_OK):
+        return str(path)
+    return shutil.which(candidate)
+
+
+def resolve_matlivre(explicit: str | None) -> str | None:
+    """Find the matlivre executable without assuming a personal install path."""
+    if explicit:
+        return _executable(explicit)
+    env = os.environ.get("MATLIVRE_BIN")
+    if env:
+        found = _executable(env)
+        if found:
+            return found
+        print(f"warning: $MATLIVRE_BIN={env!r} is not executable; still searching", file=sys.stderr)
+    found = shutil.which("matlivre")
+    if found:
+        return found
+    for candidate in FALLBACK_BINARIES:
+        found = _executable(candidate)
+        if found:
+            return found
+    return None
+
+
+def missing_matlivre_message() -> str:
+    looked = ["$MATLIVRE_BIN", "`matlivre` on PATH"] + FALLBACK_BINARIES
+    return (
+        "error: no `matlivre` executable found.\n"
+        "\n"
+        "MatLivre is optional. Point the bridge at it explicitly:\n"
+        "    export MATLIVRE_BIN=/path/to/matlivre\n"
+        "    python3 matlivre_mcp.py --matlivre /path/to/matlivre ...\n"
+        "\n"
+        "Looked at: " + ", ".join(looked) + "\n"
+        "\n"
+        "No MatLivre? Run the same .m file with a MATLAB-compatible oracle:\n"
+        "    octave --no-gui check.m        # free: apt install octave, brew install octave\n"
+        "    matlab -batch \"run('check.m')\"  # licensed\n"
+        "For figure export see references/matlivre.md."
+    )
 
 
 def send(process: subprocess.Popen, message: dict) -> None:
@@ -58,8 +124,14 @@ def main() -> int:
     parser.add_argument("--out-dir", default="matlivre-out", help="Directory for text and PNG output")
     parser.add_argument("--name", default="run", help="Output basename")
     parser.add_argument("--timeout", type=float, default=120.0, help="Seconds per request")
-    parser.add_argument("--matlivre", default="matlivre", help="MatLivre executable")
+    parser.add_argument("--matlivre", default=None,
+                        help="MatLivre executable (default: $MATLIVRE_BIN, then matlivre on PATH)")
     args = parser.parse_args()
+
+    binary = resolve_matlivre(args.matlivre)
+    if binary is None:
+        print(missing_matlivre_message(), file=sys.stderr)
+        return 2
 
     if args.code_file:
         code = Path(args.code_file).expanduser().read_text(encoding="utf-8")
@@ -70,7 +142,7 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     process = subprocess.Popen(
-        [args.matlivre, "--mcp"],
+        [binary, "--mcp"],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

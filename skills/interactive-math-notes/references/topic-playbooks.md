@@ -101,7 +101,7 @@ A contour map with the point, gradient arrow, and tangent-plane equation. The ma
 
 - SymPy: `diff`, `gradient`, `integrate` over a region.
 - Numerical: finite differences for `f_x`, `f_y`; check the tangent plane at the point.
-- MatLivre: `surf`, `contour`, `quiver` for an independent static figure.
+- MatLivre: `surf`, `contour`, `quiver` for an independent static figure (MATLAB/Octave `surf`/`contour` do the same).
 
 ---
 
@@ -172,7 +172,7 @@ A convergence plot on a semilog axis and a table of steps/errors. The plot is th
 
 - SymPy: exact root or exact integral when available; otherwise high-precision `mpmath`.
 - NumPy/SciPy: `brentq`, `newton`, `interp1d`/`CubicSpline` as independent checks.
-- MatLivre: the same iterations in MATLAB semantics; compare step counts.
+- MatLivre (or MATLAB/Octave): the same iterations in MATLAB semantics; compare step counts.
 
 ---
 

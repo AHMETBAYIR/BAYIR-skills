@@ -16,25 +16,44 @@ Version used here: **v0.9.0** (under development; syntax may change).
 - Do **not** replace the hand derivation with a simulation; the note still has
   to show the KCL/KVL equations and the algebra.
 
-## Running on this machine (Termux)
+## Building hover
 
-The Linux aarch64 release is installed under `~/.local/share/hover/`, with a
-wrapper at `~/.local/bin/hover`. The wrapper puts a Zig wrapper on `PATH` that
-adds `-target aarch64-linux-musl`, because the Termux Zig cannot find a glibc
-runtime for its native C++ build.
+Prebuilt Linux binaries (aarch64, x86_64) ship on the project's releases page.
+On macOS or Windows, or when you need a different target or a patch, build from
+source:
 
 ```bash
+git clone https://github.com/eraymerc/hover-lang
+cd hover-lang
+make                 # build the CLI
+hover --setup        # build the C++ runtime and install the stdlib
 hover --help
-hover circuit.hvr
 ```
 
-The first `--setup` builds the C++ runtime from source and installs the
-stdlib. On this machine `hover-lang.org` is not resolvable, but the packaged
-fallback (`github.com/eraymerc/hover-lang/.../stdlib-0.9.0.tar.gz`) works and
-the runtime compile succeeds with the Termux Zig wrapper. If `--setup` cannot
-fetch the package, build a local archive from the repo (`make stdlib-archives`) and
-install it into the package cache; the basic `R`, `C`, `L`, `voltage_source`,
-`current_source`, `.op` and `.tran` examples work without a stdlib import.
+`--setup` is required once per install: it compiles the C++ runtime from source
+and unpacks the stdlib. It fetches the stdlib package from `hover-lang.org`. If
+that host is unreachable, build a local archive from the repo
+(`make stdlib-archives`) and install it into the package cache. The basic `R`,
+`C`, `L`, `voltage_source`, `current_source`, `.op` and `.tran` examples work
+without a stdlib import.
+
+### Android / Termux
+
+Same build, one Zig detail. The Linux aarch64 release is installed under
+`~/.local/share/hover/`, with a wrapper at `~/.local/bin/hover`. On that
+device the wrapper puts a Zig wrapper on `PATH` that adds
+`-target aarch64-linux-musl`, because the Termux Zig cannot find a glibc
+runtime for its native C++ build.
+
+Rebuild the ARM CLI release from source with:
+
+```bash
+CGO_ENABLED=0 make linux-aarch64 VERSION=v0.9.0
+```
+
+On this machine `hover-lang.org` is not resolvable, but the packaged fallback
+(`github.com/eraymerc/hover-lang/.../stdlib-0.9.0.tar.gz`) works and the runtime
+compile succeeds with the Termux Zig wrapper.
 
 ## Minimal DC example
 

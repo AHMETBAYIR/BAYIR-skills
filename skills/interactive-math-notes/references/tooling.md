@@ -11,10 +11,10 @@ The important distinction is **authoring surface** vs **rendering/visualization 
 | 2D graphing | custom Canvas/SVG | JSXGraph, Mafs, Desmos, GeoGebra | Plotly for a 20-point graph |
 | 3D surfaces | custom Canvas projection | three.js, MathBox, Plotly, GeoGebra 3D | 3D when a contour map is clearer |
 | Symbolic work | SymPy | Mathematica/Wolfram, Maple | asking an LLM to “do the algebra” |
-| Numerical work | NumPy/SciPy | MatLivre, MATLAB, Julia | spreadsheet for a convergence study |
+| Numerical work | NumPy/SciPy | MATLAB/Octave, MatLivre, Julia | spreadsheet for a convergence study |
 | Real Python in browser | Pyodide | JupyterLite, marimo WASM | faking an interpreter |
 | Reproducible notebook | Jupyter | marimo, Quarto | screenshots of outputs |
-| Verification | SymPy + MatLivre + SciPy | Lean for proofs | a single unchecked run |
+| Verification | SymPy + MATLAB/Octave + SciPy | Lean for proofs | a single unchecked run |
 | Polished video | Manim | Motion Canvas | using video as the only explanation |
 
 ## 2. Math rendering
@@ -106,7 +106,7 @@ The important distinction is **authoring surface** vs **rendering/visualization 
 | **SymPy** | exact symbolic math in Python | derivatives, integrals, ODEs, matrix algebra, LaTeX |
 | **NumPy/SciPy** | numerical arrays, integration, optimization, linear algebra | convergence studies, reference solutions |
 | **Matplotlib** | publication figures | static figures for print or reports |
-| **MatLivre** | clean-room MATLAB-compatible runtime | MATLAB-semantics checks, figures, MCP |
+| **MatLivre** | clean-room MATLAB-compatible runtime (optional) | MATLAB-semantics checks, figures, MCP |
 | **MATLAB/Octave** | numerical computing | course-specific toolboxes, legacy code |
 | **Mathematica/Wolfram** | symbolic/numeric engine | research-level algebra, Wolfram MCP |
 | **Lean 4 / Mathlib** | proof assistant | formal verification of proofs |
@@ -216,8 +216,8 @@ Before embedding a tool or figure:
 ## 11. Version notes (November 2026)
 
 - The kit’s base template uses KaTeX 0.16.22.
-- MatLivre installed on this device is 0.1.5, built from commit `82fc24e`; `matlivre-cli` cannot render figures, `matlivre --mcp` can.
-- The Python stack in the glibc environment includes NumPy, SciPy, Matplotlib, SymPy, and Pandas; Jupyter is not installed by default, so notebook files are valid JSON companions that can be run in Jupyter/Colab/VS Code.
+- MatLivre is at 0.1.5 (source commit `82fc24e`); `matlivre-cli` cannot render figures, `matlivre --mcp` can. It is optional: MATLAB `-batch` or Octave `--no-gui` run the same checks.
+- The Python examples assume Python 3.11+ with NumPy, SciPy, Matplotlib, SymPy, and Pandas. Jupyter is optional, so notebook files stay valid JSON companions that run in Jupyter/Colab/VS Code.
 - Browser support targets current Chromium/Firefox/Safari; the labs use Canvas 2D, pointer events, and `color-mix()` in CSS.
 
 ## 12. Sources

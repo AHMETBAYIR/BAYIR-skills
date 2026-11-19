@@ -140,7 +140,7 @@ For each demo, record:
 | Root steps at 1e−6 | bisection 20, Newton 2–3, secant 3–4 | MatLivre/Python |
 | Interpolation n=11 max error | equidistant ≈1.92, Chebyshev ≈0.11 | Python/MatLivre |
 
-The exact numbers may vary in the last digit by engine; the order and the qualitative conclusion should not.
+The exact numbers may vary in the last digit by engine; the order and the qualitative conclusion should not. The Tool column records what produced each value here — reproduce it with any installed oracle (MATLAB, Octave, or MatLivre) or the Python equivalent.
 
 ## 11. Delivery message
 

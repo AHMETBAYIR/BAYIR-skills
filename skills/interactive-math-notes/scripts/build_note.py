@@ -8,14 +8,17 @@ Usage:
     python3 build_note.py --content note.content.html --meta note.meta.json \\
         --out ~/notes/math/topic.html
 
-The base skill is expected at ~/.agents/skills/html-study-notes. Override it
-with --base-skill if it lives elsewhere.
+The base skill comes from html-study-notes. It is resolved from, in order:
+--base-skill, $HTML_STUDY_NOTES_SKILL, ~/.agents/skills/html-study-notes,
+~/.pi/agent/skills/html-study-notes, ~/.claude/skills/html-study-notes, then a
+sibling checkout ../html-study-notes next to this skill.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -25,7 +28,29 @@ from pathlib import Path
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 MATH_CSS = SKILL_ROOT / "assets" / "math-labs.css"
 MATH_JS = SKILL_ROOT / "assets" / "math-labs.js"
-DEFAULT_BASE = Path.home() / ".agents" / "skills" / "html-study-notes"
+
+# Common install locations, in search order. $HTML_STUDY_NOTES_SKILL wins.
+BASE_SKILL_CANDIDATES = [
+    Path.home() / ".agents" / "skills" / "html-study-notes",
+    Path.home() / ".pi" / "agent" / "skills" / "html-study-notes",
+    Path.home() / ".claude" / "skills" / "html-study-notes",
+    SKILL_ROOT.parent / "html-study-notes",
+]
+
+
+def resolve_base_skill(explicit: str | None = None) -> Path | None:
+    """Locate the html-study-notes skill without assuming one install layout.
+
+    An explicit --base-skill or $HTML_STUDY_NOTES_SKILL is authoritative: if it
+    is wrong, fail loudly rather than build with a different checkout.
+    """
+    for chosen in (explicit, os.environ.get("HTML_STUDY_NOTES_SKILL")):
+        if chosen:
+            return Path(chosen).expanduser().resolve()
+    for candidate in BASE_SKILL_CANDIDATES:
+        if (candidate / "scripts" / "build_note.py").is_file():
+            return candidate.resolve()
+    return None
 
 EN_REPLACEMENTS = {
     "İçeriğe geç": "Skip to content",
@@ -100,8 +125,9 @@ def main() -> int:
     parser.add_argument("--content", required=True, help="HTML fragment with the note body")
     parser.add_argument("--meta", required=True, help="JSON metadata file")
     parser.add_argument("--out", required=True, help="Destination .html file")
-    parser.add_argument("--base-skill", default=str(DEFAULT_BASE),
-                        help="Path to the html-study-notes skill")
+    parser.add_argument("--base-skill", default=None,
+                        help="Path to the html-study-notes skill (default: $HTML_STUDY_NOTES_SKILL, "
+                             "then ~/.agents, ~/.pi/agent, ~/.claude, then ../html-study-notes)")
     parser.add_argument("--extra-css", action="append", default=[],
                         help="Additional CSS file to inline (repeatable)")
     parser.add_argument("--extra-js", action="append", default=[],
@@ -110,7 +136,17 @@ def main() -> int:
 
     content_path = Path(args.content).expanduser().resolve()
     meta_path = Path(args.meta).expanduser().resolve()
-    base_skill = Path(args.base_skill).expanduser().resolve()
+    base_skill = resolve_base_skill(args.base_skill)
+    if base_skill is None:
+        print(
+            "error: html-study-notes is required for the base template.\n"
+            "Looked for scripts/build_note.py in:\n"
+            + "\n".join(f"  {path}" for path in BASE_SKILL_CANDIDATES)
+            + "\n"
+            "Set HTML_STUDY_NOTES_SKILL=/path/to/html-study-notes or pass --base-skill.",
+            file=sys.stderr,
+        )
+        return 2
     base_builder = base_skill / "scripts" / "build_note.py"
 
     if not content_path.is_file():
@@ -121,7 +157,8 @@ def main() -> int:
         print(
             "error: html-study-notes is required for the base template.\n"
             f"expected: {base_builder}\n"
-            "Install it at ~/.agents/skills/html-study-notes or pass --base-skill.",
+            "That path has no scripts/build_note.py. Pass --base-skill or set "
+            "HTML_STUDY_NOTES_SKILL to the html-study-notes skill root.",
             file=sys.stderr,
         )
         return 2
