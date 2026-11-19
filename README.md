@@ -1,11 +1,27 @@
 # BAYIR skills
 
-A collection of agent skills written for **study notes**, **research**, and **YouTube
-evidence gathering** — used daily with [Pi-Bolt](https://github.com/opensec-git/Pi-Bolt),
-Claude Code and other `SKILL.md`-based agents on Android/Termux.
+A collection of agent skills for **study notes**, **research**, and **YouTube
+evidence gathering** — used with [Pi-Bolt](https://github.com/opensec-git/Pi-Bolt),
+Claude Code, opencode and other `SKILL.md`-based agents.
 
 Every skill is a folder with a `SKILL.md` (YAML front matter + instructions), plus
 optional `scripts/`, `references/`, `assets/` and `examples/`.
+
+## Platform support
+
+The skills are portable: nothing assumes one particular machine, distribution or
+shell.
+
+| Platform | Status | Notes |
+|---|---|---|
+| Linux (x86_64, aarch64) | primary | X11 or Wayland; Debian/Ubuntu, Fedora and Arch package names are given wherever a tool is needed |
+| Android / Termux | primary | the environment these were written in; Qualcomm NPU and Plasma specifics are kept as optional appendix sections |
+| macOS | expected to work | the note skills are pure Python; the browser-verification helper prefers `$BROWSER` and falls back to any installed Firefox/Chromium |
+
+Each skill works out where things are at runtime instead of hardcoding one home
+directory: `$HTML_STUDY_NOTES_SKILL` for the shared note base, `$BROWSER` for the
+verification helper, `$XDG_*` for caches and data, and a search over
+`~/.agents/skills`, `~/.pi/agent/skills`, `~/.claude/skills` and the repo itself.
 
 ## Skills
 
@@ -38,6 +54,19 @@ tables and a print fallback.
 | [`interactive-mse-notes`](skills/interactive-mse-notes) | 1.0 | 34 | Materials science and engineering — crystallography and Miller planes, phase diagrams and the lever rule, diffusion, mechanical behaviour, XRD, TTT/CCT, ternary diagrams, Ashby selection, semiconductor bands, grain-size measurement. |
 | [`interactive-physics-notes`](skills/interactive-physics-notes) | 0.1 | 9 | University physics — mechanics, electromagnetism, waves and optics, thermodynamics and statistical mechanics, quantum mechanics, relativity and astrophysics, condensed matter, nuclear/particle physics, computational physics, lab and data analysis. |
 
+## Tools
+
+The two CLIs behind the research skills ship here as source, with portable
+launchers and installers (`~/.local/bin` on Linux/macOS, `$PREFIX/bin` on Termux):
+
+| Tool | Command | Used by |
+|---|---|---|
+| [`tools/ytt`](tools/ytt) | `ytt` | `youtube-transcripts` — captions first, local ASR when there are none |
+| [`tools/ytc`](tools/ytc) | `ytc` | `youtube-comments` — normalized comments, threads, completeness receipt |
+
+See [tools/README.md](tools/README.md) for dependencies, environment variables and
+the optional Android NPU backend.
+
 ## Install
 
 Skills are plain folders — copy the ones you want into your agent's skills directory.
@@ -65,10 +94,10 @@ ln -s "$PWD/skills/interactive-ee-notes" ~/.agents/skills/interactive-ee-notes
 
 | Skills | Needs |
 |---|---|
-| `html-study-notes`, all `interactive-*` | `python3` (scripts use only the standard library), a browser for the HTML output |
-| `deep-research` | the `rk` research CLI, optional PinchTab for browser-rendered pages |
-| `youtube-transcripts` | the `ytt` CLI, optional Whisper (Hexagon HTP or whisper.cpp) for uncaptioned videos |
-| `youtube-comments` | the `ytc` CLI (`youtube-comment-downloader`) |
+| `html-study-notes`, all `interactive-*` | `python3` 3.10+ (the scripts use only the standard library), any modern browser for the HTML output |
+| `youtube-transcripts` | `ytt` from [tools/ytt](tools/ytt); `yt-dlp` + `ffmpeg`; whisper.cpp for uncaptioned videos |
+| `youtube-comments` | `ytc` from [tools/ytc](tools/ytc) |
+| `deep-research` | a web search backend — the `rk` companion CLI if you have it (source not in this repo), optional [PinchTab](https://github.com/pinchtab/pinchtab) for browser-rendered pages |
 
 The `interactive-*` and `html-study-notes` skills work standalone: no API keys, no
 network access, no build step — the agent writes one HTML file and the browser does
@@ -82,15 +111,18 @@ skills/<name>/scripts/        # helper scripts invoked by the agent
 skills/<name>/references/     # deep reference material loaded on demand
 skills/<name>/assets/         # CSS/JS/templates embedded into the output page
 skills/<name>/examples/       # worked examples
+tools/<tool>/                 # source of the CLIs the research skills drive
 ```
 
-`sync.sh` copies the live skill folders from `~/.pi/agent/skills` and
-`~/.agents/skills` back into this repo, so you can keep editing in place and commit
-the result:
+`sync.sh` compares the live skill folders in `~/.pi/agent/skills` and
+`~/.agents/skills` with this repo. It reports drift by default and only writes
+when you ask, because a live folder often carries machine-specific edits you do
+not want to publish:
 
 ```bash
-./sync.sh            # sync every skill
-./sync.sh deep-research interactive-ee-notes   # or just these
+./sync.sh                       # report drift for every skill
+./sync.sh --write               # copy live -> repo
+./sync.sh --write deep-research # or just one skill
 ```
 
 ## License
