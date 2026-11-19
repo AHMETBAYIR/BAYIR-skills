@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: "Use this skill for multi-source, citation-bearing research: market/landscape scans, literature reviews, technical comparisons, due diligence, or any question where a single web search is not enough. Runs a plan → fan-out search → evidence ledger → contradiction check → verify loop using the local `rk` toolkit (keyless search + SQLite corpus + citation verification) and PinchTab for browser-rendered pages."
+description: "Use this skill for multi-source, citation-bearing research: market/landscape scans, literature reviews, technical comparisons, due diligence, or any question where a single web search is not enough. Runs a plan → fan-out search → evidence ledger → contradiction check → verify loop, using the optional local `rk` toolkit (keyless search + SQLite corpus + citation verification) and PinchTab for browser-rendered pages; degrades to plain web search when `rk` is absent."
 ---
 
 # Deep research protocol
@@ -68,6 +68,24 @@ Rules:
 - **Track saturation.** Stop a branch when two new searches add no new domains.
 - **Record dead ends.** "No primary source found for X" is a finding.
 
+### 3a. `rk` is optional
+
+Every `rk` command below is a convenience, not a requirement. `rk` is a
+companion CLI whose source is **not** in this repo yet, so check for it before
+relying on it (`rk doctor`) and substitute plain tools when it is missing:
+
+| with `rk` | without `rk` |
+|---|---|
+| `rk search "q" -p tech` | your web-search tool, then open the top hits yourself |
+| `rk fetch URL` | `curl -L --compressed`, or PinchTab when the page needs JS |
+| `rk grep "phrase"` | `grep -r` over a directory of saved page text |
+| `rk note` / `rk brief` | an `evidence.md` with one block per quote |
+| `rk verify` | re-open each cited URL and confirm the quote is present |
+
+The ledger, the verbatim quotes and the verification gate are the method; `rk`
+only automates them. Do not skip a step because the tool is absent — do it by
+hand.
+
 ### 3b. Video and audio sources
 
 Videos are primary evidence for talks, lectures, interviews and demos, but the
@@ -92,9 +110,10 @@ Label the transcript source in the ledger:
 Cite with a timestamp: `https://youtu.be/ID?t=143`. Do not present an auto or
 ASR transcript as a verbatim primary quote without listening to that timestamp.
 
-If a video has no captions, `ytt` downloads audio and runs Whisper locally
-(Qualcomm HTP by default, whisper.cpp fallback). That takes roughly 0.12× the
-video duration on this phone; budget accordingly for long videos.
+If a video has no captions, `ytt` downloads audio and runs local ASR through
+whisper.cpp, or QNN/HTP when a Snapdragon NPU stack is present. Budget roughly
+0.1–0.6× the video duration depending on engine and hardware; plan for long
+videos before you start.
 
 ### 3c. Comment sections
 
