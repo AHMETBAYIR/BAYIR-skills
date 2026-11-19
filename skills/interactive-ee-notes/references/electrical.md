@@ -121,18 +121,20 @@ invent a TS EN year or clause. EKAT, the Earthing Regulation and the EPDK
 
 ## 6. Tools and oracles
 
-| Tool | Licence | Termux status | Use |
+| Tool | Licence | Native install | Use |
 |---|---|---|---|
-| Python 3.14 + NumPy 2.5.4 / SciPy / SymPy | PSF/BSD | installed | primary invariant checks, load-flow prototype |
-| ngspice 47 | open source | installed | `.op`, `.tran`, `.ac` circuit checks |
-| hover | MIT | installed | small netlist DC/transient checks |
-| pandapower 3.5.6 | BSD-3 | pip failed on Python 3.14 | offline load-flow/fault check in proot/desktop |
-| MATPOWER | BSD-3 | pure Octave/MATLAB | IEEE-case cross-check |
-| Octave 11.3 | GPL-3 | available in tur-packages | MATLAB-compatible check |
-| ETAP / PowerWorld / Simulink | commercial | no native Termux | licensed offline validation only |
+| Python 3.11+ + NumPy/SciPy/SymPy | PSF/BSD | `pip install numpy scipy sympy` | primary invariant checks, load-flow prototype |
+| ngspice | open source | `apt install ngspice` · `dnf` · `pacman -S ngspice` · `brew install ngspice` · `pkg install ngspice` (Termux) | `.op`, `.tran`, `.ac` circuit checks |
+| hover | MIT | build from source, or `brew install hover` | small netlist DC/transient checks |
+| pandapower | BSD-3 | `pip install pandapower`; needs a full desktop Python | offline load-flow/fault check on a desktop, not in the note |
+| MATPOWER | BSD-3 | pure Octave/MATLAB script | IEEE-case cross-check |
+| Octave | GPL-3 | `apt install octave` · `dnf` · `pacman -S octave` · `brew install octave` · `pkg install octave` (Termux) | MATLAB-compatible check |
+| ETAP / PowerWorld / Simulink | commercial | no Termux (Android) build; desktop only | licensed offline validation only |
 
 Minimal stack: one HTML file + `check_ee.py` (stdlib) + ngspice/hover for
 circuits. Do not make the page depend on pandapower or a commercial tool.
+Everything except the commercial tools installs from the distro package
+manager on Debian/Ubuntu, Fedora, Arch and macOS, and from `pkg` on Termux.
 
 ## 7. Safety boundary
 

@@ -88,12 +88,12 @@ Full evidence and sources: `~/notes/electronics/research/02-electronics.md`.
 
 ## 4. Tools
 
-| Tool | Class | Licence | Termux | Single HTML | Verdict |
+| Tool | Class | Licence | Native install | Single HTML | Verdict |
 |---|---|---|---|---|---|
 | CircuitJS1 (Falstad/sharpie7) | engine + widget | GPL-2.0 | offline browser | iframe, not one file | exploration; external link |
-| ngspice 47 | engine + oracle | mixed BSD/per-file | installed | no | **primary batch oracle** |
+| ngspice | engine + oracle | mixed BSD/per-file | `apt install ngspice` / `pkg install ngspice` | no | **primary batch oracle** |
 | PySpice | Python API | GPL-3.0 | pip; not installed | no | author-side only |
-| LTspice | engine + schematic | proprietary freeware | no native ARM | no | outside class |
+| LTspice | engine + schematic | proprietary freeware | Windows/macOS only | no | outside class |
 | Qucs-S | schematic + engine | GPL-2.0 | no package | no | desktop alternative |
 | KiCad | schematic/PCB | GPL-3.0 | not packaged | no | PCB module; Gerber output |
 | Wokwi | widget | proprietary SaaS | online | iframe, online | link only |
@@ -101,7 +101,7 @@ Full evidence and sources: `~/notes/electronics/research/02-electronics.md`.
 | Logisim-evolution | logic sim | GPL-3.0 | Java; package unverified | no | DFF/FSM demos |
 | Digital | logic sim | GPL-3.0 | Java | no | lightweight alternative |
 | Verilator | HDL verification | LGPL-3.0 | not installed | no | synthesis-subset oracle |
-| Icarus Verilog 13 | HDL sim | GPL-2.0 | package exists | no | **HDL oracle**; gtkwave |
+| Icarus Verilog | HDL sim | GPL-2.0 | `apt install iverilog` / `pkg install iverilog` | no | **HDL oracle**; gtkwave |
 
 Correct combination: **vanilla JS/canvas widget + ngspice/iverilog oracle**.
 No tool is both offline and one file; do not pretend otherwise.

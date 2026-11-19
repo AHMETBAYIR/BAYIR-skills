@@ -58,27 +58,27 @@ Canvas is a bitmap in print. Always provide a table/readout and a print sentence
 
 ## Real desktop verification
 
-`terminal-browser` is the fast mobile loop. The delivery gate is the live Plasma/Firefox session, driven by the `bionic-runtime` skill:
+`terminal-browser` is the fast loop for phone-width layout. The delivery gate is a real browser window on a real desktop session:
 
 ```sh
 ~/.agents/skills/interactive-bme-notes/scripts/verify_desktop.sh \
   ~/notes/bme/topic.html ~/notes/evidence/topic-desktop.png --scroll 2
 ```
 
-It resolves `XAUTHORITY` from the live `plasmashell`, opens the note through `$HOME/Apps/glibc/launch/firefox.sh`, and captures the X11 window with ImageMagick `import`.
+It uses the `$DISPLAY`/`$WAYLAND_DISPLAY` you already have, finds a browser (`$BROWSER`, then `firefox`/`chromium`/`chromium-browser`/`google-chrome`/`brave-browser`), matches the window title against the note's `<title>`, and captures the window. Nothing is hardwired to one machine; without a capture tool it still reports the render check.
 
-**Capture caveat:** on this runtime, `wayland-screenshot.sh` (Spectacle) returned black content for the Xwayland Firefox window even though the page rendered. `import -window "$WID"` captured the real page. For Wayland-native apps, keep using the Spectacle helper.
+**Capture caveat:** on Xwayland, Wayland screenshot tools (Spectacle, `grim` on some compositors) can return black content for an Xwayland browser window even though the page rendered. `import -window "$WID"` captures the real page. For Wayland-native apps, keep using the compositor's own tool. Details: [desktop-verification.md](desktop-verification.md).
 
-This tier is where you catch: raw TeX instead of KaTeX, doubled equation numbers, desktop two-column overflow, Turkish glyph fallback, and canvas/Gecko differences.
+This tier is where you catch: raw TeX instead of KaTeX, doubled equation numbers, desktop two-column overflow, Turkish glyph fallback, and canvas/engine differences.
 
-## Verification on Termux
+## Verification tooling
 
 | Tool | Status | Use |
 |---|---|---|
-| `node --check` | works | syntax gate for the injected JS |
-| `python3 validate_note.py` | works | structure, configs, quiz, print hooks |
-| `terminal-browser` / Chromium | works on this device | screenshot, eval, interaction smoke test |
-| Playwright | not on Bionic | use the system Chromium via terminal-browser |
+| `node --check` | any Node install | syntax gate for the injected JS |
+| `python3 validate_note.py` | stdlib only | structure, configs, quiz, print hooks |
+| `terminal-browser` / Chromium | where a browser exists (Android: the system Chromium) | screenshot, eval, interaction smoke test |
+| Playwright | needs glibc; not installable under Android/Bionic | use the system browser via terminal-browser |
 | Puppeteer-core | possible with system Chromium | if you need a scripted run |
 | `axe-core` | inject via eval | accessibility scan |
 | `html-validate` | npm, works | static HTML checks |

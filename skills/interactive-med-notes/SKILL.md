@@ -212,11 +212,13 @@ python3 "$SKILL/scripts/verify_page.py" ~/notes/tip/topic.html --start --exercis
   --shot evidence/topic.png --pdf evidence/topic.pdf
 ```
 
-`verify_page.py` starts (or connects to) a Firefox Marionette session through the bionic-runtime launcher, navigates to the local file, checks labs/KaTeX/quiz, and can print to PDF. If Marionette is not available, open the file with the Firefox wrapper and inspect manually:
+`verify_page.py` connects to a Firefox already running with `--marionette` (port 2828 by default), navigates to the local file, checks labs/KaTeX/quiz, and can print to PDF. `--start` launches that Firefox: on Android/Termux it uses the glibc runtime (`glibc-gui-run`), on a desktop start `firefox --marionette -no-remote -profile <tmp>` yourself and point the script at the port. If Marionette is not available, open the file in any browser and inspect manually:
 
 ```bash
-$HOME/Apps/glibc/launch/firefox.sh "file://$HOME/notes/tip/topic.html"
-$HOME/Apps/glibc/bin/wayland-screenshot.sh ~/notes/tip/evidence/topic.png
+"${BROWSER:-firefox}" "file://$HOME/notes/tip/topic.html"
+~/.agents/skills/interactive-bme-notes/scripts/verify_desktop.sh \
+  "$HOME/notes/tip/topic.html" "$HOME/notes/tip/evidence/topic.png"
+# Android/Termux: $HOME/Apps/glibc/launch/firefox.sh "file://$HOME/notes/tip/topic.html"
 ```
 
 Check:
@@ -347,7 +349,7 @@ Inherit `html-study-notes`: warm paper, editorial serif, one course accent, numb
 | `interactive-mbg-notes` | Molecular biology and genetics labs |
 | `terminal-browser` | Opening, testing, screenshotting the built page |
 | `pinchtab` | Browser automation when the terminal-browser path is unavailable |
-| `bionic-runtime` | Firefox/Wayland launch and live desktop verification |
+| `bionic-runtime` | Android/Termux only: Plasma session, glibc Firefox launch, live desktop verification |
 | `math-render` | A quick one-topic formula page, not a full course note |
 | `deep-research` | Multi-source literature and guideline research |
 

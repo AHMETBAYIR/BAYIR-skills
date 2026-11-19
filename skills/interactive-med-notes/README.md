@@ -17,8 +17,8 @@ python3 "$SKILL/scripts/build_note.py" \
   --meta "$SKILL/assets/note.meta.json" \
   --out ~/notes/tip/galeri.html
 
-# 3. Open it with the bionic-runtime Firefox wrapper
-$HOME/Apps/glibc/launch/firefox.sh "file://$HOME/notes/tip/galeri.html"
+# 3. Open it in a browser (Android/Termux: $HOME/Apps/glibc/launch/firefox.sh)
+"${BROWSER:-firefox}" "file://$HOME/notes/tip/galeri.html"
 
 # 4. Smoke-test a note (starts Firefox with Marionette if needed)
 python3 "$SKILL/scripts/verify_page.py" ~/notes/tip/galeri.html \

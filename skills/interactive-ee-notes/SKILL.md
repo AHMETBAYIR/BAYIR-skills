@@ -165,8 +165,11 @@ python3 "$SKILL/scripts/validate_note.py" <note.html> --strict
 Then open it and actually use it:
 
 ```bash
-$HOME/Apps/glibc/launch/firefox.sh "file:///<absolute-path>/<note>.html?selftest=1"
-$HOME/Apps/glibc/bin/wayland-screenshot.sh /tmp/ee-note.png
+"${BROWSER:-firefox}" "file:///<absolute-path>/<note>.html?selftest=1"
+# title match + screenshot on any session:
+~/.agents/skills/interactive-bme-notes/scripts/verify_desktop.sh \
+  "<absolute-path>/<note>.html" /tmp/ee-note.png
+# Android/Termux: $HOME/Apps/glibc/launch/firefox.sh "file:///…?selftest=1"
 ```
 
 Check:
@@ -308,7 +311,7 @@ When an agent is generating or editing a note:
 | `references/pedagogy.md` | Predict–observe–explain, retrieval, misconceptions |
 | `references/prompts.md` | Five reusable prompt templates |
 | `references/quality-gates.md` | 0–3 rubric, release gate, ten checks |
-| `references/bionic-verification.md` | Firefox/Wayland, 360 px, screenshot, print |
+| `references/desktop-verification.md` | Real-browser check, 360 px, screenshot, print |
 
 ## Companions
 
@@ -318,12 +321,12 @@ When an agent is generating or editing a note:
 | `interactive-physics-notes` | the topic is EM fields/waves or a physics lab, not a circuit | a circuit lab |
 | `interactive-cs-notes` | the topic is algorithms/data structures, not EE | an EE note |
 | `terminal-browser` | previewing and driving the built page | writing the note |
-| `bionic-runtime` | Firefox/Wayland screenshot, glibc wrapper, Termux GUI checks | native build logic |
+| `bionic-runtime` | Android/Termux Plasma session: glibc Firefox wrapper, Xwayland capture | native build logic |
 
 ## Limits
 
 - This skill does not replace a full SPICE engine, a PCB tool, a VNA, or a safety standard. It builds **teaching models**.
 - `ngspice` is an author-side oracle, not a page dependency. A WASM SPICE build is too large for the single-file budget.
-- Pandapower/GridCal are not installed in the native Termux Python; use them only in a proot/desktop and cite the version.
+- Pandapower/GridCal need a full desktop Python (they do not build on Android/Termux); use them only on the desktop and cite the version.
 - Do not put live-grid, HV, protection-setting, or battery-pack procedures into an interactive note.
 - The default build is offline. If you use KaTeX CDN, say so and verify the fallback.

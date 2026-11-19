@@ -178,7 +178,7 @@ Then run the **real desktop** gate, which catches KaTeX, equation numbering, two
   ~/notes/bme/topic.html ~/notes/evidence/topic-desktop.png --scroll 2
 ```
 
-It uses the `bionic-runtime` Plasma/Firefox session and does not stop the desktop. If it prints `BLOCKED`, do not claim a desktop pass. See [references/bionic-verification.md](references/bionic-verification.md).
+It opens the note in a real browser on the session you are already in, matches the window title, captures a screenshot, and never stops the desktop. If it prints `BLOCKED`, do not claim a desktop pass. See [references/desktop-verification.md](references/desktop-verification.md).
 
 Check:
 
@@ -269,7 +269,7 @@ Inherit `html-study-notes`: warm paper, editorial serif, one course accent, numb
 | `assets/note.meta.json` | Starter metadata |
 | `scripts/build_note.py` | Wraps `html-study-notes`, injects the BME layer |
 | `scripts/validate_note.py` | Structural, config, quiz, accessibility, and print checks |
-| `scripts/verify_desktop.sh` | Live Plasma/Firefox screenshot of the built note |
+| `scripts/verify_desktop.sh` | Real-browser render check + screenshot of the built note |
 | `scripts/check_bme.py` | Joint, visco, oxygen, stenosis, ECG, Michaelis–Menten, CT checks + self-test |
 | `references/pedagogy.md` | Evidence and design implications |
 | `references/curriculum-map.md` | Course-by-course representations, misconceptions, labs |
@@ -278,7 +278,7 @@ Inherit `html-study-notes`: warm paper, editorial serif, one course accent, numb
 | `references/data-sources.md` | Signals, images, material properties, standards, licences |
 | `references/bme-accuracy.md` | Units, conventions, and calculation checklist |
 | `references/lab-markup.md` | Copy-paste lab HTML and config schemas |
-| `references/bionic-verification.md` | Real desktop/Firefox verification and capture caveats |
+| `references/desktop-verification.md` | Real-browser verification, screenshot capture, capture caveats |
 | `references/quality-gates.md` | Pre-delivery checklist |
 | `references/prompts.md` | Briefs, critique prompts, agent handoffs |
 
@@ -291,7 +291,7 @@ Inherit `html-study-notes`: warm paper, editorial serif, one course accent, numb
 | `interactive-me-notes` | Solid mechanics and machine elements |
 | `interactive-math-notes` | Pure mathematics labs |
 | `terminal-browser` | Fast 390 px mobile check, screenshots |
-| `bionic-runtime` | Live Plasma/Firefox desktop verification, Firefox wrapper, capture |
+| `bionic-runtime` | Android/Termux only: Plasma session, glibc Firefox wrapper, capture |
 | `math-render` | A quick one-topic formula page, not a full course note |
 
 ## Limits

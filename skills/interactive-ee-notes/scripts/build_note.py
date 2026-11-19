@@ -8,14 +8,16 @@ Usage:
     python3 build_note.py --content note.content.html --meta note.meta.json \
         --out ~/notes/electronics/courses/<course>/<topic>.html [--offline]
 
-The base skill is expected at ~/.agents/skills/html-study-notes. Override it
-with --base-skill.
+The base skill is resolved from $HTML_STUDY_NOTES_SKILL, then
+~/.agents/skills, ~/.pi/agent/skills, ~/.claude/skills, then a sibling
+../html-study-notes checkout. Override with --base-skill.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -26,7 +28,31 @@ SKILL_ROOT = Path(__file__).resolve().parent.parent
 EE_CSS = SKILL_ROOT / "assets" / "ee-labs.css"
 EE_JS = SKILL_ROOT / "assets" / "ee-labs.js"
 LABS_DIR = SKILL_ROOT / "assets" / "labs"
-DEFAULT_BASE = Path.home() / ".agents" / "skills" / "html-study-notes"
+
+
+def _resolve_base_skill() -> Path:
+    """Locate the html-study-notes skill.
+
+    $HTML_STUDY_NOTES_SKILL wins; otherwise the usual agent skill roots are
+    tried, then a sibling checkout so this repo works as cloned. When nothing
+    matches, the first candidate is returned so the error path can name it.
+    """
+    override = os.environ.get("HTML_STUDY_NOTES_SKILL", "").strip()
+    if override:
+        return Path(override).expanduser()
+    candidates = [
+        Path.home() / ".agents" / "skills" / "html-study-notes",
+        Path.home() / ".pi" / "agent" / "skills" / "html-study-notes",
+        Path.home() / ".claude" / "skills" / "html-study-notes",
+        SKILL_ROOT.parent / "html-study-notes",
+    ]
+    for candidate in candidates:
+        if (candidate / "scripts" / "build_note.py").is_file():
+            return candidate
+    return candidates[0]
+
+
+DEFAULT_BASE = _resolve_base_skill()
 LAB_RE = re.compile(r'data-ee-lab="([a-z0-9-]+)"')
 
 EN_REPLACEMENTS = {

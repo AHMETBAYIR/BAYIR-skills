@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Validate the 12-note EE core and run the 18-engine numeric oracle.
 set -u
-SKILL="${SKILL:-$HOME/.agents/skills/interactive-ee-notes}"
+SKILL="${SKILL:-$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.." && pwd)}"
 ROOT="${EE_NOTES_ROOT:-$HOME/notes/electronics}"
 TMP="${TMPDIR:-$HOME/.tmp}"
 mkdir -p "$TMP" 2>/dev/null || true

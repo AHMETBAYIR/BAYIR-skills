@@ -140,19 +140,19 @@ Full evidence and sources: `~/notes/electronics/research/03-communications.md`.
 
 ## 5. Tools
 
-| Tool | Use | Licence | Termux | Verdict |
+| Tool | Use | Licence | Native install | Verdict |
 |---|---|---|---|---|
-| NumPy 2.5.4 | FFT/arrays | BSD-3 | installed | **oracle** |
-| SciPy 1.18.1 | erfc, Bessel, signal | BSD-3 | installed | **oracle** |
-| Matplotlib 3.11.2 | figures | PSF | installed | oracle |
-| CommPy | QAM/coding | BSD-3 | pip, not installed | optional |
-| scikit-dsp-comm | DSP blocks | BSD-2 | pip, not installed | optional |
-| GNU Radio | SDR | GPL-3.0 | no package/proot | external oracle |
-| SigMF | IQ metadata | CC-BY-SA-4.0 | pip | data format |
+| NumPy | FFT/arrays | BSD-3 | `pip install numpy` | **oracle** |
+| SciPy | erfc, Bessel, signal | BSD-3 | `pip install scipy` | **oracle** |
+| Matplotlib | figures | PSF | `pip install matplotlib` | oracle |
+| CommPy | QAM/coding | BSD-3 | `pip install scikit-commpy` | optional |
+| scikit-dsp-comm | DSP blocks | BSD-2 | `pip install scikit-dsp-comm` | optional |
+| GNU Radio | SDR | GPL-3.0 | `apt install gnuradio`; no Termux (Android) build | external oracle |
+| SigMF | IQ metadata | CC-BY-SA-4.0 | `pip install sigmf` | data format |
 | fft.js | FFT | MIT | inline | 4.6 KB, usable |
 | dsp.js | DSP blocks | MIT | inline | abandoned 2017; avoid |
-| Web Audio | sound | W3C | Firefox | optional |
-| KaTeX | math | MIT | CDN/local | optional; too big inline |
+| Web Audio | sound | W3C | any current browser | optional |
+| KaTeX | math | MIT | CDN or local copy | optional; too big inline |
 
 Implement a small radix-2 FFT, complex arithmetic, `erfc`, Bessel J0, Smith
 and link budget in the page. Keep GNU Radio/CommPy as external references, not

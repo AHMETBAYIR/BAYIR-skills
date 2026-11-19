@@ -7,12 +7,17 @@ lab layer. The output is one self-contained HTML file.
 Usage:
     python3 build_note.py --content note.content.html --meta note.meta.json \\
         --out ~/notes/civil/<course>/topic.html
+
+The base skill is resolved from $HTML_STUDY_NOTES_SKILL, then
+~/.agents/skills, ~/.pi/agent/skills, ~/.claude/skills, then a sibling
+../html-study-notes checkout. Override with --base-skill.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -21,7 +26,31 @@ from pathlib import Path
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 ASSETS = SKILL_ROOT / "assets"
-DEFAULT_BASE = Path.home() / ".agents" / "skills" / "html-study-notes"
+
+
+def _resolve_base_skill() -> Path:
+    """Locate the html-study-notes skill.
+
+    $HTML_STUDY_NOTES_SKILL wins; otherwise the usual agent skill roots are
+    tried, then a sibling checkout so this repo works as cloned. When nothing
+    matches, the first candidate is returned so the error path can name it.
+    """
+    override = os.environ.get("HTML_STUDY_NOTES_SKILL", "").strip()
+    if override:
+        return Path(override).expanduser()
+    candidates = [
+        Path.home() / ".agents" / "skills" / "html-study-notes",
+        Path.home() / ".pi" / "agent" / "skills" / "html-study-notes",
+        Path.home() / ".claude" / "skills" / "html-study-notes",
+        SKILL_ROOT.parent / "html-study-notes",
+    ]
+    for candidate in candidates:
+        if (candidate / "scripts" / "build_note.py").is_file():
+            return candidate
+    return candidates[0]
+
+
+DEFAULT_BASE = _resolve_base_skill()
 
 EN_REPLACEMENTS = {
     "İçeriğe geç": "Skip to content",
@@ -113,7 +142,8 @@ def main() -> int:
         print(
             "error: html-study-notes is required for the base template.\n"
             f"expected: {base_builder}\n"
-            "Install it at ~/.agents/skills/html-study-notes or pass --base-skill.",
+            "Set $HTML_STUDY_NOTES_SKILL, install it at ~/.agents/skills/html-study-notes, "
+            "or pass --base-skill.",
             file=sys.stderr,
         )
         return 2

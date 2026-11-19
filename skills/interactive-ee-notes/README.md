@@ -20,11 +20,14 @@ python3 "$SKILL/scripts/check_ee.py" selftest
 bash "$SKILL/scripts/check_all_notes.sh"
 ```
 
-Open with the Firefox wrapper and append `?selftest=1`:
+Open it in a browser and append `?selftest=1`:
 
 ```bash
-$HOME/Apps/glibc/launch/firefox.sh "file:///<abs>/<note>.html?selftest=1"
+"${BROWSER:-firefox}" "file:///<abs>/<note>.html?selftest=1"
+# Android/Termux: $HOME/Apps/glibc/launch/firefox.sh "file:///<abs>/<note>.html?selftest=1"
 ```
+
+Details: [references/desktop-verification.md](references/desktop-verification.md).
 
 ## What is in the box
 
@@ -83,5 +86,5 @@ The six source dossiers are in `~/notes/electronics/research/`:
 
 Teaching models, not SPICE/PCB/VNA replacements. No live-work, HV,
 protection-setting or battery-pack procedures. `pandapower`, GNU Radio,
-KiCad and Verilator are not native Termux dependencies; use them only as
-external oracles with a cited version.
+KiCad and Verilator are not Termux (Android) packages; use them only as
+external oracles on a desktop machine, with a cited version.

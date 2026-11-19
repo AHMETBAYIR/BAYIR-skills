@@ -68,45 +68,53 @@ Sizes are minified/CDN payloads as observed in November 2026; treat them as orde
 | Algodoo | closed source |
 | Any analytics / tracker | privacy + offline failure |
 
-## 4. Platform reality (Android / Termux + Bionic desktop)
+## 4. Platform reality
 
-Two layers, verified 12 Nov 2026.
+The oracles are ordinary CLI tools; only the launch paths differ per platform.
 
-**Termux layer (always available).** Python 3 with NumPy, SymPy, **SciPy 1.18.1**, pandas, matplotlib,
-pint; Node 24; canvas; `terminal-browser`. This is the compute and syntax-check path.
+**Desktop Linux / macOS (default).** Python 3.11+ with NumPy/SciPy/SymPy/Matplotlib/pint
+(`pip install`, or `apt install python3-numpy python3-scipy python3-sympy python3-matplotlib`),
+Node 18+ for `node --check`, Octave and gnuplot from the distro
+(`apt install octave gnuplot` · `dnf install octave gnuplot` · `pacman -S octave gnuplot` ·
+`brew install octave gnuplot`), a browser for the render check. No wrapper scripts needed.
 
-**Bionic desktop layer.** Rootless Plasma/Wayland (`gapp_doctor` PASS), Arch prefix
-`~/Apps/glibc/arch` (1,911 packages, 30 GB). Verified:
+**Android / Termux layer.** Python 3 with NumPy, SymPy, SciPy, pandas, matplotlib, pint; Node;
+canvas; `terminal-browser`. Same commands, `pkg install` instead of `apt`.
+
+**glibc/Arch layer (Termux only).** Rootless Plasma/Wayland (`gapp_doctor` PASS), Arch prefix
+`~/Apps/glibc/arch` (1,911 packages, 30 GB). Verified on the phone:
 
 | Capability | Status | Caveat |
 |---|---|---|
-| Octave 11.3 CLI | PASS | needs `OCTAVE_HOME=$HOME/Apps/glibc/arch/usr`; otherwise `ode45.m` not found |
-| gnuplot 6.0.6 | PASS | PNG + vector PDF |
-| Firefox (fresh profile) | PASS | use `--screenshot` with a throwaway profile; Chromium is disallowed |
-| Wayland screenshot | PASS | `$HOME/Apps/glibc/bin/wayland-screenshot.sh` |
+| Octave CLI | PASS | needs `OCTAVE_HOME=$HOME/Apps/glibc/arch/usr`; otherwise `ode45.m` not found |
+| gnuplot | PASS | PNG + vector PDF |
+| Firefox (fresh profile) | PASS | use `--screenshot` with a throwaway profile |
+| Wayland screenshot | PASS | `$HOME/Apps/glibc/bin/wayland-screenshot.sh` (Termux); on a desktop use `grim`/`import`/`spectacle` |
 | `pdflatex` | **BLOCKED** | binary exists, no `pdflatex.fmt`, no `article.cls`; needs `texlive-latex` |
 | LabPlot / KiCad / KStars / OpenSCAD | UNTESTED | installed; do not claim they work |
 
-Commands:
+Commands (native desktop path first, Termux wrapper second):
 
 ```sh
-# Octave (wrapper in the physics notes repo)
-~/notes/physics/tools/octave-cli.sh --eval "eig([2 -1;-1 2])"
+# Octave
+octave --eval "eig([2 -1;-1 2])"
+~/notes/physics/tools/octave-cli.sh --eval "eig([2 -1;-1 2])"     # Termux wrapper
 
 # gnuplot figure
-arch-native run gnuplot plot.gp
+gnuplot plot.gp
+arch-native run gnuplot plot.gp                                    # Termux glibc layer
 
-# render a note in Firefox and capture it
-~/notes/physics/tools/firefox-shot.sh note.html shot.png 1200 900
+# render a note and capture it
+~/.agents/skills/interactive-bme-notes/scripts/verify_desktop.sh note.html shot.png  # any session
+~/notes/physics/tools/firefox-shot.sh note.html shot.png 1200 900   # Termux helper
 ```
 
-**Rules.** Do not run Chromium/Electron in ordinary testing. Do not use a bare binary instead of
-`arch-native run` / `arch-gui-run`. Do not mix `LD_LIBRARY_PATH` into glibc children. Do not treat a
-window as proof; verify page content or an output artefact. LaTeX is not a PDF path until the format
-and class exist — use Firefox print instead.
+**Rules.** Verify in the browser the reader will use; do not add Electron or a second engine for a
+quick check. Do not treat a window as proof; verify page content or an output artefact. LaTeX is not
+a PDF path until the format and class exist — use the browser's print instead.
 
 Consequence: generate numbers in Python (Octave optional as a third check), draw in the browser,
-export figures with gnuplot when vector output matters, verify pages in Firefox.
+export figures with gnuplot when vector output matters, verify pages in a real browser.
 
 ## 5. Size budget
 

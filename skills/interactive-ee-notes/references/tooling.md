@@ -3,26 +3,27 @@
 The default delivery is **one HTML file, zero network requests, no build
 framework**. The author-side oracles are Python, ngspice, and the browser.
 
-Full licence/size audit: `~/notes/electronics/research/04-tooling.md`.
+Record the version and licence of every tool you actually rely on; a note that
+cites a number should be reproducible from the same versions.
 
-## 1. What is installed here
+## 1. What is installed
 
-| Tool | Version | Role |
-|---|---|---|
-| Python | 3.14.8 | build, validate, oracle |
-| NumPy | 2.5.4 | arrays, FFT, linear algebra |
-| SciPy | 1.18.1 | `erfc`, Bessel, signal |
-| SymPy | 1.14.0 | symbolic checks |
-| Node | 24.22.1 | `node --check` for inline JS |
-| ngspice | 47 | `.op`, `.tran`, `.ac` analog oracle |
-| hover | 0.9.0 | small netlist checks (MIT); rebuild with `CGO_ENABLED=0 make linux-aarch64 VERSION=v0.9.0`; `hover --setup` builds the runtime |
-| Firefox | 160.0 via glibc wrapper | live page verification |
-| MatLivre | local MCP | MATLAB-compatible numeric checks |
+| Tool | Requirement | Role | Install (Debian/Ubuntu · Fedora · Arch · macOS · Termux) |
+|---|---|---|---|
+| Python | 3.11+ | build, validate, oracle | system · system · system · system · `pkg install python` |
+| NumPy, SciPy, SymPy | current wheels | arrays/FFT, `erfc`/Bessel, symbolic checks | `pip install numpy scipy sympy` everywhere |
+| Node | 18+ | `node --check` for inline JS | `nodejs` · `nodejs` · `nodejs` · `brew install node` · `pkg install nodejs` |
+| ngspice | 42+ | `.op`, `.tran`, `.ac` analog oracle | `ngspice` · `ngspice` · `ngspice` · `brew install ngspice` · `pkg install ngspice` |
+| iverilog | 11+ | HDL oracle, only when verifying Verilog | `iverilog` · `iverilog` · `iverilog` · `brew install icarus-verilog` · `pkg install iverilog` |
+| hover | any | small netlist checks (MIT); rebuild with `CGO_ENABLED=0 make linux-$(uname -m) VERSION=v0.9.0`; `hover --setup` builds the runtime | `brew install hover` or build from source |
+| Browser | any current Firefox/Chromium | live page verification | `firefox`/`chromium` · same · same · `brew install --cask firefox` · `pkg install firefox` |
+| MatLivre | local MCP | MATLAB-compatible numeric checks | optional, any platform |
 
-`pandapower` did not install on Python 3.14 (source build failure); do not make
-a page depend on it. `iverilog` 13 exists in the Termux package set; install it
-only when verifying HDL. GNU Radio, KiCad, Verilator and LTspice are not
-native Termux dependencies.
+`pandapower` needs a source build on very new Python versions; do not make a
+page depend on it. Verilator, GNU Radio, KiCad and LTspice are not Termux
+(Android) packages: run those oracles on a desktop Linux/macOS machine. The
+Python oracles here are stdlib + NumPy only, so the same commands work
+everywhere.
 
 ## 2. Library matrix (measured)
 
@@ -84,7 +85,7 @@ network requests and HTML/Unicode math.
 
 - `file://`: no fetch/XHR, no ES modules, no service workers. Use classic
   inline scripts.
-- `localStorage` works on `file://` in Firefox 160; namespace keys and
+- `localStorage` works on `file://` in current Firefox; namespace keys and
   `try/catch`. Avoid IndexedDB.
 - Cap DPR at 2 on phones; a 360 px canvas at DPR 3 is 9× the pixels.
 - `ResizeObserver` + `requestAnimationFrame` for redraw; no layout thrash.
@@ -102,14 +103,16 @@ python3 "$SKILL/scripts/validate_note.py" <note.html> --strict
 node --check /tmp/ee-inline.js
 # analog cross-check:
 ngspice -b rc.cir
-# live page:
-$HOME/Apps/glibc/launch/firefox.sh "file:///<abs>/<note>.html?selftest=1"
-$HOME/Apps/glibc/bin/wayland-screenshot.sh /tmp/ee-note.png
+# live page (any browser; $BROWSER wins if set):
+"${BROWSER:-firefox}" "file:///<abs>/<note>.html?selftest=1"
+# title match + screenshot:
+~/.agents/skills/interactive-bme-notes/scripts/verify_desktop.sh "<abs>/<note>.html" /tmp/ee-note.png
 ```
 
 ## 7. What not to embed
 
 - Full SPICE/WASM (19.8 MB), MathJax, Plotly, D3, JSXGraph.
-- Electron/Chromium apps; Firefox is the supported browser.
+- Electron or a bundled browser; the note is one HTML file and must open in the
+  reader's browser.
 - A live SDR/GNU Radio dependency; use recorded IQ or a closed-form model.
 - A full PCB/EDA tool; link to KiCad and keep the note conceptual.
